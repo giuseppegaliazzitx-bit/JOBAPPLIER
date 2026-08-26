@@ -1,0 +1,20 @@
+# SessionKit proxy list. One proxy per line. Blank lines and # comments ignored.
+#
+# Accepted formats (parsed by browser.parse_proxy_line):
+#   http://user:pass@host:port
+#   http://host:port:user:pass
+#   host:port:user:pass
+#   host:port
+#   socks5://user:pass@host:port
+#
+# Residential providers often append session/country tags to the password
+# (e.g. pass_country-US_session-ABC123). Those are part of the password —
+# leave them intact.
+#
+# Chromium does not support SOCKS5 with auth. Prefer HTTP/HTTPS gateways
+# when the provider offers both.
+#
+# Replace the examples below with your own. Do not commit live credentials.
+
+# http://USER:PASS@gate.provider.example:1000
+# http://gate.provider.example:1000:USER:PASS

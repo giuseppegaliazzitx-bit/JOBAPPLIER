@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --color-ink: #1a1612;
+  --color-paper: #f4efe6;
+  --color-panel: #fffdf8;
+  --color-rule: #d8d0c4;
+  --color-mute: #6e665c;
+  --color-accent: #8c3d1e;
+  --color-ok: #2c5e45;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
