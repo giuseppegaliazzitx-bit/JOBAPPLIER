@@ -6,3 +6,6 @@ export {
   SESSION_KIT_DIR,
   TWO_FA_POLICY,
 } from "./driver.ts";
+export { extractFieldInventory, inventoryFromRaw } from "./inventory.ts";
+export { scrapeDom } from "./scrape-dom.ts";
+export type { RawControl, RawOption } from "./raw-control.ts";

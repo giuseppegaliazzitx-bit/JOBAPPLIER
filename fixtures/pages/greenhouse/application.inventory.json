@@ -1,0 +1,481 @@
+{
+  "title": "Software Engineer — Application",
+  "fields": [
+    {
+      "fingerprint": "ea6546575d387a7da4a9f89172b387426a7c9fb82c4aa95d022297166ea788de",
+      "labelRaw": "Work authorization",
+      "labelNorm": "work authorization",
+      "labelSource": "wrapping_label",
+      "type": "radio",
+      "widget": "native",
+      "required": true,
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes, I am authorized to work in the US"
+        },
+        {
+          "value": "no",
+          "label": "No, I require sponsorship"
+        }
+      ],
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Work authorization"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "radio:Work authorization"
+          },
+          {
+            "strategy": "name",
+            "value": "job_application[work_authorized]"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"job_application[work_authorized]\"]"
+          }
+        ]
+      },
+      "containerPath": "form#application_form > fieldset > label",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "Work authorization"
+    },
+    {
+      "fingerprint": "f7533b6feda045631ba5a137dbfa5bbb51e3d9635728f1c664850116a4cb0e8d",
+      "labelRaw": "First Name",
+      "labelNorm": "first name",
+      "labelSource": "label_for",
+      "type": "text",
+      "widget": "native",
+      "required": true,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "First Name"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:First Name"
+          },
+          {
+            "strategy": "name",
+            "value": "job_application[first_name]"
+          },
+          {
+            "strategy": "css",
+            "value": "#first_name"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"job_application[first_name]\"]"
+          }
+        ]
+      },
+      "containerPath": "form#application_form",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "Software Engineer"
+    },
+    {
+      "fingerprint": "2e544a46fadee126e172c239cfc4a88a1901d3c408a076c1c6c7b2f8fa2c0f75",
+      "labelRaw": "Last Name",
+      "labelNorm": "last name",
+      "labelSource": "label_for",
+      "type": "text",
+      "widget": "native",
+      "required": true,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Last Name"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:Last Name"
+          },
+          {
+            "strategy": "name",
+            "value": "job_application[last_name]"
+          },
+          {
+            "strategy": "css",
+            "value": "#last_name"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"job_application[last_name]\"]"
+          }
+        ]
+      },
+      "containerPath": "form#application_form",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "Software Engineer"
+    },
+    {
+      "fingerprint": "42ebc64cbfa4c84918632285a0f10057e0c951755a5ccc0dc3cb696414083791",
+      "labelRaw": "Email",
+      "labelNorm": "email",
+      "labelSource": "label_for",
+      "type": "email",
+      "widget": "native",
+      "required": true,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Email"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:Email"
+          },
+          {
+            "strategy": "name",
+            "value": "job_application[email]"
+          },
+          {
+            "strategy": "css",
+            "value": "#email"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"job_application[email]\"]"
+          }
+        ]
+      },
+      "containerPath": "form#application_form",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "Software Engineer"
+    },
+    {
+      "fingerprint": "4e444c3f071ed450b6ee7647334dc14ee042897127f92e44319d6d860f0eef0a",
+      "labelRaw": "Phone",
+      "labelNorm": "phone",
+      "labelSource": "label_for",
+      "type": "tel",
+      "widget": "native",
+      "required": false,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Phone"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:Phone"
+          },
+          {
+            "strategy": "name",
+            "value": "job_application[phone]"
+          },
+          {
+            "strategy": "css",
+            "value": "#phone"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"job_application[phone]\"]"
+          }
+        ]
+      },
+      "containerPath": "form#application_form",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "Software Engineer"
+    },
+    {
+      "fingerprint": "24fa6ae52d1ba36b2bfcca24b536b96e078e2affb5751dbf2e7dbf17cc4a576a",
+      "labelRaw": "Resume",
+      "labelNorm": "resume",
+      "labelSource": "label_for",
+      "type": "file",
+      "widget": "native",
+      "required": true,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Resume"
+        },
+        "fallbacks": [
+          {
+            "strategy": "name",
+            "value": "job_application[resume]"
+          },
+          {
+            "strategy": "css",
+            "value": "#resume"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"job_application[resume]\"]"
+          }
+        ]
+      },
+      "containerPath": "form#application_form",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "Software Engineer"
+    },
+    {
+      "fingerprint": "98882def4234f4bad8dae649e43c2186c539b598bf85291b197bb964f3d7dfae",
+      "labelRaw": "Cover Letter",
+      "labelNorm": "cover letter",
+      "labelSource": "label_for",
+      "type": "textarea",
+      "widget": "native",
+      "required": false,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Cover Letter"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:Cover Letter"
+          },
+          {
+            "strategy": "name",
+            "value": "job_application[cover_letter]"
+          },
+          {
+            "strategy": "css",
+            "value": "#cover_letter"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"job_application[cover_letter]\"]"
+          }
+        ]
+      },
+      "containerPath": "form#application_form",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "Software Engineer"
+    },
+    {
+      "fingerprint": "dc1a85abaa9b12935d9de79368643a6f2c7acc7c5dea3aae5b9a6f46302b3025",
+      "labelRaw": "LinkedIn Profile",
+      "labelNorm": "linkedin profile",
+      "labelSource": "label_for",
+      "type": "url",
+      "widget": "native",
+      "required": false,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "LinkedIn Profile"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:LinkedIn Profile"
+          },
+          {
+            "strategy": "name",
+            "value": "job_application[linkedin]"
+          },
+          {
+            "strategy": "css",
+            "value": "#linkedin"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"job_application[linkedin]\"]"
+          }
+        ]
+      },
+      "containerPath": "form#application_form",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "Software Engineer"
+    },
+    {
+      "fingerprint": "0830f7b45d1970557d797a60388c34183bc99e02b38bbd4aca9ee4d30253dda2",
+      "labelRaw": "Website",
+      "labelNorm": "website",
+      "labelSource": "label_for",
+      "type": "url",
+      "widget": "native",
+      "required": false,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Website"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:Website"
+          },
+          {
+            "strategy": "name",
+            "value": "job_application[urls][website]"
+          },
+          {
+            "strategy": "css",
+            "value": "#website"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"job_application[urls][website]\"]"
+          }
+        ]
+      },
+      "containerPath": "form#application_form",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "Software Engineer"
+    },
+    {
+      "fingerprint": "69dad7d0f99c84a1668553227133dbeb31f127a331ef4c85a93048b62dbe46a7",
+      "labelRaw": "Gender",
+      "labelNorm": "gender",
+      "labelSource": "label_for",
+      "type": "select",
+      "widget": "native",
+      "required": false,
+      "options": [
+        {
+          "value": "",
+          "label": "Please select"
+        },
+        {
+          "value": "male",
+          "label": "Male"
+        },
+        {
+          "value": "female",
+          "label": "Female"
+        },
+        {
+          "value": "decline",
+          "label": "Decline to self identify"
+        }
+      ],
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Gender"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "combobox:Gender"
+          },
+          {
+            "strategy": "name",
+            "value": "job_application[gender]"
+          },
+          {
+            "strategy": "css",
+            "value": "#gender"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"job_application[gender]\"]"
+          }
+        ]
+      },
+      "containerPath": "form#application_form",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "Software Engineer"
+    },
+    {
+      "fingerprint": "1649bdd8bad66232dd0ef366bcd17258afe9fa1d24ae903c65bcd1895bdb3489",
+      "labelRaw": "I agree to the privacy policy",
+      "labelNorm": "i agree to the privacy policy",
+      "labelSource": "wrapping_label",
+      "type": "checkbox",
+      "widget": "native",
+      "required": true,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "I agree to the privacy policy"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "checkbox:I agree to the privacy policy"
+          },
+          {
+            "strategy": "name",
+            "value": "job_application[agree]"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"job_application[agree]\"]"
+          }
+        ]
+      },
+      "containerPath": "form#application_form > label",
+      "visible": true,
+      "disabled": false,
+      "currentValue": "1",
+      "sectionHeading": "Software Engineer"
+    },
+    {
+      "fingerprint": "2edcc07555a0bbbe04e70b3e762635364672b800a0b9b9d77d2e86e35ad06aef",
+      "labelRaw": "Veteran status",
+      "labelNorm": "veteran status",
+      "labelSource": "label_for",
+      "type": "select",
+      "widget": "native",
+      "required": false,
+      "options": [
+        {
+          "value": "decline",
+          "label": "Decline to self identify"
+        },
+        {
+          "value": "veteran",
+          "label": "I am a veteran"
+        },
+        {
+          "value": "not",
+          "label": "I am not a veteran"
+        }
+      ],
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Veteran status"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "combobox:Veteran status"
+          },
+          {
+            "strategy": "name",
+            "value": "job_application[veteran_status]"
+          },
+          {
+            "strategy": "css",
+            "value": "#veteran"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"job_application[veteran_status]\"]"
+          }
+        ]
+      },
+      "containerPath": "form#application_form",
+      "visible": true,
+      "disabled": false,
+      "currentValue": "decline",
+      "sectionHeading": "Voluntary Self-Identification"
+    }
+  ]
+}

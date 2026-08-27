@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Backend Engineer — Lever</title>
+  </head>
+  <body>
+    <div class="application-page">
+      <h1 class="posting-headline">Backend Engineer</h1>
+      <form action="https://jobs.lever.co/acme/abcd" method="post">
+        <label for="name">Full name</label>
+        <input id="name" name="name" required />
+
+        <label for="email">Email</label>
+        <input id="email" type="email" name="email" required />
+
+        <label for="phone">Phone</label>
+        <input id="phone" type="tel" name="phone" />
+
+        <label for="org">Current company</label>
+        <input id="org" name="org" />
+
+        <label for="urls[LinkedIn]">LinkedIn URL</label>
+        <input id="urls[LinkedIn]" type="url" name="urls[LinkedIn]" />
+
+        <label for="resume">Resume</label>
+        <input id="resume" type="file" name="resume" required />
+
+        <label for="comments">Additional information</label>
+        <textarea id="comments" name="comments"></textarea>
+
+        <label for="pronouns">Pronouns</label>
+        <select id="pronouns" name="pronouns">
+          <option value="">Select</option>
+          <option value="she">she/her</option>
+          <option value="he">he/him</option>
+          <option value="they">they/them</option>
+        </select>
+
+        <fieldset>
+          <legend>How did you hear about us</legend>
+          <label><input type="checkbox" name="cards[]" value="linkedin" /> LinkedIn</label>
+          <label><input type="checkbox" name="cards[]" value="referral" /> Referral</label>
+          <label><input type="checkbox" name="cards[]" value="other" /> Other</label>
+        </fieldset>
+      </form>
+    </div>
+    <script src="https://jobs.lever.co/embed.js"></script>
+  </body>
+</html>

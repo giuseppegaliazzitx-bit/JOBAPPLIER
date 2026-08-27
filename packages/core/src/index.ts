@@ -72,15 +72,29 @@ export {
   SelectorSchema,
   SelectorSpecSchema,
   FieldOptionSchema,
+  LabelSourceSchema,
+  HIGH_CONFIDENCE_LABEL_SOURCES,
   FieldDescriptorSchema,
+  FieldInventorySchema,
   type FieldType,
   type WidgetKind,
   type SelectorStrategy,
   type Selector,
   type SelectorSpec,
   type FieldOption,
+  type LabelSource,
   type FieldDescriptor,
+  type FieldInventory,
 } from "./field.ts";
+export { normalizeLabel, optionsHash, fieldFingerprint } from "./fingerprint.ts";
+export { humanizeIdent, resolveLabel, type LabelFacts, type ResolvedLabel } from "./label-ladder.ts";
+export {
+  isNthChildSelector,
+  buildSelectorSpec,
+  cssAttributeSelector,
+  type SelectorFacts,
+} from "./selectors.ts";
+export { classifyWidget, type WidgetFacts, type ClassifiedControl } from "./widget.ts";
 export {
   AnswerScopeSchema,
   MatchTierSchema,

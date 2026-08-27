@@ -8,13 +8,16 @@
   },
   "scripts": {
     "test": "vitest run",
-    "typecheck": "tsc --noEmit -p tsconfig.json"
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "capture": "tsx src/capture.ts"
   },
   "dependencies": {
-    "@autoapply/core": "workspace:*"
+    "@autoapply/core": "workspace:*",
+    "playwright": "^1.55.0"
   },
   "devDependencies": {
     "@types/node": "^22.17.0",
+    "tsx": "^4.20.4",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4",
     "zod": "^3.25.76"

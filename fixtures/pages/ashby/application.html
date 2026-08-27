@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Product Engineer — Ashby</title>
+  </head>
+  <body>
+    <form data-testid="application-form">
+      <label for="name">Full name</label>
+      <input id="name" name="name" data-testid="name" required />
+
+      <label for="email">Email</label>
+      <input id="email" type="email" name="email" data-testid="email" required />
+
+      <label for="phone">Phone number</label>
+      <input id="phone" type="tel" name="phone" data-testid="phone" />
+
+      <label for="location">Location</label>
+      <input
+        id="location"
+        name="location"
+        role="combobox"
+        aria-haspopup="listbox"
+        aria-autocomplete="list"
+        data-testid="location"
+        placeholder="City, Country"
+      />
+
+      <label for="resume">Resume</label>
+      <input id="resume" type="file" name="resume" data-testid="resume" required />
+
+      <label for="github">GitHub URL</label>
+      <input id="github" type="url" name="github" data-testid="github" />
+
+      <label for="why">Why do you want to work here?</label>
+      <textarea id="why" name="why" data-testid="why"></textarea>
+
+      <fieldset>
+        <legend>Work authorization</legend>
+        <label><input type="radio" name="authorized" value="yes" /> I am authorized to work in the US</label>
+        <label><input type="radio" name="authorized" value="no" /> I will need sponsorship</label>
+      </fieldset>
+    </form>
+    <script src="https://jobs.ashbyhq.com/api/apps.js"></script>
+  </body>
+</html>

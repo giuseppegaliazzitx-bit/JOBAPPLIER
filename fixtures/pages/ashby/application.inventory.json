@@ -1,0 +1,356 @@
+{
+  "title": "Product Engineer — Ashby",
+  "fields": [
+    {
+      "fingerprint": "d46bd04dba120818f6ce7a9521370119ccaa5d207d6c15dffc2ed293bda7b0a5",
+      "labelRaw": "Work authorization",
+      "labelNorm": "work authorization",
+      "labelSource": "wrapping_label",
+      "type": "radio",
+      "widget": "native",
+      "required": false,
+      "options": [
+        {
+          "value": "yes",
+          "label": "I am authorized to work in the US"
+        },
+        {
+          "value": "no",
+          "label": "I will need sponsorship"
+        }
+      ],
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Work authorization"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "radio:Work authorization"
+          },
+          {
+            "strategy": "name",
+            "value": "authorized"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"authorized\"]"
+          }
+        ]
+      },
+      "containerPath": "form > fieldset > label",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "Work authorization"
+    },
+    {
+      "fingerprint": "f9d90fdf2444ef29b191282cca62406dc872dd98a678de6705d2f0f9b82ac318",
+      "labelRaw": "Full name",
+      "labelNorm": "full name",
+      "labelSource": "label_for",
+      "type": "text",
+      "widget": "native",
+      "required": true,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Full name"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:Full name"
+          },
+          {
+            "strategy": "testid",
+            "value": "name"
+          },
+          {
+            "strategy": "name",
+            "value": "name"
+          },
+          {
+            "strategy": "css",
+            "value": "#name"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-testid=\"name\"]"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"name\"]"
+          }
+        ]
+      },
+      "containerPath": "form",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "fingerprint": "42ebc64cbfa4c84918632285a0f10057e0c951755a5ccc0dc3cb696414083791",
+      "labelRaw": "Email",
+      "labelNorm": "email",
+      "labelSource": "label_for",
+      "type": "email",
+      "widget": "native",
+      "required": true,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Email"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:Email"
+          },
+          {
+            "strategy": "testid",
+            "value": "email"
+          },
+          {
+            "strategy": "name",
+            "value": "email"
+          },
+          {
+            "strategy": "css",
+            "value": "#email"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-testid=\"email\"]"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"email\"]"
+          }
+        ]
+      },
+      "containerPath": "form",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "fingerprint": "9b31e3376f9f5080739410eaa61fa789fdcf112765623276b288430ca750046b",
+      "labelRaw": "Phone number",
+      "labelNorm": "phone number",
+      "labelSource": "label_for",
+      "type": "tel",
+      "widget": "native",
+      "required": false,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Phone number"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:Phone number"
+          },
+          {
+            "strategy": "testid",
+            "value": "phone"
+          },
+          {
+            "strategy": "name",
+            "value": "phone"
+          },
+          {
+            "strategy": "css",
+            "value": "#phone"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-testid=\"phone\"]"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"phone\"]"
+          }
+        ]
+      },
+      "containerPath": "form",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "fingerprint": "561a3351fcf905c886539dcc3a44b2f5fd08f456cb1797341f3133e93538c329",
+      "labelRaw": "Location",
+      "labelNorm": "location",
+      "labelSource": "label_for",
+      "type": "custom",
+      "widget": "typeahead",
+      "required": false,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Location"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "combobox:Location"
+          },
+          {
+            "strategy": "testid",
+            "value": "location"
+          },
+          {
+            "strategy": "name",
+            "value": "location"
+          },
+          {
+            "strategy": "placeholder",
+            "value": "City, Country"
+          },
+          {
+            "strategy": "css",
+            "value": "#location"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-testid=\"location\"]"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"location\"]"
+          }
+        ]
+      },
+      "containerPath": "form",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "fingerprint": "24fa6ae52d1ba36b2bfcca24b536b96e078e2affb5751dbf2e7dbf17cc4a576a",
+      "labelRaw": "Resume",
+      "labelNorm": "resume",
+      "labelSource": "label_for",
+      "type": "file",
+      "widget": "native",
+      "required": true,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Resume"
+        },
+        "fallbacks": [
+          {
+            "strategy": "testid",
+            "value": "resume"
+          },
+          {
+            "strategy": "name",
+            "value": "resume"
+          },
+          {
+            "strategy": "css",
+            "value": "#resume"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-testid=\"resume\"]"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"resume\"]"
+          }
+        ]
+      },
+      "containerPath": "form",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "fingerprint": "657e0143df107b87236138fc0360eea55d601d14b1efc59b9fb4f3ca8b988c0d",
+      "labelRaw": "GitHub URL",
+      "labelNorm": "github url",
+      "labelSource": "label_for",
+      "type": "url",
+      "widget": "native",
+      "required": false,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "GitHub URL"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:GitHub URL"
+          },
+          {
+            "strategy": "testid",
+            "value": "github"
+          },
+          {
+            "strategy": "name",
+            "value": "github"
+          },
+          {
+            "strategy": "css",
+            "value": "#github"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-testid=\"github\"]"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"github\"]"
+          }
+        ]
+      },
+      "containerPath": "form",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "fingerprint": "d51de2828a26e531e82e29bc0ba891d54968ec728400963b23b496e613af4651",
+      "labelRaw": "Why do you want to work here?",
+      "labelNorm": "why do you want to work here",
+      "labelSource": "label_for",
+      "type": "textarea",
+      "widget": "native",
+      "required": false,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Why do you want to work here?"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:Why do you want to work here?"
+          },
+          {
+            "strategy": "testid",
+            "value": "why"
+          },
+          {
+            "strategy": "name",
+            "value": "why"
+          },
+          {
+            "strategy": "css",
+            "value": "#why"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-testid=\"why\"]"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"why\"]"
+          }
+        ]
+      },
+      "containerPath": "form",
+      "visible": true,
+      "disabled": false
+    }
+  ]
+}

@@ -2,7 +2,7 @@
 
 Playwright-shaped form walking will live here. The browser it drives is **SessionKit** (`enhanced_browser/`), not the Playwright Node package.
 
-Phase 0 only records that choice. Inventory, fill, recipes, and healing come in later phases.
+Read-only field inventory lives here (`extractFieldInventory`). Filling, recipes, and healing come later. Playwright is used to inspect local fixtures and to capture snapshots. Live applications are still driven by SessionKit.
 
 ## Captcha policy
 

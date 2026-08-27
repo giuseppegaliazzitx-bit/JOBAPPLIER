@@ -1,0 +1,372 @@
+{
+  "title": "iCIMS — Job Application",
+  "fields": [
+    {
+      "fingerprint": "f7533b6feda045631ba5a137dbfa5bbb51e3d9635728f1c664850116a4cb0e8d",
+      "labelRaw": "First Name",
+      "labelNorm": "first name",
+      "labelSource": "label_for",
+      "type": "text",
+      "widget": "native",
+      "required": true,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "First Name"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:First Name"
+          },
+          {
+            "strategy": "testid",
+            "value": "qa:first-name"
+          },
+          {
+            "strategy": "name",
+            "value": "firstname"
+          },
+          {
+            "strategy": "css",
+            "value": "#firstname"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-qa=\"first-name\"]"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"firstname\"]"
+          }
+        ]
+      },
+      "containerPath": "form#icims_content_iframe",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "Application"
+    },
+    {
+      "fingerprint": "2e544a46fadee126e172c239cfc4a88a1901d3c408a076c1c6c7b2f8fa2c0f75",
+      "labelRaw": "Last Name",
+      "labelNorm": "last name",
+      "labelSource": "label_for",
+      "type": "text",
+      "widget": "native",
+      "required": true,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Last Name"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:Last Name"
+          },
+          {
+            "strategy": "testid",
+            "value": "qa:last-name"
+          },
+          {
+            "strategy": "name",
+            "value": "lastname"
+          },
+          {
+            "strategy": "css",
+            "value": "#lastname"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-qa=\"last-name\"]"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"lastname\"]"
+          }
+        ]
+      },
+      "containerPath": "form#icims_content_iframe",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "Application"
+    },
+    {
+      "fingerprint": "784922af8319b48812be6e0f98a55c79e7afc7c034596a22f75d5e536ff88334",
+      "labelRaw": "Email Address",
+      "labelNorm": "email address",
+      "labelSource": "label_for",
+      "type": "email",
+      "widget": "native",
+      "required": true,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Email Address"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:Email Address"
+          },
+          {
+            "strategy": "testid",
+            "value": "qa:email"
+          },
+          {
+            "strategy": "name",
+            "value": "email"
+          },
+          {
+            "strategy": "css",
+            "value": "#email"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-qa=\"email\"]"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"email\"]"
+          }
+        ]
+      },
+      "containerPath": "form#icims_content_iframe",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "Application"
+    },
+    {
+      "fingerprint": "1362e665a7c43490748ee250b054cf8a15de15dee65f36bbf57be6c578f22003",
+      "labelRaw": "Mobile Phone",
+      "labelNorm": "mobile phone",
+      "labelSource": "label_for",
+      "type": "tel",
+      "widget": "native",
+      "required": false,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Mobile Phone"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:Mobile Phone"
+          },
+          {
+            "strategy": "testid",
+            "value": "qa:phone"
+          },
+          {
+            "strategy": "name",
+            "value": "cell"
+          },
+          {
+            "strategy": "css",
+            "value": "#cell"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-qa=\"phone\"]"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"cell\"]"
+          }
+        ]
+      },
+      "containerPath": "form#icims_content_iframe",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "Application"
+    },
+    {
+      "fingerprint": "81720190baddf10dbbb0ece4ff3755319ad3d423e09d5f241c7e9f7dba9882f2",
+      "labelRaw": "Attach Resume",
+      "labelNorm": "attach resume",
+      "labelSource": "label_for",
+      "type": "file",
+      "widget": "native",
+      "required": false,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Attach Resume"
+        },
+        "fallbacks": [
+          {
+            "strategy": "testid",
+            "value": "qa:resume"
+          },
+          {
+            "strategy": "name",
+            "value": "resume"
+          },
+          {
+            "strategy": "css",
+            "value": "#resume"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-qa=\"resume\"]"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"resume\"]"
+          }
+        ]
+      },
+      "containerPath": "form#icims_content_iframe",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "Application"
+    },
+    {
+      "fingerprint": "32180148bc1825ff0d4fc764f6b121db87654282aa1def5de023521e5dcdaf98",
+      "labelRaw": "How did you hear about us?",
+      "labelNorm": "how did you hear about us",
+      "labelSource": "label_for",
+      "type": "select",
+      "widget": "native",
+      "required": false,
+      "options": [
+        {
+          "value": "",
+          "label": "Select"
+        },
+        {
+          "value": "web",
+          "label": "Company website"
+        },
+        {
+          "value": "board",
+          "label": "Job board"
+        }
+      ],
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "How did you hear about us?"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "combobox:How did you hear about us?"
+          },
+          {
+            "strategy": "testid",
+            "value": "qa:source"
+          },
+          {
+            "strategy": "name",
+            "value": "source"
+          },
+          {
+            "strategy": "css",
+            "value": "#source"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-qa=\"source\"]"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"source\"]"
+          }
+        ]
+      },
+      "containerPath": "form#icims_content_iframe",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "Application"
+    },
+    {
+      "fingerprint": "6298f66d50e0bbbd3b85e8722e7feb0ada368d7c2948ae715e754c75f62f1720",
+      "labelRaw": "Desired salary",
+      "labelNorm": "desired salary",
+      "labelSource": "label_for",
+      "type": "number",
+      "widget": "native",
+      "required": false,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Desired salary"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:Desired salary"
+          },
+          {
+            "strategy": "testid",
+            "value": "qa:salary"
+          },
+          {
+            "strategy": "name",
+            "value": "salary"
+          },
+          {
+            "strategy": "css",
+            "value": "#salary"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-qa=\"salary\"]"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"salary\"]"
+          }
+        ]
+      },
+      "containerPath": "form#icims_content_iframe",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "Application"
+    },
+    {
+      "fingerprint": "31e0bb1d604f13303d9effedaf96957b31b05e0241decd7c9ba3ef7c4f378cfc",
+      "labelRaw": "I certify the information is true",
+      "labelNorm": "i certify the information is true",
+      "labelSource": "wrapping_label",
+      "type": "checkbox",
+      "widget": "native",
+      "required": true,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "I certify the information is true"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "checkbox:I certify the information is true"
+          },
+          {
+            "strategy": "testid",
+            "value": "qa:certify"
+          },
+          {
+            "strategy": "name",
+            "value": "certify"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-qa=\"certify\"]"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"certify\"]"
+          }
+        ]
+      },
+      "containerPath": "form#icims_content_iframe > label",
+      "visible": true,
+      "disabled": false,
+      "currentValue": "yes",
+      "sectionHeading": "Application"
+    }
+  ]
+}
