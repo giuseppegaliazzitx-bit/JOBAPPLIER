@@ -16,6 +16,7 @@ import { registerQuestionRoutes } from "./routes/questions.ts";
 import { registerResolveRoutes } from "./routes/resolve.ts";
 import { registerRecipeRoutes } from "./routes/recipes.ts";
 import { registerRunRoutes } from "./routes/runs.ts";
+import { registerGmailRoutes } from "./routes/gmail.ts";
 import { registerSettingsRoutes } from "./routes/settings.ts";
 import { seedBundledRecipes } from "./recipes.ts";
 
@@ -68,7 +69,8 @@ export async function buildApp(options: BuildAppOptions) {
   seedBundledRecipes(options.sqlite);
   registerRecipeRoutes(app, options.sqlite, options.embed);
   registerSettingsRoutes(app, options.sqlite);
-  registerApplicationRoutes(app, options.sqlite);
+  registerApplicationRoutes(app, options.sqlite, options.config);
+  registerGmailRoutes(app, options.sqlite, options.config);
   registerBatchRoutes(app, options.sqlite, options.config, options.embed);
 
   return app;

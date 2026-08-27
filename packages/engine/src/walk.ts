@@ -14,7 +14,7 @@ import {
   type WalkHistoryItem,
 } from "@autoapply/core";
 import type { Page } from "playwright";
-import { sessionKitSolveCaptcha } from "./challenge.ts";
+import { sessionKitSolveCaptcha, submitEmailCode } from "./challenge.ts";
 import { fillField, type FillOutcome } from "./fill.ts";
 import { escalateHeal } from "./heal-tiers.ts";
 import { extractFieldInventory } from "./inventory.ts";
@@ -41,6 +41,7 @@ export type WalkHooks = {
   tier2WaitMs?: number;
   delay?: () => Promise<void>;
   solveCaptcha?: (page: Page) => Promise<boolean>;
+  waitForEmailCode?: () => Promise<string | null>;
 };
 
 export type { WalkHistoryItem };
@@ -246,6 +247,18 @@ export async function walkUntilPreflight(page: Page, hooks: WalkHooks): Promise<
     if (kind === "2fa") {
       await hooks.onEvent?.("challenge", { kind: "2fa", policy: "detect_pause_notify" });
       return emptyWalk("blocked", history, page, { healReports, blockedReason: "two_factor" });
+    }
+    if (kind === "email_otp") {
+      await hooks.onEvent?.("challenge", { kind: "email_otp", policy: "inbox_code" });
+      const code = (await hooks.waitForEmailCode?.()) ?? null;
+      if (!code) {
+        return emptyWalk("blocked", history, page, { healReports, blockedReason: "email_otp" });
+      }
+      const ok = await submitEmailCode(page, code);
+      if (!ok) {
+        return emptyWalk("blocked", history, page, { healReports, blockedReason: "email_otp" });
+      }
+      kind = await discoverWithRecipe(page, hooks.recipe);
     }
     await hooks.onEvent?.("discover", { kind, url: page.url(), step, recipeId: hooks.recipe?.recipeId });
     if (kind === "timeout" || kind === "confirmation") {

@@ -233,6 +233,9 @@ export const applications = sqliteTable("applications", {
   status: text("status").notNull(),
   statusUpdatedAt: text("status_updated_at").notNull(),
   sourceOfStatus: text("source_of_status").notNull(),
+  resumeDocumentId: text("resume_document_id").references(() => documents.id),
+  followUpAt: text("follow_up_at"),
+  lastMailAt: text("last_mail_at"),
 });
 
 export const applicationEvents = sqliteTable("application_events", {
@@ -275,6 +278,29 @@ export const notes = sqliteTable("notes", {
     .references(() => applications.id),
   body: text("body").notNull(),
   createdAt: text("created_at").notNull(),
+});
+
+export const mailMessages = sqliteTable("mail_messages", {
+  id: text("id").primaryKey(),
+  gmailId: text("gmail_id").unique(),
+  kind: text("kind").notNull(),
+  subject: text("subject").notNull(),
+  fromAddress: text("from_address").notNull(),
+  occurredAt: text("occurred_at").notNull(),
+  applicationId: text("application_id").references(() => applications.id),
+  verificationCode: text("verification_code"),
+  excerpt: text("excerpt").notNull(),
+  classifiedBy: text("classified_by").notNull(),
+  createdAt: text("created_at").notNull(),
+});
+
+export const verificationCodes = sqliteTable("verification_codes", {
+  id: text("id").primaryKey(),
+  code: text("code").notNull(),
+  mailId: text("mail_id").references(() => mailMessages.id),
+  fromAddress: text("from_address"),
+  extractedAt: text("extracted_at").notNull(),
+  usedAt: text("used_at"),
 });
 
 export const schemaMigrations = sqliteTable("schema_migrations", {

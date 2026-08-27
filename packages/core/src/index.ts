@@ -237,6 +237,28 @@ export {
   type RunCheckpoint,
 } from "./run.ts";
 export {
+  MailKindSchema,
+  MailMessageSchema,
+  MailClassificationSchema,
+  StatusSourceSchema,
+  FOLLOW_UP_SILENCE_DAYS,
+  GMAIL_READONLY_SCOPE,
+  ClassifyMailResultSchema,
+  mailPlainText,
+  extractVerificationCode,
+  extractInterviewAt,
+  classifyMail,
+  statusForMailKind,
+  applyMailTransition,
+  isSilentSince,
+  gmailAuthUrl,
+  type MailKind,
+  type MailMessage,
+  type MailClassification,
+  type StatusSource,
+  type ClassifyMailResult,
+} from "./mail.ts";
+export {
   DISTILLED_PAGE_FIELD_CAP,
   DISTILLED_PAGE_BYTE_CAP,
   DistilledFieldSchema,

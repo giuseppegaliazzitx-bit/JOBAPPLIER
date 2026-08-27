@@ -36,6 +36,7 @@ export const AiPurposeSchema = z.enum([
   "repair_step",
   "draft_answer",
   "write_cover_letter",
+  "classify_mail",
 ]);
 
 export type AiPurpose = z.infer<typeof AiPurposeSchema>;
@@ -50,6 +51,7 @@ export const PURPOSE_TIER = {
   repair_step: "medium",
   draft_answer: "large",
   write_cover_letter: "large",
+  classify_mail: "small",
 } as const satisfies Record<AiPurpose, ModelTier>;
 
 export const PageClassSchema = z.enum([

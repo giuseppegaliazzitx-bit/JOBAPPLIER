@@ -26,3 +26,4 @@ export {
   writeCoverLetter,
 } from "./purposes.ts";
 export { createXaiCaller } from "./xai.ts";
+export { classifyMailWithModel } from "./classify-mail.ts";

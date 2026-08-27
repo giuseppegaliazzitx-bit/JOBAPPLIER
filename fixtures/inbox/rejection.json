@@ -1,0 +1,10 @@
+{
+  "id": "inbox-rejection",
+  "from": "careers@soylent.test",
+  "subject": "Update on your Soylent application",
+  "text": "We regret to inform you that we are not moving forward with your Data Analyst application at Soylent. We wish you the best.",
+  "occurredAt": "2026-08-24T14:00:00.000Z",
+  "expectedKind": "rejection",
+  "company": "Soylent",
+  "jobTitle": "Data Analyst"
+}

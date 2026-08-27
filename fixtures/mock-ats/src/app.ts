@@ -12,11 +12,12 @@ export type SessionData = {
   expired: boolean;
   captchaOk: boolean;
   twoFactorOk: boolean;
+  emailOk: boolean;
   fields: Record<string, string>;
 };
 
 export type MockAtsOptions = {
-  challenge?: "captcha" | "captcha-hard" | "2fa" | null;
+  challenge?: "captcha" | "captcha-hard" | "2fa" | "email-otp" | null;
 };
 
 const sessions = new Map<string, SessionData>();
@@ -36,6 +37,7 @@ function createSession(): SessionData {
     expired: false,
     captchaOk: false,
     twoFactorOk: false,
+    emailOk: false,
     fields: {},
   };
   sessions.set(session.id, session);
@@ -60,6 +62,9 @@ export async function buildMockAts(options: MockAtsOptions = {}) {
     }
     if (challenge === "2fa" && !session.twoFactorOk) {
       return cookie.redirect("/apply/2fa");
+    }
+    if (challenge === "email-otp" && !session.emailOk) {
+      return cookie.redirect("/apply/email-otp");
     }
     return cookie.redirect(`/apply/step/${session.step}`);
   });
@@ -115,6 +120,31 @@ export async function buildMockAts(options: MockAtsOptions = {}) {
     const body = asFields(request.body);
     if (body.otp && body.otp.trim().length > 0) {
       session.twoFactorOk = true;
+    }
+    return reply.setCookie(COOKIE, session.id, { path: "/" }).redirect("/apply");
+  });
+
+  app.get("/apply/email-otp", async (_request, reply) => {
+    return reply.type("text/html").send(
+      layout(
+        "Email verification",
+        `<div data-page="email-otp">
+          <h1>Email verification</h1>
+          <p>We sent a code to your email.</p>
+          <form method="post" action="/apply/email-otp">
+            <label>Code <input id="email-code" name="otp" autocomplete="one-time-code" /></label>
+            <button type="submit">Verify</button>
+          </form>
+        </div>`,
+      ),
+    );
+  });
+
+  app.post("/apply/email-otp", async (request, reply) => {
+    const session = sessionOf(request.cookies[COOKIE]) ?? createSession();
+    const body = asFields(request.body);
+    if (body.otp && /^\d{4,8}$/.test(body.otp.trim())) {
+      session.emailOk = true;
     }
     return reply.setCookie(COOKIE, session.id, { path: "/" }).redirect("/apply");
   });

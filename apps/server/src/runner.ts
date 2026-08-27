@@ -23,6 +23,7 @@ import type { AiHandle } from "@autoapply/ai";
 import { BudgetExceededError } from "@autoapply/ai";
 import { clickSubmit, healField, pageKind, walkUntilPreflight, writeIncomingFixture } from "@autoapply/engine";
 import { countTodaySubmits, recordApplication } from "./applications.ts";
+import { takeUnusedVerificationCode } from "./inbox.ts";
 import {
   incrementStats,
   matchLiveRecipe,
@@ -268,6 +269,20 @@ export async function startRun(options: {
         : async () => {
             await new Promise((resolve) => setTimeout(resolve, humanDelayMs()));
           },
+      waitForEmailCode: async () => {
+        const deadline = Date.now() + (options.skipDelay ? 2_000 : 120_000);
+        while (Date.now() < deadline) {
+          if (run.aborted) {
+            return null;
+          }
+          const code = takeUnusedVerificationCode(options.sqlite);
+          if (code) {
+            return code;
+          }
+          await new Promise((resolve) => setTimeout(resolve, 200));
+        }
+        return null;
+      },
       resolve: (inventory) =>
         resolveInventory(inventory, loadBank(options.sqlite), {
           embed: options.embed,
@@ -357,11 +372,17 @@ export async function startRun(options: {
         enqueue(options.sqlite, "retry", { runId, reason, url: result.url });
       }
     }
-    if (result.blockedReason === "captcha" || result.blockedReason === "two_factor") {
+    if (
+      result.blockedReason === "captcha" ||
+      result.blockedReason === "two_factor" ||
+      result.blockedReason === "email_otp"
+    ) {
       const message =
         result.blockedReason === "two_factor"
           ? "Two-factor authentication required. Take control, then resume."
-          : "CAPTCHA unsolved after SessionKit. Paused.";
+          : result.blockedReason === "email_otp"
+            ? "Waiting for an email verification code from the inbox."
+            : "CAPTCHA unsolved after SessionKit. Paused.";
       enqueue(options.sqlite, "blocked", { runId, reason: result.blockedReason, url: result.url });
       enqueue(options.sqlite, "notify", { message, runId });
       run.paused = true;

@@ -1,11 +1,11 @@
 import type { Page } from "playwright";
 import { detectChallenge } from "./challenge.ts";
 
-export type PageKind = "form" | "review" | "confirmation" | "timeout" | "error" | "captcha" | "2fa";
+export type PageKind = "form" | "review" | "confirmation" | "timeout" | "error" | "captcha" | "2fa" | "email_otp";
 
 export async function pageKind(page: Page): Promise<PageKind> {
   const challenge = await detectChallenge(page);
-  if (challenge === "captcha" || challenge === "2fa") {
+  if (challenge === "captcha" || challenge === "2fa" || challenge === "email_otp") {
     return challenge;
   }
   const timeout = page.locator("[data-page=timeout]");

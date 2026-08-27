@@ -1,0 +1,10 @@
+{
+  "id": "inbox-offer",
+  "from": "offers@wonka.test",
+  "subject": "Job offer — Wonka Labs",
+  "text": "We are pleased to offer you the Chocolate Engineer position at Wonka Labs. Please find the offer letter and compensation package attached.",
+  "occurredAt": "2026-08-25T15:00:00.000Z",
+  "expectedKind": "offer",
+  "company": "Wonka Labs",
+  "jobTitle": "Chocolate Engineer"
+}

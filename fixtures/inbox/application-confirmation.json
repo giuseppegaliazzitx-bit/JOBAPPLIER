@@ -1,0 +1,10 @@
+{
+  "id": "inbox-application-confirmation",
+  "from": "noreply@acme.com",
+  "subject": "Thank you for applying to Acme",
+  "text": "We have received your application for Staff Engineer at Acme. This is a confirmation only.",
+  "occurredAt": "2026-08-20T10:00:00.000Z",
+  "expectedKind": "application_confirmation",
+  "company": "Acme",
+  "jobTitle": "Staff Engineer"
+}

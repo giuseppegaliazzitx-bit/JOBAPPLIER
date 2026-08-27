@@ -14,7 +14,7 @@ export type SubmitGate = {
 
 export type SubmitVerdict = { ok: true } | { ok: false; reason: string };
 
-const BLOCKED_KINDS = new Set(["error", "timeout", "captcha", "expired", "2fa", "two_factor"]);
+const BLOCKED_KINDS = new Set(["error", "timeout", "captcha", "expired", "2fa", "two_factor", "email_otp"]);
 
 export function evaluateSubmitGate(gate: SubmitGate): SubmitVerdict {
   if (BLOCKED_KINDS.has(gate.pageKind)) {

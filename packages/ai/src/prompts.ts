@@ -14,6 +14,8 @@ The selector must match exactly one live control.`,
 Return JSON {"draft":"...","needsApproval":true}. The draft is never submitted automatically.`,
   write_cover_letter: `Write a cover letter from the job description and resume variant.
 Return JSON {"letter":"..."}.`,
+  classify_mail: `Classify a job-application email from SUBJECT and TEXT only. Never use HTML.
+Return JSON {"kind":"verification_code"|"application_confirmation"|"viewed_notification"|"screening_request"|"interview_invite"|"rejection"|"offer"}.`,
 };
 
 export const TIER_MODELS = {

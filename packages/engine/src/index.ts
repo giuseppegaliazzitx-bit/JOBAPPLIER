@@ -5,6 +5,7 @@ export {
   SESSIONKIT_CAPTCHA_CALLS,
   SESSION_KIT_DIR,
   TWO_FA_POLICY,
+  EMAIL_OTP_POLICY,
 } from "./driver.ts";
 export { extractFieldInventory, inventoryFromRaw } from "./inventory.ts";
 export { scrapeDom } from "./scrape-dom.ts";
@@ -14,7 +15,7 @@ export { fillField } from "./fill.ts";
 export { nearbyError, readBack, valuesMatch } from "./verify.ts";
 export { clickContinue, pageKind, type PageKind } from "./advance.ts";
 export { clickSubmit, type SubmitGate } from "./submit-gate.ts";
-export { detectChallenge, sessionKitSolveCaptcha, type ChallengeKind } from "./challenge.ts";
+export { detectChallenge, sessionKitSolveCaptcha, submitEmailCode, type ChallengeKind } from "./challenge.ts";
 export { walkUntilPreflight, type WalkHooks, type WalkResult, type WalkHistoryItem } from "./walk.ts";
 export { discoverWithRecipe, advanceWithRecipe } from "./recipe-runtime.ts";
 export {

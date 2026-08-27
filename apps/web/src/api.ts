@@ -323,6 +323,8 @@ const SettingsResponse = zod.object({
   dailyCap: zod.number(),
   captchaPolicy: zod.string(),
   twoFaPolicy: zod.string(),
+  gmailConnected: zod.boolean().optional(),
+  gmailScope: zod.string().optional(),
   tos: zod.string(),
 });
 
@@ -349,24 +351,111 @@ export async function postBatch(jobIds: string[]) {
   return parseJson(response, zod.object({ queued: zod.number(), jobIds: zod.array(zod.string()) }));
 }
 
+const NotePublic = zod.object({
+  id: zod.string(),
+  body: zod.string(),
+  createdAt: zod.string(),
+});
+
+const ContactPublic = zod.object({
+  id: zod.string(),
+  name: zod.string(),
+  email: zod.string().nullable().optional(),
+  role: zod.string().nullable().optional(),
+  notes: zod.string().nullable().optional(),
+});
+
+const InterviewPublic = zod.object({
+  id: zod.string(),
+  scheduledAt: zod.string(),
+  kind: zod.string(),
+  location: zod.string().nullable().optional(),
+  notes: zod.string().nullable().optional(),
+});
+
+const ApplicationPublic = zod.object({
+  id: zod.string(),
+  jobId: zod.string(),
+  runId: zod.string().nullable(),
+  submittedAt: zod.string().nullable(),
+  proofScreenshot: zod.string().nullable(),
+  status: zod.string(),
+  statusUpdatedAt: zod.string().optional(),
+  sourceOfStatus: zod.string().optional(),
+  resumeVariant: zod.string().nullable().optional(),
+  followUpAt: zod.string().nullable().optional(),
+  url: zod.string().nullable(),
+  title: zod.string().nullable(),
+  companyName: zod.string().nullable().optional(),
+  notes: zod.array(NotePublic).optional(),
+  contacts: zod.array(ContactPublic).optional(),
+  interviews: zod.array(InterviewPublic).optional(),
+});
+
 const ApplicationsResponse = zod.object({
-  applications: zod.array(
-    zod.object({
-      id: zod.string(),
-      jobId: zod.string(),
-      runId: zod.string().nullable(),
-      submittedAt: zod.string().nullable(),
-      proofScreenshot: zod.string().nullable(),
-      status: zod.string(),
-      url: zod.string().nullable(),
-      title: zod.string().nullable(),
-    }),
-  ),
+  applications: zod.array(ApplicationPublic),
 });
 
 export async function fetchApplications() {
   const response = await fetch("/api/applications");
   return parseJson(response, ApplicationsResponse);
+}
+
+export async function patchApplicationStatus(id: string, status: string) {
+  const response = await fetch(`/api/applications/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status }),
+  });
+  return parseJson(response, zod.object({ application: ApplicationPublic }));
+}
+
+export async function addApplicationNote(id: string, body: string) {
+  const response = await fetch(`/api/applications/${id}/notes`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ body }),
+  });
+  if (!response.ok) {
+    throw new Error("note failed");
+  }
+}
+
+export async function addApplicationContact(id: string, body: { name: string; email?: string; role?: string }) {
+  const response = await fetch(`/api/applications/${id}/contacts`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  if (!response.ok) {
+    throw new Error("contact failed");
+  }
+}
+
+export async function addApplicationInterview(id: string, body: { scheduledAt: string; kind: string }) {
+  const response = await fetch(`/api/applications/${id}/interviews`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  if (!response.ok) {
+    throw new Error("interview failed");
+  }
+}
+
+export async function connectGmail() {
+  const response = await fetch("/api/gmail/connect");
+  return parseJson(response, zod.object({ url: zod.string() }));
+}
+
+export async function syncGmail() {
+  const response = await fetch("/api/gmail/sync", { method: "POST" });
+  return parseJson(response, zod.object({ ingested: zod.number() }).passthrough());
+}
+
+export async function sweepFollowUps() {
+  const response = await fetch("/api/applications/sweep", { method: "POST" });
+  return parseJson(response, zod.object({ nudged: zod.number() }));
 }
 
 export type { Preflight, RunEvent };

@@ -8,6 +8,9 @@ export const CAPTCHA_POLICY = "sessionkit_solve" as const;
 /** 2FA is never bypassed. Pause, notify, wait for a human. */
 export const TWO_FA_POLICY = "detect_pause_notify" as const;
 
+/** Email OTP is filled from parsed inbox mail, not from an authenticator. */
+export const EMAIL_OTP_POLICY = "inbox_code" as const;
+
 export const SESSIONKIT_CAPTCHA_CALLS = [
   "solve_challenges",
   "solve_recaptcha",

@@ -15,6 +15,9 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     XAI_API_KEY: env.XAI_API_KEY,
     AI_RUN_TOKEN_CEILING: env.AI_RUN_TOKEN_CEILING,
     AI_DAY_SPEND_USD: env.AI_DAY_SPEND_USD,
+    GMAIL_CLIENT_ID: env.GMAIL_CLIENT_ID,
+    GMAIL_CLIENT_SECRET: env.GMAIL_CLIENT_SECRET,
+    GMAIL_REDIRECT_URI: env.GMAIL_REDIRECT_URI,
   });
   if (parsed.AUTOAPPLY_HOME) {
     env.AUTOAPPLY_HOME = parsed.AUTOAPPLY_HOME;
@@ -33,6 +36,9 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     xaiApiKey: parsed.XAI_API_KEY,
     aiRunTokenCeiling: parsed.AI_RUN_TOKEN_CEILING,
     aiDaySpendUsd: parsed.AI_DAY_SPEND_USD,
+    gmailClientId: parsed.GMAIL_CLIENT_ID,
+    gmailClientSecret: parsed.GMAIL_CLIENT_SECRET,
+    gmailRedirectUri: parsed.GMAIL_REDIRECT_URI,
   });
 }
 

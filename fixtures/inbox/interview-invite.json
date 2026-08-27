@@ -1,0 +1,10 @@
+{
+  "id": "inbox-interview-invite",
+  "from": "recruiting@umbrella.test",
+  "subject": "Interview invitation from Umbrella",
+  "text": "Please schedule your interview with Umbrella for Site Reliability Engineer. Your interview is scheduled for 2026-09-15 14:00 UTC.",
+  "occurredAt": "2026-08-23T13:00:00.000Z",
+  "expectedKind": "interview_invite",
+  "company": "Umbrella",
+  "jobTitle": "Site Reliability Engineer"
+}

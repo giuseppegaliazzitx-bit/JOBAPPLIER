@@ -11,3 +11,5 @@ The only submit is `clickSubmit` after `evaluateSubmitGate`. Walk, fill, and rec
 ## 2FA
 
 `TWO_FA_POLICY = detect_pause_notify`. 2FA is never solved. Detection → pause → notify → a human takes control → resume.
+
+Email OTP (`EMAIL_OTP_POLICY = inbox_code`) is filled from a parsed inbox verification code. Authenticator 2FA is still never filled.

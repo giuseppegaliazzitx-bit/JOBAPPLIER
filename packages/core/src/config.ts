@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const CURRENT_PHASE = 8;
+export const CURRENT_PHASE = 9;
 
 export const EnvSchema = z.object({
   AUTOAPPLY_HOME: z.string().min(1).optional(),
@@ -18,6 +18,9 @@ export const EnvSchema = z.object({
   XAI_API_KEY: z.string().min(1).optional(),
   AI_RUN_TOKEN_CEILING: z.coerce.number().int().positive().default(50_000),
   AI_DAY_SPEND_USD: z.coerce.number().positive().default(2),
+  GMAIL_CLIENT_ID: z.string().min(1).optional(),
+  GMAIL_CLIENT_SECRET: z.string().min(1).optional(),
+  GMAIL_REDIRECT_URI: z.string().min(1).optional(),
 });
 
 export type EnvConfig = z.infer<typeof EnvSchema>;
@@ -33,6 +36,9 @@ export const AppConfigSchema = z.object({
   xaiApiKey: z.string().min(1).optional(),
   aiRunTokenCeiling: z.number().int().positive(),
   aiDaySpendUsd: z.number().positive(),
+  gmailClientId: z.string().min(1).optional(),
+  gmailClientSecret: z.string().min(1).optional(),
+  gmailRedirectUri: z.string().min(1).optional(),
 });
 
 export type AppConfig = z.infer<typeof AppConfigSchema>;

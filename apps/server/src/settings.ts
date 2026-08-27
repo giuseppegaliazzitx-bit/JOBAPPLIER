@@ -1,4 +1,4 @@
-import { ATS_PLATFORMS, DEFAULT_DAILY_CAP, hostFromUrl } from "@autoapply/core";
+import { ATS_PLATFORMS, DEFAULT_DAILY_CAP, GMAIL_READONLY_SCOPE, hostFromUrl } from "@autoapply/core";
 import type { SqliteDatabase } from "@autoapply/db";
 
 export const TOS_AUTOMATION =
@@ -70,6 +70,8 @@ export function readSettings(sqlite: SqliteDatabase) {
     dailyCap: dailyCap(sqlite),
     captchaPolicy: "sessionkit_solve" as const,
     twoFaPolicy: "detect_pause_notify" as const,
+    gmailConnected: getSetting(sqlite, "gmail:connected") === "on",
+    gmailScope: GMAIL_READONLY_SCOPE,
     tos: TOS_AUTOMATION,
   };
 }

@@ -1,0 +1,10 @@
+{
+  "id": "inbox-verification-code",
+  "from": "noreply@wd10.myworkday.com",
+  "subject": "Your Workday verification code",
+  "text": "Your verification code is 482193. Enter it to continue account creation for Platform Engineer at Northwind.",
+  "occurredAt": "2026-08-20T09:00:00.000Z",
+  "expectedKind": "verification_code",
+  "company": "Northwind",
+  "jobTitle": "Platform Engineer"
+}

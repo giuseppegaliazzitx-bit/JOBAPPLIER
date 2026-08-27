@@ -2,7 +2,7 @@
 
 Local-first job application automation. Architecture is in [`design.md`](./design.md).
 
-Current phase: **8 — Autopilot**. The submit gate is the only click on Submit. Autopilot is per recipe version and per site (both default off). SessionKit solves captchas; 2FA still pauses for a human. Proof screenshots land on the application record.
+Current phase: **9 — Tracker**. Gmail is read-only. Inbox mail is classified by rules first (verification, confirmation, viewed, screening, interview, rejection, offer); a model is used only when the message is ambiguous. Application status is auto-updated from mail and always manually overridable. Email verification codes fill Workday-style gates. 7 silent days produce a follow-up nudge.
 
 ## Requirements
 
@@ -49,9 +49,10 @@ apps/server/         Fastify API, WebSocket echo, SQLite-backed queue
 packages/core/       Zod schemas, types, URL/dedup/platform logic — zero I/O
 packages/engine/     Inventory, fill, verify, wizard walk, recipes, recorder
 packages/db/         Drizzle schema + migrations
-packages/ai/         DistilledPage-only model calls (six purposes), cache, budget
+packages/ai/         DistilledPage-only model calls (six page purposes) plus optional mail classify
 fixtures/pages/      Saved HTML snapshots, one dir per platform
 fixtures/mock-ats/   Local fake ATS for integration tests
+fixtures/inbox/      Seeded employer emails, one of each tracker class
 enhanced_browser/    SessionKit: patchright Chrome, humanize, session identity
 e2e/                 Playwright Test for the UI shell
 ```
@@ -67,6 +68,8 @@ Live employer applications use **SessionKit** in `enhanced_browser/` (patchright
 Captchas are solved by SessionKit (`solve_challenges`: Cloudflare click, checkbox/audio reCAPTCHA, then 2captcha if `TWOCAPTCHA_API_KEY` is set). Unsolved captchas pause the run. 2FA is never bypassed: detect, pause, notify, take control, resume.
 
 Per-site automation and the daily cap live on Settings. Enable autopilot on an **active** recipe version from the Recipes page. Batch enqueue shuffles job order and respects the per-host daily cap.
+
+The Applications page is the tracker: pipeline, proof screenshot, resume variant, notes, contacts, interview dates, CSV export, and Gmail connect (scope `gmail.readonly` only). A status you set by hand is never overwritten by mail — including rejections.
 
 ## Tests
 

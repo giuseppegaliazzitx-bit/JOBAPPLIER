@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchSettings, saveSettings } from "../api.ts";
+import { connectGmail, fetchSettings, saveSettings } from "../api.ts";
 
 export function SettingsPage() {
   const queryClient = useQueryClient();
@@ -61,6 +61,25 @@ export function SettingsPage() {
             }}
           />
         </label>
+      </section>
+
+      <section className="mt-8">
+        <h2 className="font-serif text-xl">Gmail</h2>
+        <p className="mt-1 text-sm text-mute">
+          Read-only inbox access. Scope: {data?.gmailScope ?? "gmail.readonly"}. Connected:{" "}
+          {data?.gmailConnected ? "yes" : "no"}.
+        </p>
+        <button
+          type="button"
+          className="mt-2 rounded-md border border-rule px-3 py-2 text-sm"
+          onClick={() =>
+            void connectGmail().then((body) => {
+              window.location.href = body.url;
+            })
+          }
+        >
+          Connect Gmail (read-only)
+        </button>
       </section>
 
       <dl className="mt-8 space-y-3 text-sm">

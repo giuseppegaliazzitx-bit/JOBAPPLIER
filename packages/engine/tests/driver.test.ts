@@ -10,6 +10,7 @@ import {
   SESSIONKIT_CAPTCHA_CALLS,
   SESSION_KIT_DIR,
   TWO_FA_POLICY,
+  EMAIL_OTP_POLICY,
 } from "../src/index.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -43,5 +44,6 @@ describe("engine driver", () => {
     expect(SESSIONKIT_CAPTCHA_CALLS).toContain("solve_challenges");
     expect(SESSIONKIT_CAPTCHA_CALLS).toContain("solve_recaptcha");
     expect(TWO_FA_POLICY).toBe("detect_pause_notify");
+    expect(EMAIL_OTP_POLICY).toBe("inbox_code");
   });
 });

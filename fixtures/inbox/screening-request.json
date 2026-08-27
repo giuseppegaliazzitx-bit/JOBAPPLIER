@@ -1,0 +1,10 @@
+{
+  "id": "inbox-screening-request",
+  "from": "talent@initech.com",
+  "subject": "Phone screen request — Initech",
+  "text": "Please complete a short recruiter screen for the QA Engineer role at Initech. This is an assessment request, not an interview.",
+  "occurredAt": "2026-08-22T12:00:00.000Z",
+  "expectedKind": "screening_request",
+  "company": "Initech",
+  "jobTitle": "QA Engineer"
+}

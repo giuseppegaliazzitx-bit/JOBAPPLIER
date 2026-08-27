@@ -120,4 +120,46 @@ describe("SessionKit captcha solve and 2FA pause", () => {
       await ats.close();
     }
   });
+
+  it("fills an emailed verification code and continues the walk", async () => {
+    const ats = await buildMockAts({ challenge: "email-otp" });
+    await ats.listen({ host: "127.0.0.1", port: 0 });
+    const address = ats.server.address();
+    if (!address || typeof address === "string") {
+      throw new Error("mock ATS did not bind");
+    }
+    const page = await browser.newPage();
+    try {
+      await page.goto(`http://127.0.0.1:${address.port}/apply`);
+      expect(await page.locator('[data-page="email-otp"]').count()).toBe(1);
+      const result = await walkUntilPreflight(page, {
+        resolve: resolveFrom(answers(resume)),
+        waitForEmailCode: async () => "482193",
+      });
+      expect(result.kind).toBe("review");
+      expect(result.blockedReason).toBeUndefined();
+    } finally {
+      await page.close();
+      await ats.close();
+    }
+  });
+
+  it("pauses when no emailed code arrives", async () => {
+    const ats = await buildMockAts({ challenge: "email-otp" });
+    await ats.listen({ host: "127.0.0.1", port: 0 });
+    const address = ats.server.address();
+    if (!address || typeof address === "string") {
+      throw new Error("mock ATS did not bind");
+    }
+    const page = await browser.newPage();
+    try {
+      await page.goto(`http://127.0.0.1:${address.port}/apply`);
+      const result = await walkUntilPreflight(page, { resolve: resolveFrom(answers(resume)) });
+      expect(result.kind).toBe("blocked");
+      expect(result.blockedReason).toBe("email_otp");
+    } finally {
+      await page.close();
+      await ats.close();
+    }
+  });
 });
