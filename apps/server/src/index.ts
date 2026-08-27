@@ -1,4 +1,4 @@
-import { openSqlite, migrate } from "@autoapply/db";
+import { migrate, openSqlite } from "@autoapply/db";
 import { buildApp } from "./app.ts";
 import { loadConfig } from "./config.ts";
 
@@ -6,7 +6,7 @@ const config = loadConfig();
 const sqlite = openSqlite(config.databasePath);
 migrate(sqlite);
 
-const app = await buildApp();
+const app = await buildApp({ sqlite, config });
 
 const shutdown = async () => {
   await app.close();

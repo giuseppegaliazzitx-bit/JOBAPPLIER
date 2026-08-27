@@ -1,3 +1,5 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Shell } from "./layout/Shell.tsx";
 import { ApplicationsPage } from "./pages/ApplicationsPage.tsx";
@@ -11,19 +13,27 @@ import { RunsPage } from "./pages/RunsPage.tsx";
 import { SettingsPage } from "./pages/SettingsPage.tsx";
 
 export function App() {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: { queries: { retry: false } },
+      }),
+  );
   return (
-    <Routes>
-      <Route element={<Shell />}>
-        <Route path="/" element={<DashboardPage />} />
-        <Route path="/jobs" element={<JobsPage />} />
-        <Route path="/runs" element={<RunsPage />} />
-        <Route path="/questions" element={<QuestionsPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/applications" element={<ApplicationsPage />} />
-        <Route path="/recipes" element={<RecipesPage />} />
-        <Route path="/metrics" element={<MetricsPage />} />
-        <Route path="/settings" element={<SettingsPage />} />
-      </Route>
-    </Routes>
+    <QueryClientProvider client={queryClient}>
+      <Routes>
+        <Route element={<Shell />}>
+          <Route path="/" element={<DashboardPage />} />
+          <Route path="/jobs" element={<JobsPage />} />
+          <Route path="/runs" element={<RunsPage />} />
+          <Route path="/questions" element={<QuestionsPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/applications" element={<ApplicationsPage />} />
+          <Route path="/recipes" element={<RecipesPage />} />
+          <Route path="/metrics" element={<MetricsPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+        </Route>
+      </Routes>
+    </QueryClientProvider>
   );
 }

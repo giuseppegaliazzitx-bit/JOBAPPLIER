@@ -1,13 +1,36 @@
 import cors from "@fastify/cors";
+import multipart from "@fastify/multipart";
+import websocket from "@fastify/websocket";
+import { type AppConfig } from "@autoapply/core";
+import type { SqliteDatabase } from "@autoapply/db";
 import Fastify from "fastify";
 import { SERVER_PHASE } from "./config.ts";
+import { createFetchPage, type FetchPage } from "./fetch-page.ts";
+import { registerDocumentRoutes } from "./routes/documents.ts";
+import { registerJobRoutes } from "./routes/jobs.ts";
+import { registerProfileRoutes } from "./routes/profile.ts";
 
-export async function buildApp() {
+export type BuildAppOptions = {
+  sqlite: SqliteDatabase;
+  config: AppConfig;
+  fetchPage?: FetchPage;
+};
+
+export async function buildApp(options: BuildAppOptions) {
   const app = Fastify({ logger: false });
+  const fetchPage = options.fetchPage ?? createFetchPage(options.config);
 
   await app.register(cors, {
-    origin: ["http://127.0.0.1:5173", "http://localhost:5173"],
+    origin: [
+      options.config.webOrigin,
+      "http://127.0.0.1:5173",
+      "http://localhost:5173",
+      "http://127.0.0.1:5174",
+      "http://localhost:5174",
+    ],
   });
+  await app.register(multipart, { limits: { fileSize: 10 * 1024 * 1024 } });
+  await app.register(websocket);
 
   app.get("/health", async () => ({ ok: true as const }));
 
@@ -16,6 +39,16 @@ export async function buildApp() {
     phase: SERVER_PHASE,
     browser: "sessionkit",
   }));
+
+  app.get("/ws", { websocket: true }, (socket) => {
+    socket.on("message", (message: Buffer | string) => {
+      socket.send(message);
+    });
+  });
+
+  registerProfileRoutes(app, options.sqlite);
+  registerDocumentRoutes(app, options.sqlite, options.config);
+  registerJobRoutes(app, options.sqlite, fetchPage);
 
   return app;
 }

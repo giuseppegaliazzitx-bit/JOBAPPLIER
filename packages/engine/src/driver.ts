@@ -2,13 +2,15 @@ export const ENGINE_BROWSER = "sessionkit" as const;
 export const ENGINE_CHANNEL = "chrome" as const;
 export const SESSION_KIT_DIR = "enhanced_browser" as const;
 
-export const CAPTCHA_POLICY = "detect_pause_notify" as const;
+/** Captchas are SessionKit's job: checkbox/audio reCAPTCHA, Cloudflare click, 2captcha fallback. */
+export const CAPTCHA_POLICY = "sessionkit_solve" as const;
 
-export const FORBIDDEN_SESSIONKIT_CALLS = [
+/** 2FA is never bypassed. Pause, notify, wait for a human. */
+export const TWO_FA_POLICY = "detect_pause_notify" as const;
+
+export const SESSIONKIT_CAPTCHA_CALLS = [
   "solve_challenges",
   "solve_recaptcha",
   "solve_recaptcha_v3",
   "solve_cloudflare",
-  "RecaptchaSolver",
-  "TwoCaptcha",
 ] as const;

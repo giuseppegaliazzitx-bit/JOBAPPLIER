@@ -12,8 +12,12 @@ export function SettingsPage() {
           <dd>SessionKit · patchright Chrome</dd>
         </div>
         <div>
-          <dt className="text-mute">CAPTCHA / 2FA</dt>
-          <dd>Detect, pause, notify. Never solved by the tool.</dd>
+          <dt className="text-mute">CAPTCHA</dt>
+          <dd>SessionKit solves them (audio reCAPTCHA, Cloudflare, 2captcha fallback).</dd>
+        </div>
+        <div>
+          <dt className="text-mute">2FA</dt>
+          <dd>Detect, pause, notify. Never bypassed.</dd>
         </div>
       </dl>
     </div>
