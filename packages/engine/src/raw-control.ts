@@ -1,0 +1,33 @@
+export type RawOption = { value: string; label: string };
+
+export type RawControl = {
+  labelFor: string | null;
+  wrappingLabel: string | null;
+  ariaLabelledby: string | null;
+  ariaLabel: string | null;
+  precedingSibling: string | null;
+  placeholder: string | null;
+  name: string | null;
+  id: string | null;
+  tag: string;
+  inputType: string | null;
+  role: string | null;
+  ariaHaspopup: string | null;
+  ariaAutocomplete: string | null;
+  contentEditable: boolean;
+  className: string;
+  multiple: boolean;
+  grouped: boolean;
+  required: boolean;
+  disabled: boolean;
+  visible: boolean;
+  currentValue: string;
+  options: RawOption[];
+  testid: string | null;
+  dataQa: string | null;
+  dataAutomationId: string | null;
+  helpText: string | null;
+  sectionHeading: string | null;
+  containerPath: string;
+  css: string | null;
+};

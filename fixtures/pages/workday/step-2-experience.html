@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>My Experience — Workday</title>
+  </head>
+  <body>
+    <div data-automation-id="jobApplicationPage">
+      <h1 data-automation-id="pageHeader">My Experience</h1>
+      <div data-automation-id="formField-resume">
+        <label for="resumeUpload">Resume/CV</label>
+        <input id="resumeUpload" type="file" data-automation-id="resumeUpload" />
+      </div>
+      <div data-automation-id="formField-school">
+        <label id="school-label">School or University</label>
+        <input
+          role="combobox"
+          aria-labelledby="school-label"
+          aria-autocomplete="list"
+          aria-haspopup="listbox"
+          data-automation-id="schoolTypeahead"
+          placeholder="Search schools"
+        />
+      </div>
+      <div data-automation-id="formField-degree">
+        <label for="degree">Degree</label>
+        <select id="degree" data-automation-id="degree">
+          <option value="">Select one</option>
+          <option value="bs">Bachelor's</option>
+          <option value="ms">Master's</option>
+        </select>
+      </div>
+      <div data-automation-id="formField-title">
+        <label for="jobTitle">Job Title</label>
+        <input id="jobTitle" data-automation-id="jobTitle" />
+      </div>
+      <div data-automation-id="formField-company">
+        <label for="company">Company</label>
+        <input id="company" data-automation-id="company" />
+      </div>
+      <div data-automation-id="formField-summary">
+        <label for="summary">How did you hear about us</label>
+        <div id="summary" contenteditable="true" role="textbox" data-automation-id="sourceRichText"></div>
+      </div>
+      <div data-automation-id="formField-skills">
+        <label for="skills">Skills</label>
+        <input id="skills" data-automation-id="skills" />
+      </div>
+    </div>
+  </body>
+</html>

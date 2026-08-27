@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>iCIMS — Job Application</title>
+  </head>
+  <body>
+    <form id="icims_content_iframe" action="https://careers-acme.icims.com/jobs/1234">
+      <h1>Application</h1>
+      <label for="firstname">First Name</label>
+      <input id="firstname" name="firstname" data-qa="first-name" required />
+
+      <label for="lastname">Last Name</label>
+      <input id="lastname" name="lastname" data-qa="last-name" required />
+
+      <label for="email">Email Address</label>
+      <input id="email" type="email" name="email" data-qa="email" required />
+
+      <label for="cell">Mobile Phone</label>
+      <input id="cell" type="tel" name="cell" data-qa="phone" />
+
+      <label for="resume">Attach Resume</label>
+      <input id="resume" type="file" name="resume" data-qa="resume" />
+
+      <label for="source">How did you hear about us?</label>
+      <select id="source" name="source" data-qa="source">
+        <option value="">Select</option>
+        <option value="web">Company website</option>
+        <option value="board">Job board</option>
+      </select>
+
+      <label for="salary">Desired salary</label>
+      <input id="salary" type="number" name="salary" data-qa="salary" />
+
+      <label>I certify the information is true
+        <input type="checkbox" name="certify" value="yes" data-qa="certify" required />
+      </label>
+    </form>
+    <script src="https://careers-acme.icims.com/platform.js"></script>
+  </body>
+</html>

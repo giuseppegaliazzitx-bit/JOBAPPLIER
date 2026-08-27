@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Greenhouse" />
+    <title>Software Engineer — Application</title>
+  </head>
+  <body>
+    <form id="application_form" action="https://boards.greenhouse.io/acme/jobs/1">
+      <h1>Software Engineer</h1>
+      <label for="first_name">First Name</label>
+      <input id="first_name" name="job_application[first_name]" required />
+
+      <label for="last_name">Last Name</label>
+      <input id="last_name" name="job_application[last_name]" required />
+
+      <label for="email">Email</label>
+      <input id="email" type="email" name="job_application[email]" required />
+
+      <label for="phone">Phone</label>
+      <input id="phone" type="tel" name="job_application[phone]" />
+
+      <label for="resume">Resume</label>
+      <input id="resume" type="file" name="job_application[resume]" accept=".pdf,.doc,.docx" required />
+
+      <label for="cover_letter">Cover Letter</label>
+      <textarea id="cover_letter" name="job_application[cover_letter]"></textarea>
+
+      <label for="linkedin">LinkedIn Profile</label>
+      <input id="linkedin" type="url" name="job_application[linkedin]" />
+
+      <label for="website">Website</label>
+      <input id="website" type="url" name="job_application[urls][website]" />
+
+      <fieldset>
+        <legend>Work authorization</legend>
+        <label><input type="radio" name="job_application[work_authorized]" value="yes" required /> Yes, I am authorized to work in the US</label>
+        <label><input type="radio" name="job_application[work_authorized]" value="no" /> No, I require sponsorship</label>
+      </fieldset>
+
+      <label for="gender">Gender</label>
+      <select id="gender" name="job_application[gender]">
+        <option value="">Please select</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="decline">Decline to self identify</option>
+      </select>
+
+      <label>I agree to the privacy policy
+        <input type="checkbox" name="job_application[agree]" value="1" required />
+      </label>
+
+      <h2>Voluntary Self-Identification</h2>
+      <label for="veteran">Veteran status</label>
+      <select id="veteran" name="job_application[veteran_status]">
+        <option value="decline">Decline to self identify</option>
+        <option value="veteran">I am a veteran</option>
+        <option value="not">I am not a veteran</option>
+      </select>
+    </form>
+    <script src="https://boards.greenhouse.io/embed/job_board/js?for=acme"></script>
+  </body>
+</html>

@@ -26,7 +26,7 @@ describe("engine driver", () => {
     expect(SESSION_KIT_DIR).toBe("enhanced_browser");
   });
 
-  it("does not depend on playwright", () => {
+  it("uses Playwright only for read-only extraction, not as the live driver", () => {
     const pkg = PackageJson.parse(
       JSON.parse(readFileSync(join(here, "../package.json"), "utf8")),
     );
@@ -34,9 +34,8 @@ describe("engine driver", () => {
       ...Object.keys(pkg.dependencies ?? {}),
       ...Object.keys(pkg.devDependencies ?? {}),
     ];
-    expect(names).not.toContain("playwright");
-    expect(names).not.toContain("playwright-core");
-    expect(names).not.toContain("patchright");
+    expect(names).toContain("playwright");
+    expect(ENGINE_BROWSER).toBe("sessionkit");
   });
 
   it("uses SessionKit to solve captchas and still pauses for 2FA", () => {

@@ -1,0 +1,326 @@
+{
+  "title": "My Information — Workday",
+  "fields": [
+    {
+      "fingerprint": "2d6fc7e2edc884e12b1524ebef0deb602528d637cbccb268b7cbdc18a1f36604",
+      "labelRaw": "Are you legally authorized to work in the United States?",
+      "labelNorm": "are you legally authorized to work in the united states",
+      "labelSource": "wrapping_label",
+      "type": "radio",
+      "widget": "native",
+      "required": false,
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        }
+      ],
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Are you legally authorized to work in the United States?"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "radio:Are you legally authorized to work in the United States?"
+          },
+          {
+            "strategy": "testid",
+            "value": "automation:workAuthYes"
+          },
+          {
+            "strategy": "name",
+            "value": "workAuth"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-automation-id=\"workAuthYes\"]"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"workAuth\"]"
+          }
+        ]
+      },
+      "containerPath": "div[data-automation-id=\"jobApplicationPage\"] > fieldset[data-automation-id=\"formField-workAuth\"] > label",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "Are you legally authorized to work in the United States?"
+    },
+    {
+      "fingerprint": "a26e8aac77863345c5b42cc34fa85a8314c63f04a177e36b5973b15ec4d8d893",
+      "labelRaw": "Legal First Name",
+      "labelNorm": "legal first name",
+      "labelSource": "label_for",
+      "type": "text",
+      "widget": "native",
+      "required": true,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Legal First Name"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:Legal First Name"
+          },
+          {
+            "strategy": "testid",
+            "value": "automation:legalNameFirst"
+          },
+          {
+            "strategy": "css",
+            "value": "#legalNameFirst"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-automation-id=\"legalNameFirst\"]"
+          }
+        ]
+      },
+      "containerPath": "div[data-automation-id=\"jobApplicationPage\"] > div[data-automation-id=\"formField-legalNameFirst\"]",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "My Information"
+    },
+    {
+      "fingerprint": "089bea24c23b9735c35e3f71fcec20fe0c2d861eb34ed626fd9e52da17a0b707",
+      "labelRaw": "Legal Last Name",
+      "labelNorm": "legal last name",
+      "labelSource": "label_for",
+      "type": "text",
+      "widget": "native",
+      "required": true,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Legal Last Name"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:Legal Last Name"
+          },
+          {
+            "strategy": "testid",
+            "value": "automation:legalNameLast"
+          },
+          {
+            "strategy": "css",
+            "value": "#legalNameLast"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-automation-id=\"legalNameLast\"]"
+          }
+        ]
+      },
+      "containerPath": "div[data-automation-id=\"jobApplicationPage\"] > div[data-automation-id=\"formField-legalNameLast\"]",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "My Information"
+    },
+    {
+      "fingerprint": "784922af8319b48812be6e0f98a55c79e7afc7c034596a22f75d5e536ff88334",
+      "labelRaw": "Email Address",
+      "labelNorm": "email address",
+      "labelSource": "label_for",
+      "type": "email",
+      "widget": "native",
+      "required": true,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Email Address"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:Email Address"
+          },
+          {
+            "strategy": "testid",
+            "value": "automation:email"
+          },
+          {
+            "strategy": "css",
+            "value": "#email"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-automation-id=\"email\"]"
+          }
+        ]
+      },
+      "containerPath": "div[data-automation-id=\"jobApplicationPage\"] > div[data-automation-id=\"formField-email\"]",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "My Information"
+    },
+    {
+      "fingerprint": "9b31e3376f9f5080739410eaa61fa789fdcf112765623276b288430ca750046b",
+      "labelRaw": "Phone Number",
+      "labelNorm": "phone number",
+      "labelSource": "label_for",
+      "type": "tel",
+      "widget": "native",
+      "required": false,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Phone Number"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:Phone Number"
+          },
+          {
+            "strategy": "testid",
+            "value": "automation:phone"
+          },
+          {
+            "strategy": "css",
+            "value": "#phone"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-automation-id=\"phone\"]"
+          }
+        ]
+      },
+      "containerPath": "div[data-automation-id=\"jobApplicationPage\"] > div[data-automation-id=\"formField-phone\"]",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "My Information"
+    },
+    {
+      "fingerprint": "48c7ad637ee567a29fb44d055d778dd49ec1157025f8231c6e2e8dc70415c132",
+      "labelRaw": "Country",
+      "labelNorm": "country",
+      "labelSource": "label_for",
+      "type": "select",
+      "widget": "native",
+      "required": false,
+      "options": [
+        {
+          "value": "US",
+          "label": "United States of America"
+        },
+        {
+          "value": "CA",
+          "label": "Canada"
+        }
+      ],
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Country"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "combobox:Country"
+          },
+          {
+            "strategy": "testid",
+            "value": "automation:country"
+          },
+          {
+            "strategy": "css",
+            "value": "#country"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-automation-id=\"country\"]"
+          }
+        ]
+      },
+      "containerPath": "div[data-automation-id=\"jobApplicationPage\"] > div[data-automation-id=\"formField-country\"]",
+      "visible": true,
+      "disabled": false,
+      "currentValue": "US",
+      "sectionHeading": "My Information"
+    },
+    {
+      "fingerprint": "5c29ea4d3841889f14a947a404a4bc14b9eb1b6eb3786649eda853a272a5f2fb",
+      "labelRaw": "City",
+      "labelNorm": "city",
+      "labelSource": "preceding_sibling",
+      "type": "text",
+      "widget": "native",
+      "required": false,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "City"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:City"
+          },
+          {
+            "strategy": "testid",
+            "value": "automation:addressCity"
+          },
+          {
+            "strategy": "css",
+            "value": "#city"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-automation-id=\"addressCity\"]"
+          }
+        ]
+      },
+      "containerPath": "div[data-automation-id=\"jobApplicationPage\"] > div[data-automation-id=\"formField-city\"]",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "My Information"
+    },
+    {
+      "fingerprint": "02521dfe12c10f194f97dc66a21c8aeb8713812a9c37925855e8462824b9e725",
+      "labelRaw": "Postal Code",
+      "labelNorm": "postal code",
+      "labelSource": "label_for",
+      "type": "text",
+      "widget": "native",
+      "required": false,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Postal Code"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:Postal Code"
+          },
+          {
+            "strategy": "testid",
+            "value": "automation:postalCode"
+          },
+          {
+            "strategy": "css",
+            "value": "#postal"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-automation-id=\"postalCode\"]"
+          }
+        ]
+      },
+      "containerPath": "div[data-automation-id=\"jobApplicationPage\"] > div[data-automation-id=\"formField-postal\"]",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "My Information"
+    }
+  ]
+}

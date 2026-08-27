@@ -1,0 +1,270 @@
+{
+  "title": "My Experience — Workday",
+  "fields": [
+    {
+      "fingerprint": "051cc841e2562e3eb12aa46af926807f40ffb88649f9943c465d9b0e60966cb2",
+      "labelRaw": "Resume/CV",
+      "labelNorm": "resume/cv",
+      "labelSource": "label_for",
+      "type": "file",
+      "widget": "native",
+      "required": false,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Resume/CV"
+        },
+        "fallbacks": [
+          {
+            "strategy": "testid",
+            "value": "automation:resumeUpload"
+          },
+          {
+            "strategy": "css",
+            "value": "#resumeUpload"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-automation-id=\"resumeUpload\"]"
+          }
+        ]
+      },
+      "containerPath": "div[data-automation-id=\"jobApplicationPage\"] > div[data-automation-id=\"formField-resume\"]",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "My Experience"
+    },
+    {
+      "fingerprint": "b010b1c53693add16b4c2556bb6a286a4913dc153ce5856897167fe1a7118589",
+      "labelRaw": "School or University",
+      "labelNorm": "school or university",
+      "labelSource": "aria_labelledby",
+      "type": "custom",
+      "widget": "typeahead",
+      "required": false,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "School or University"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "combobox:School or University"
+          },
+          {
+            "strategy": "testid",
+            "value": "automation:schoolTypeahead"
+          },
+          {
+            "strategy": "placeholder",
+            "value": "Search schools"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-automation-id=\"schoolTypeahead\"]"
+          }
+        ]
+      },
+      "containerPath": "div[data-automation-id=\"jobApplicationPage\"] > div[data-automation-id=\"formField-school\"]",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "My Experience"
+    },
+    {
+      "fingerprint": "861fc1a9127cba92ee5d6fcf793903a83147b32f92a40bb526e77190d918b508",
+      "labelRaw": "Degree",
+      "labelNorm": "degree",
+      "labelSource": "label_for",
+      "type": "select",
+      "widget": "native",
+      "required": false,
+      "options": [
+        {
+          "value": "",
+          "label": "Select one"
+        },
+        {
+          "value": "bs",
+          "label": "Bachelor's"
+        },
+        {
+          "value": "ms",
+          "label": "Master's"
+        }
+      ],
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Degree"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "combobox:Degree"
+          },
+          {
+            "strategy": "testid",
+            "value": "automation:degree"
+          },
+          {
+            "strategy": "css",
+            "value": "#degree"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-automation-id=\"degree\"]"
+          }
+        ]
+      },
+      "containerPath": "div[data-automation-id=\"jobApplicationPage\"] > div[data-automation-id=\"formField-degree\"]",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "My Experience"
+    },
+    {
+      "fingerprint": "e87ba1ae97145ff8e2c36fe06cbfc8958dce0a704f66acb9a68e533ef28126fe",
+      "labelRaw": "Job Title",
+      "labelNorm": "job title",
+      "labelSource": "label_for",
+      "type": "text",
+      "widget": "native",
+      "required": false,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Job Title"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:Job Title"
+          },
+          {
+            "strategy": "testid",
+            "value": "automation:jobTitle"
+          },
+          {
+            "strategy": "css",
+            "value": "#jobTitle"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-automation-id=\"jobTitle\"]"
+          }
+        ]
+      },
+      "containerPath": "div[data-automation-id=\"jobApplicationPage\"] > div[data-automation-id=\"formField-title\"]",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "My Experience"
+    },
+    {
+      "fingerprint": "002776ba556bacc984f0cdf7422329650398aafc7b261418c53f3026823df661",
+      "labelRaw": "Company",
+      "labelNorm": "company",
+      "labelSource": "label_for",
+      "type": "text",
+      "widget": "native",
+      "required": false,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Company"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:Company"
+          },
+          {
+            "strategy": "testid",
+            "value": "automation:company"
+          },
+          {
+            "strategy": "css",
+            "value": "#company"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-automation-id=\"company\"]"
+          }
+        ]
+      },
+      "containerPath": "div[data-automation-id=\"jobApplicationPage\"] > div[data-automation-id=\"formField-company\"]",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "My Experience"
+    },
+    {
+      "fingerprint": "0a4ab26c400c4aaa37d7af7a6d3a4afafd4ff6a2dbbf78b00e52761cfd1b3d7a",
+      "labelRaw": "Skills",
+      "labelNorm": "skills",
+      "labelSource": "label_for",
+      "type": "text",
+      "widget": "native",
+      "required": false,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Skills"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:Skills"
+          },
+          {
+            "strategy": "testid",
+            "value": "automation:skills"
+          },
+          {
+            "strategy": "css",
+            "value": "#skills"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-automation-id=\"skills\"]"
+          }
+        ]
+      },
+      "containerPath": "div[data-automation-id=\"jobApplicationPage\"] > div[data-automation-id=\"formField-skills\"]",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "My Experience"
+    },
+    {
+      "fingerprint": "16545927d8b70f089da7c9c17dbe6eba6c362779e4ea06c4d278e47d70528682",
+      "labelRaw": "How did you hear about us",
+      "labelNorm": "how did you hear about us",
+      "labelSource": "label_for",
+      "type": "custom",
+      "widget": "rich-text",
+      "required": false,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "How did you hear about us"
+        },
+        "fallbacks": [
+          {
+            "strategy": "testid",
+            "value": "automation:sourceRichText"
+          },
+          {
+            "strategy": "css",
+            "value": "#summary"
+          },
+          {
+            "strategy": "css",
+            "value": "[data-automation-id=\"sourceRichText\"]"
+          }
+        ]
+      },
+      "containerPath": "div[data-automation-id=\"jobApplicationPage\"] > div[data-automation-id=\"formField-summary\"]",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "My Experience"
+    }
+  ]
+}

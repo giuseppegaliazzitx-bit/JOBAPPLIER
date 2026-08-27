@@ -1,0 +1,366 @@
+{
+  "title": "Backend Engineer — Lever",
+  "fields": [
+    {
+      "fingerprint": "283819617cd886ac8a1c1fc6037c8134198f658fdac783fe2ea7a165767d558d",
+      "labelRaw": "How did you hear about us",
+      "labelNorm": "how did you hear about us",
+      "labelSource": "wrapping_label",
+      "type": "checkbox_group",
+      "widget": "native",
+      "required": false,
+      "options": [
+        {
+          "value": "linkedin",
+          "label": "LinkedIn"
+        },
+        {
+          "value": "referral",
+          "label": "Referral"
+        },
+        {
+          "value": "other",
+          "label": "Other"
+        }
+      ],
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "How did you hear about us"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "checkbox:How did you hear about us"
+          },
+          {
+            "strategy": "name",
+            "value": "cards[]"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"cards[]\"]"
+          }
+        ]
+      },
+      "containerPath": "div > form > fieldset > label",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "How did you hear about us"
+    },
+    {
+      "fingerprint": "f9d90fdf2444ef29b191282cca62406dc872dd98a678de6705d2f0f9b82ac318",
+      "labelRaw": "Full name",
+      "labelNorm": "full name",
+      "labelSource": "label_for",
+      "type": "text",
+      "widget": "native",
+      "required": true,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Full name"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:Full name"
+          },
+          {
+            "strategy": "name",
+            "value": "name"
+          },
+          {
+            "strategy": "css",
+            "value": "#name"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"name\"]"
+          }
+        ]
+      },
+      "containerPath": "div > form",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "Backend Engineer"
+    },
+    {
+      "fingerprint": "42ebc64cbfa4c84918632285a0f10057e0c951755a5ccc0dc3cb696414083791",
+      "labelRaw": "Email",
+      "labelNorm": "email",
+      "labelSource": "label_for",
+      "type": "email",
+      "widget": "native",
+      "required": true,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Email"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:Email"
+          },
+          {
+            "strategy": "name",
+            "value": "email"
+          },
+          {
+            "strategy": "css",
+            "value": "#email"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"email\"]"
+          }
+        ]
+      },
+      "containerPath": "div > form",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "Backend Engineer"
+    },
+    {
+      "fingerprint": "4e444c3f071ed450b6ee7647334dc14ee042897127f92e44319d6d860f0eef0a",
+      "labelRaw": "Phone",
+      "labelNorm": "phone",
+      "labelSource": "label_for",
+      "type": "tel",
+      "widget": "native",
+      "required": false,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Phone"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:Phone"
+          },
+          {
+            "strategy": "name",
+            "value": "phone"
+          },
+          {
+            "strategy": "css",
+            "value": "#phone"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"phone\"]"
+          }
+        ]
+      },
+      "containerPath": "div > form",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "Backend Engineer"
+    },
+    {
+      "fingerprint": "8671662e9e4eddc56b247f6f8c2a74bf94418430b9de204a0718d8acef7e5195",
+      "labelRaw": "Current company",
+      "labelNorm": "current company",
+      "labelSource": "label_for",
+      "type": "text",
+      "widget": "native",
+      "required": false,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Current company"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:Current company"
+          },
+          {
+            "strategy": "name",
+            "value": "org"
+          },
+          {
+            "strategy": "css",
+            "value": "#org"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"org\"]"
+          }
+        ]
+      },
+      "containerPath": "div > form",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "Backend Engineer"
+    },
+    {
+      "fingerprint": "0317feaadef3a075adfd3b103cb60e1ae7ebe9a58d9f2236fbc2ae9f848cf383",
+      "labelRaw": "LinkedIn URL",
+      "labelNorm": "linkedin url",
+      "labelSource": "label_for",
+      "type": "url",
+      "widget": "native",
+      "required": false,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "LinkedIn URL"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:LinkedIn URL"
+          },
+          {
+            "strategy": "name",
+            "value": "urls[LinkedIn]"
+          },
+          {
+            "strategy": "css",
+            "value": "#urls\\[LinkedIn\\]"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"urls[LinkedIn]\"]"
+          },
+          {
+            "strategy": "css",
+            "value": "#urls[LinkedIn]"
+          }
+        ]
+      },
+      "containerPath": "div > form",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "Backend Engineer"
+    },
+    {
+      "fingerprint": "24fa6ae52d1ba36b2bfcca24b536b96e078e2affb5751dbf2e7dbf17cc4a576a",
+      "labelRaw": "Resume",
+      "labelNorm": "resume",
+      "labelSource": "label_for",
+      "type": "file",
+      "widget": "native",
+      "required": true,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Resume"
+        },
+        "fallbacks": [
+          {
+            "strategy": "name",
+            "value": "resume"
+          },
+          {
+            "strategy": "css",
+            "value": "#resume"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"resume\"]"
+          }
+        ]
+      },
+      "containerPath": "div > form",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "Backend Engineer"
+    },
+    {
+      "fingerprint": "4d7cdaaebd78fdc4578d9b932da590e3e9ee0c01c1fd446f76a6def50b9458b1",
+      "labelRaw": "Additional information",
+      "labelNorm": "additional information",
+      "labelSource": "label_for",
+      "type": "textarea",
+      "widget": "native",
+      "required": false,
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Additional information"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox:Additional information"
+          },
+          {
+            "strategy": "name",
+            "value": "comments"
+          },
+          {
+            "strategy": "css",
+            "value": "#comments"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"comments\"]"
+          }
+        ]
+      },
+      "containerPath": "div > form",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "Backend Engineer"
+    },
+    {
+      "fingerprint": "2c8ada32d63ff15705ece7943484fcc6fc3cb545a1c9659ab3dc5dbb2a56d4f0",
+      "labelRaw": "Pronouns",
+      "labelNorm": "pronouns",
+      "labelSource": "label_for",
+      "type": "select",
+      "widget": "native",
+      "required": false,
+      "options": [
+        {
+          "value": "",
+          "label": "Select"
+        },
+        {
+          "value": "she",
+          "label": "she/her"
+        },
+        {
+          "value": "he",
+          "label": "he/him"
+        },
+        {
+          "value": "they",
+          "label": "they/them"
+        }
+      ],
+      "selector": {
+        "primary": {
+          "strategy": "label",
+          "value": "Pronouns"
+        },
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "combobox:Pronouns"
+          },
+          {
+            "strategy": "name",
+            "value": "pronouns"
+          },
+          {
+            "strategy": "css",
+            "value": "#pronouns"
+          },
+          {
+            "strategy": "css",
+            "value": "[name=\"pronouns\"]"
+          }
+        ]
+      },
+      "containerPath": "div > form",
+      "visible": true,
+      "disabled": false,
+      "sectionHeading": "Backend Engineer"
+    }
+  ]
+}

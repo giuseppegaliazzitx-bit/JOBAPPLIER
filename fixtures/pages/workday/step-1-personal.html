@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>My Information — Workday</title>
+  </head>
+  <body>
+    <div data-automation-id="jobApplicationPage">
+      <h1 data-automation-id="pageHeader">My Information</h1>
+      <div data-automation-id="formField-legalNameFirst">
+        <label for="legalNameFirst">Legal First Name</label>
+        <input id="legalNameFirst" data-automation-id="legalNameFirst" required />
+      </div>
+      <div data-automation-id="formField-legalNameLast">
+        <label for="legalNameLast">Legal Last Name</label>
+        <input id="legalNameLast" data-automation-id="legalNameLast" required />
+      </div>
+      <div data-automation-id="formField-email">
+        <label for="email">Email Address</label>
+        <input id="email" type="email" data-automation-id="email" required />
+      </div>
+      <div data-automation-id="formField-phone">
+        <label for="phone">Phone Number</label>
+        <input id="phone" type="tel" data-automation-id="phone" />
+      </div>
+      <div data-automation-id="formField-country">
+        <label for="country">Country</label>
+        <select id="country" data-automation-id="country">
+          <option value="US">United States of America</option>
+          <option value="CA">Canada</option>
+        </select>
+      </div>
+      <div data-automation-id="formField-city">
+        <span>City</span>
+        <input id="city" data-automation-id="addressCity" />
+      </div>
+      <div data-automation-id="formField-postal">
+        <label for="postal">Postal Code</label>
+        <input id="postal" data-automation-id="postalCode" />
+      </div>
+      <fieldset data-automation-id="formField-workAuth">
+        <legend>Are you legally authorized to work in the United States?</legend>
+        <label><input type="radio" name="workAuth" value="yes" data-automation-id="workAuthYes" /> Yes</label>
+        <label><input type="radio" name="workAuth" value="no" data-automation-id="workAuthNo" /> No</label>
+      </fieldset>
+    </div>
+    <script src="https://static.workdaycdn.com/app.js"></script>
+  </body>
+</html>

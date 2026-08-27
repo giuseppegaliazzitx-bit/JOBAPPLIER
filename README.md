@@ -2,7 +2,7 @@
 
 Local-first job application automation. Architecture is in [`design.md`](./design.md).
 
-Current phase: **1 — Intake**. Profile, documents, job paste, platform detection, and dedup. No browser automation yet.
+Current phase: **2 — Field inventory**. Read-only extraction of labeled fields from application pages. Filling comes later.
 
 ## Requirements
 
@@ -30,6 +30,7 @@ Database file: `$AUTOAPPLY_HOME/autoapply.db` (defaults to `~/.autoapply/autoapp
 |---|---|
 | `pnpm test` | Run every package test suite (Vitest) |
 | `pnpm test:e2e` | Playwright Test against the local UI |
+| `pnpm capture <url>` | Save a page snapshot into `fixtures/pages/<platform>/` (read-only) |
 | `pnpm typecheck` | `tsc --noEmit` across packages |
 | `pnpm lint` | ESLint across packages |
 | `pnpm db:migrate` | Apply SQLite migrations |
@@ -64,4 +65,6 @@ Captchas are solved by SessionKit (checkbox/audio reCAPTCHA, Cloudflare, 2captch
 
 ## Tests
 
-Never pointed at real employer application forms. Unit tests use HTML fixtures and a fake HTTP fetcher. Phase 1 job intake in production uses plain HTTP GET only — no browser.
+Never pointed at real employer application forms. Inventory golden tests load HTML snapshots with Playwright `setContent`. Capture (`pnpm capture <url>`) is a manual tool, not part of CI.
+
+Golden inventories live next to each fixture as `*.inventory.json`. Refresh with `UPDATE_GOLDEN=1 pnpm --filter @autoapply/engine test`.

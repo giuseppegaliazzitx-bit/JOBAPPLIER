@@ -63,10 +63,32 @@ export const FieldOptionSchema = z.object({
 
 export type FieldOption = z.infer<typeof FieldOptionSchema>;
 
+export const LabelSourceSchema = z.enum([
+  "label_for",
+  "wrapping_label",
+  "aria_labelledby",
+  "aria_label",
+  "preceding_sibling",
+  "placeholder",
+  "humanized_name",
+  "unresolved",
+]);
+
+export type LabelSource = z.infer<typeof LabelSourceSchema>;
+
+export const HIGH_CONFIDENCE_LABEL_SOURCES: readonly LabelSource[] = [
+  "label_for",
+  "wrapping_label",
+  "aria_labelledby",
+  "aria_label",
+  "preceding_sibling",
+];
+
 export const FieldDescriptorSchema = z.object({
   fingerprint: z.string().min(1),
   labelRaw: z.string(),
   labelNorm: z.string(),
+  labelSource: LabelSourceSchema,
   helpText: z.string().optional(),
   type: FieldTypeSchema,
   widget: WidgetKindSchema,
@@ -81,3 +103,10 @@ export const FieldDescriptorSchema = z.object({
 });
 
 export type FieldDescriptor = z.infer<typeof FieldDescriptorSchema>;
+
+export const FieldInventorySchema = z.object({
+  title: z.string(),
+  fields: z.array(FieldDescriptorSchema),
+});
+
+export type FieldInventory = z.infer<typeof FieldInventorySchema>;
