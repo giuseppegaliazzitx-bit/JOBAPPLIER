@@ -72,6 +72,7 @@ export function readSettings(sqlite: SqliteDatabase) {
     twoFaPolicy: "detect_pause_notify" as const,
     gmailConnected: getSetting(sqlite, "gmail:connected") === "on",
     gmailScope: GMAIL_READONLY_SCOPE,
+    gmailMode: getSetting(sqlite, "gmail:mode") ?? (getSetting(sqlite, "gmail:connected") === "on" ? "oauth" : "none"),
     tos: TOS_AUTOMATION,
     salaryFloor: Number(getSetting(sqlite, "salary_floor") ?? 0) || 0,
     notify: {

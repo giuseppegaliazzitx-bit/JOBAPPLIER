@@ -84,15 +84,20 @@ export function SettingsPage() {
       <section className="mt-8">
         <h2 className="font-serif text-xl">Gmail</h2>
         <p className="mt-1 text-sm text-mute">
-          Read-only inbox access. Scope: {data?.gmailScope ?? "gmail.readonly"}. Connected:{" "}
-          {data?.gmailConnected ? "yes" : "no"}.
+          Read-only inbox access ({data?.gmailMode ?? "unset"}). Scope: {data?.gmailScope ?? "gmail.readonly"}.
+          Connected: {data?.gmailConnected ? "yes" : "no"}. An email + app password in `.env` uses IMAP; a Google
+          Cloud client id uses OAuth.
         </p>
         <button
           type="button"
           className="mt-2 rounded-md border border-rule px-3 py-2 text-sm"
           onClick={() =>
             void connectGmail().then((body) => {
-              window.location.href = body.url;
+              if (body.url) {
+                window.location.href = body.url;
+                return;
+              }
+              window.location.reload();
             })
           }
         >

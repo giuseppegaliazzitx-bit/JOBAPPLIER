@@ -334,6 +334,7 @@ const SettingsResponse = zod.object({
   twoFaPolicy: zod.string(),
   gmailConnected: zod.boolean().optional(),
   gmailScope: zod.string().optional(),
+  gmailMode: zod.string().optional(),
   tos: zod.string(),
   salaryFloor: zod.number().optional(),
   notify: zod
@@ -517,7 +518,14 @@ export async function addApplicationInterview(id: string, body: { scheduledAt: s
 
 export async function connectGmail() {
   const response = await fetch("/api/gmail/connect");
-  return parseJson(response, zod.object({ url: zod.string() }));
+  return parseJson(
+    response,
+    zod.object({
+      url: zod.string().optional(),
+      mode: zod.string().optional(),
+      ok: zod.boolean().optional(),
+    }),
+  );
 }
 
 export async function syncGmail() {

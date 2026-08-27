@@ -2,9 +2,14 @@ import { z } from "zod";
 
 export const CURRENT_PHASE = 10;
 
+const optionalText = z.preprocess(
+  (value) => (typeof value === "string" && value.trim() === "" ? undefined : value),
+  z.string().min(1).optional(),
+);
+
 export const EnvSchema = z.object({
-  AUTOAPPLY_HOME: z.string().min(1).optional(),
-  AUTOAPPLY_DB: z.string().min(1).optional(),
+  AUTOAPPLY_HOME: optionalText,
+  AUTOAPPLY_DB: optionalText,
   HOST: z.string().min(1).default("127.0.0.1"),
   PORT: z.coerce.number().int().positive().default(8787),
   WEB_ORIGIN: z.string().min(1).default("http://127.0.0.1:5173"),
@@ -15,12 +20,12 @@ export const EnvSchema = z.object({
     .default(
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
     ),
-  XAI_API_KEY: z.string().min(1).optional(),
+  XAI_API_KEY: optionalText,
   AI_RUN_TOKEN_CEILING: z.coerce.number().int().positive().default(50_000),
   AI_DAY_SPEND_USD: z.coerce.number().positive().default(2),
-  GMAIL_CLIENT_ID: z.string().min(1).optional(),
-  GMAIL_CLIENT_SECRET: z.string().min(1).optional(),
-  GMAIL_REDIRECT_URI: z.string().min(1).optional(),
+  GMAIL_CLIENT_ID: optionalText,
+  GMAIL_CLIENT_SECRET: optionalText,
+  GMAIL_REDIRECT_URI: optionalText,
 });
 
 export type EnvConfig = z.infer<typeof EnvSchema>;

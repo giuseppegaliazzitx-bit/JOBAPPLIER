@@ -52,7 +52,11 @@ export function ApplicationsPage() {
           onClick={() =>
             void connectGmail()
               .then((body) => {
-                window.location.href = body.url;
+                if (body.url) {
+                  window.location.href = body.url;
+                  return;
+                }
+                setMessage(body.ok ? "Gmail IMAP connected." : "Gmail connect finished.");
               })
               .catch((error: unknown) => setMessage(error instanceof Error ? error.message : "gmail failed"))
           }

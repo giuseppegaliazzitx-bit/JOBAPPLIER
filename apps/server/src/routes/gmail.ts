@@ -12,7 +12,7 @@ export function registerGmailRoutes(app: FastifyInstance, sqlite: SqliteDatabase
 
   app.get("/api/gmail/connect", async (_request, reply) => {
     try {
-      return { url: startGmailConnect(sqlite, config) };
+      return await startGmailConnect(sqlite, config);
     } catch (error) {
       const message = error instanceof Error ? error.message : "gmail not configured";
       return reply.code(409).send({ error: message });
@@ -32,7 +32,7 @@ export function registerGmailRoutes(app: FastifyInstance, sqlite: SqliteDatabase
 
   app.post("/api/gmail/sync", async (_request, reply) => {
     try {
-      const messages = await fetchGmailMessages(sqlite);
+      const messages = await fetchGmailMessages(sqlite, config);
       const ingested = await ingestMailbox(sqlite, messages);
       sweepFollowUps(sqlite);
       return { ingested: ingested.length, results: ingested };

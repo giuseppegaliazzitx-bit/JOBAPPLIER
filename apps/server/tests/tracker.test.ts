@@ -154,7 +154,8 @@ describe("tracker inbox", () => {
 
       const connect = await app.inject({ method: "GET", url: "/api/gmail/connect" });
       expect(connect.statusCode).toBe(200);
-      const url = (connect.json() as { url: string }).url;
+      const url = (connect.json() as { url?: string }).url;
+      expect(url).toBeTruthy();
       expect(url).toContain("gmail.readonly");
       expect(url).not.toMatch(/gmail\.modify/);
     } finally {

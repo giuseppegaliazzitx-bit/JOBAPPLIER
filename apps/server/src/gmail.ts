@@ -7,31 +7,57 @@ import {
   type MailMessage,
 } from "@autoapply/core";
 import type { SqliteDatabase } from "@autoapply/db";
+import { fetchGmailImap, probeGmailImap } from "./gmail-imap.ts";
 import { getSetting, setSetting } from "./settings.ts";
+
+export type GmailMode = "imap" | "oauth" | "none";
+
+export function gmailMode(config: AppConfig): GmailMode {
+  if (!config.gmailClientId || !config.gmailClientSecret) {
+    return "none";
+  }
+  return config.gmailClientId.includes("@") ? "imap" : "oauth";
+}
 
 export function gmailRedirectUri(config: AppConfig): string {
   return config.gmailRedirectUri ?? `http://${config.serverHost}:${config.serverPort}/api/gmail/callback`;
 }
 
 export function gmailStatus(sqlite: SqliteDatabase, config: AppConfig) {
+  const mode = gmailMode(config);
   return {
-    configured: Boolean(config.gmailClientId && config.gmailClientSecret),
-    connected: getSetting(sqlite, "gmail:connected") === "on",
+    configured: mode !== "none",
+    connected: getSetting(sqlite, "gmail:connected") === "on" || mode === "imap",
+    mode,
     scope: GMAIL_READONLY_SCOPE,
   };
 }
 
-export function startGmailConnect(sqlite: SqliteDatabase, config: AppConfig): string {
-  if (!config.gmailClientId) {
+export async function startGmailConnect(
+  sqlite: SqliteDatabase,
+  config: AppConfig,
+): Promise<{ url?: string; mode: GmailMode; ok: boolean }> {
+  const mode = gmailMode(config);
+  if (mode === "none") {
     throw new Error("GMAIL_CLIENT_ID is not set");
+  }
+  if (mode === "imap") {
+    await probeGmailImap(config.gmailClientId ?? "", config.gmailClientSecret ?? "");
+    setSetting(sqlite, "gmail:connected", "on");
+    setSetting(sqlite, "gmail:mode", "imap");
+    return { mode, ok: true };
   }
   const state = randomUUID();
   setSetting(sqlite, "gmail:oauth_state", state);
-  return gmailAuthUrl({
-    clientId: config.gmailClientId,
-    redirectUri: gmailRedirectUri(config),
-    state,
-  });
+  return {
+    mode,
+    ok: true,
+    url: gmailAuthUrl({
+      clientId: config.gmailClientId ?? "",
+      redirectUri: gmailRedirectUri(config),
+      state,
+    }),
+  };
 }
 
 export async function finishGmailConnect(
@@ -114,8 +140,14 @@ function payloadText(payload: GmailPayload | undefined): { text: string; html?: 
 
 export async function fetchGmailMessages(
   sqlite: SqliteDatabase,
+  config: AppConfig,
   get: typeof fetch = fetch,
 ): Promise<MailMessage[]> {
+  if (gmailMode(config) === "imap") {
+    const messages = await fetchGmailImap(config.gmailClientId ?? "", config.gmailClientSecret ?? "");
+    setSetting(sqlite, "gmail:connected", "on");
+    return messages;
+  }
   const token = getSetting(sqlite, "gmail:access_token");
   if (!token) {
     throw new Error("gmail is not connected");
