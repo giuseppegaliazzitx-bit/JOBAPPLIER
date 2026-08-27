@@ -1,7 +1,7 @@
 import { ApplyKindSchema, JobStatusSchema, PlatformSchema } from "@autoapply/core";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
-import { fetchJobs, pasteJobs } from "../api.ts";
+import { fetchJobs, pasteJobs, postBatch } from "../api.ts";
 
 const PLATFORMS = PlatformSchema.options;
 const STATUSES = JobStatusSchema.options;
@@ -37,6 +37,11 @@ export function JobsPage() {
   });
 
   const results = ingest.data?.results ?? [];
+  const listed = jobs.data ?? [];
+  const batch = useMutation({
+    mutationFn: () => postBatch(listed.map((job) => job.id)),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["jobs"] }),
+  });
 
   return (
     <div className="mx-auto max-w-5xl">
@@ -102,6 +107,18 @@ export function JobsPage() {
           onChange={setApplyKind}
           options={APPLY_KINDS}
         />
+      </div>
+
+      <div className="mt-6">
+        <button
+          type="button"
+          className="rounded-md bg-ink px-4 py-2 text-sm text-paper disabled:opacity-50"
+          disabled={listed.length === 0 || batch.isPending}
+          onClick={() => batch.mutate()}
+        >
+          {batch.isPending ? "Queuing…" : "Queue batch (shuffled)"}
+        </button>
+        {batch.data ? <p className="mt-2 text-sm text-mute">Queued {batch.data.queued} jobs.</p> : null}
       </div>
 
       <div className="mt-4 overflow-x-auto rounded-lg border border-rule bg-panel">

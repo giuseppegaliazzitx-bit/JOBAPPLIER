@@ -59,6 +59,7 @@ function version(overrides: Partial<RecipeVersion> = {}): RecipeVersion {
     widgetHandlers: {},
     createdBy: "manual",
     stats: { runs: 0, successes: 0, failures: 0 },
+    autopilot: false,
     ...overrides,
   };
 }

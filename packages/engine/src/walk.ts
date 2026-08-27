@@ -14,6 +14,7 @@ import {
   type WalkHistoryItem,
 } from "@autoapply/core";
 import type { Page } from "playwright";
+import { sessionKitSolveCaptcha } from "./challenge.ts";
 import { fillField, type FillOutcome } from "./fill.ts";
 import { escalateHeal } from "./heal-tiers.ts";
 import { extractFieldInventory } from "./inventory.ts";
@@ -38,6 +39,8 @@ export type WalkHooks = {
   }) => Promise<FillResult | null>;
   onHeal?: (report: HealReport) => Promise<void> | void;
   tier2WaitMs?: number;
+  delay?: () => Promise<void>;
+  solveCaptcha?: (page: Page) => Promise<boolean>;
 };
 
 export type { WalkHistoryItem };
@@ -109,6 +112,7 @@ async function fillResolved(
         fill: recovered,
       });
       await hooks.onEvent?.("fill", { ...recovered, durationMs: Date.now() - started });
+      await hooks.delay?.();
       if (healReports[healReports.length - 1]?.paused) {
         return fills;
       }
@@ -146,6 +150,7 @@ async function fillResolved(
       fill: result,
     });
     await hooks.onEvent?.("fill", { ...result, durationMs: Date.now() - started });
+    await hooks.delay?.();
     if (healReports[healReports.length - 1]?.paused) {
       return fills;
     }
@@ -228,7 +233,20 @@ export async function walkUntilPreflight(page: Page, hooks: WalkHooks): Promise<
       throw new Error("aborted");
     }
     await waitIfPaused(hooks);
-    const kind = await discoverWithRecipe(page, hooks.recipe);
+    let kind = await discoverWithRecipe(page, hooks.recipe);
+    if (kind === "captcha") {
+      await hooks.onEvent?.("challenge", { kind: "captcha", policy: "sessionkit_solve" });
+      const solver = hooks.solveCaptcha ?? sessionKitSolveCaptcha;
+      const solved = await solver(page);
+      if (!solved) {
+        return emptyWalk("blocked", history, page, { healReports, blockedReason: "captcha" });
+      }
+      kind = await discoverWithRecipe(page, hooks.recipe);
+    }
+    if (kind === "2fa") {
+      await hooks.onEvent?.("challenge", { kind: "2fa", policy: "detect_pause_notify" });
+      return emptyWalk("blocked", history, page, { healReports, blockedReason: "two_factor" });
+    }
     await hooks.onEvent?.("discover", { kind, url: page.url(), step, recipeId: hooks.recipe?.recipeId });
     if (kind === "timeout" || kind === "confirmation") {
       return emptyWalk(kind, history, page, { healReports });

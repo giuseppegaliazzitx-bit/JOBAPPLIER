@@ -39,6 +39,7 @@ describe("App shell", () => {
     );
     expect(screen.getByRole("heading", { name: "Jobs" })).toBeTruthy();
     expect(screen.getByLabelText("Job URLs")).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Queue batch (shuffled)" })).toBeTruthy();
   });
 
   it("renders the questions empty state", async () => {

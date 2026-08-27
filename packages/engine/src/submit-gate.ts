@@ -1,12 +1,12 @@
+import { evaluateSubmitGate, type SubmitGate } from "@autoapply/core";
 import type { Page } from "playwright";
 
-export type SubmitApproval = {
-  userApproved: true;
-};
+export type { SubmitGate };
 
-export async function clickSubmit(page: Page, approval: SubmitApproval): Promise<void> {
-  if (approval.userApproved !== true) {
-    throw new Error("submit gate refused: user has not approved");
+export async function clickSubmit(page: Page, gate: SubmitGate): Promise<void> {
+  const verdict = evaluateSubmitGate(gate);
+  if (!verdict.ok) {
+    throw new Error(`submit gate refused: ${verdict.reason}`);
   }
   const btn = page.locator("#submit-application").or(page.getByRole("button", { name: /submit application/i }));
   if ((await btn.count()) === 0) {

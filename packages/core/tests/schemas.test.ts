@@ -102,6 +102,7 @@ describe("RecipeVersionSchema", () => {
       widgetHandlers: {},
       createdBy: "manual" as const,
       stats: { runs: 0, successes: 0, failures: 0 },
+      autopilot: false,
     };
     expect(RecipeVersionSchema.parse(version)).toEqual(version);
   });

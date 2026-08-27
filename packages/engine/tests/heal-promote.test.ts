@@ -4,6 +4,7 @@ import { join } from "node:path";
 import {
   applyRepairsToRecipe,
   normalizeQuestion,
+  submitGateFromHistory,
   type RecipeVersion,
   type Resolution,
 } from "@autoapply/core";
@@ -35,6 +36,7 @@ const brokenRecipe: RecipeVersion = {
   labelHints: {},
   widgetHandlers: {},
   stats: { runs: 0, successes: 0, failures: 0 },
+  autopilot: false,
   steps: [
     {
       id: "fn",
@@ -107,7 +109,7 @@ describe("heal promotion", () => {
       expect(healed?.attempts.some((item) => item.tier === 1 && item.ok)).toBe(true);
       expect(healed?.workingSelector?.primary.value).not.toBe("#first_name_BROKEN");
 
-      await clickSubmit(page, { userApproved: true });
+      await clickSubmit(page, submitGateFromHistory(result.history, "review", { userApproved: true }));
       await page.waitForURL(/\/apply\/done/);
 
       const proposed = applyRepairsToRecipe(brokenRecipe, result.healReports);

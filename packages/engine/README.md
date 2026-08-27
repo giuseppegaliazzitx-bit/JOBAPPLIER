@@ -1,13 +1,13 @@
 # @autoapply/engine
 
-Playwright-shaped form walking will live here. The browser it drives is **SessionKit** (`enhanced_browser/`), not the Playwright Node package.
+Playwright-shaped form walking lives here. The live browser is **SessionKit** (`enhanced_browser/`), not the Playwright Node package. Playwright inspects fixtures and drives the local mock ATS.
 
-Read-only field inventory lives here (`extractFieldInventory`). Filling, recipes, and healing come later. Playwright is used to inspect local fixtures and to capture snapshots. Live applications are still driven by SessionKit.
+The only submit is `clickSubmit` after `evaluateSubmitGate`. Walk, fill, and recipes never click Submit.
 
 ## Captcha policy
 
-SessionKit handles captchas. `goto(..., solve=True)` already runs Cloudflare click-through, checkbox/audio reCAPTCHA, then 2captcha if `TWOCAPTCHA_API_KEY` is set. Autoapply uses that path.
+`CAPTCHA_POLICY = sessionkit_solve`. SessionKit `solve_challenges` runs Cloudflare click-through, checkbox/audio reCAPTCHA, then 2captcha if `TWOCAPTCHA_API_KEY` is set. On Playwright (mock ATS) the adapter is `sessionKitSolveCaptcha`. If that returns false, the walk blocks with `captcha` and the run pauses.
 
 ## 2FA
 
-2FA is never bypassed. Detection → pause the run → notify → a human takes control → resume.
+`TWO_FA_POLICY = detect_pause_notify`. 2FA is never solved. Detection → pause → notify → a human takes control → resume.

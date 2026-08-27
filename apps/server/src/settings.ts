@@ -1,4 +1,8 @@
+import { ATS_PLATFORMS, DEFAULT_DAILY_CAP, hostFromUrl } from "@autoapply/core";
 import type { SqliteDatabase } from "@autoapply/db";
+
+export const TOS_AUTOMATION =
+  "Turning automation on for a site is your call. Many employer terms of service prohibit automated applications. Per-site automation defaults off.";
 
 export function getSetting(sqlite: SqliteDatabase, key: string): string | undefined {
   const row = sqlite.prepare(`SELECT value FROM settings WHERE key = ?`).get(key);
@@ -17,10 +21,70 @@ export function setSetting(sqlite: SqliteDatabase, key: string, value: string): 
     .run(key, value);
 }
 
-export function isAutopilotOn(sqlite: SqliteDatabase, platform: string): boolean {
-  return getSetting(sqlite, `autopilot:${platform}`) !== "off";
+export function isAutopilotOn(sqlite: SqliteDatabase, platform: string, url?: string): boolean {
+  if (url) {
+    const host = hostFromUrl(url);
+    const hostSetting = getSetting(sqlite, `autopilot:host:${host}`);
+    if (hostSetting === "on") {
+      return true;
+    }
+    if (hostSetting === "off") {
+      return false;
+    }
+  }
+  return getSetting(sqlite, `autopilot:${platform}`) === "on";
 }
 
 export function disableAutopilot(sqlite: SqliteDatabase, platform: string): void {
   setSetting(sqlite, `autopilot:${platform}`, "off");
+}
+
+export function dailyCap(sqlite: SqliteDatabase, host?: string): number {
+  if (host) {
+    const specific = getSetting(sqlite, `daily_cap:${host}`);
+    if (specific !== undefined) {
+      const n = Number(specific);
+      if (Number.isFinite(n) && n >= 1) {
+        return Math.floor(n);
+      }
+    }
+  }
+  const global = getSetting(sqlite, "daily_cap");
+  if (global !== undefined) {
+    const n = Number(global);
+    if (Number.isFinite(n) && n >= 1) {
+      return Math.floor(n);
+    }
+  }
+  return DEFAULT_DAILY_CAP;
+}
+
+export function readSettings(sqlite: SqliteDatabase) {
+  const sites: Record<string, boolean> = {};
+  for (const platform of ATS_PLATFORMS) {
+    sites[platform] = isAutopilotOn(sqlite, platform);
+  }
+  sites.unknown = isAutopilotOn(sqlite, "unknown");
+  return {
+    sites,
+    dailyCap: dailyCap(sqlite),
+    captchaPolicy: "sessionkit_solve" as const,
+    twoFaPolicy: "detect_pause_notify" as const,
+    tos: TOS_AUTOMATION,
+  };
+}
+
+export function writeSettings(
+  sqlite: SqliteDatabase,
+  patch: { sites?: Record<string, boolean>; dailyCap?: number },
+): ReturnType<typeof readSettings> {
+  if (patch.sites) {
+    for (const [platform, on] of Object.entries(patch.sites)) {
+      setSetting(sqlite, `autopilot:${platform}`, on ? "on" : "off");
+    }
+  }
+  if (patch.dailyCap !== undefined) {
+    setSetting(sqlite, "daily_cap", String(Math.max(1, Math.floor(patch.dailyCap))));
+  }
+  return readSettings(sqlite);
 }

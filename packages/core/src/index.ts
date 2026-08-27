@@ -188,6 +188,18 @@ export {
   type LifecycleDecision,
 } from "./recipe-lifecycle.ts";
 export {
+  DEFAULT_DAILY_CAP,
+  shuffleBatch,
+  humanDelayMs,
+  hostFromUrl,
+} from "./rate-limit.ts";
+export {
+  evaluateSubmitGate,
+  submitGateFromHistory,
+  type SubmitGate,
+  type SubmitVerdict,
+} from "./submit-gate.ts";
+export {
   fieldKeys,
   applyInventoryOverrides,
   applyStepSelectors,

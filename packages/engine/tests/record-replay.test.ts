@@ -92,6 +92,7 @@ describe("record and replay mock ATS", () => {
         widgetHandlers: {},
         createdBy: "record",
         stats: { runs: 0, successes: 0, failures: 0 },
+        autopilot: false,
       };
 
       const replay = await browser.newPage();

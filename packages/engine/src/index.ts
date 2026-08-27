@@ -12,8 +12,9 @@ export type { RawControl, RawOption } from "./raw-control.ts";
 export { locate, locateDetailed, locatorFromSelector } from "./locate.ts";
 export { fillField } from "./fill.ts";
 export { nearbyError, readBack, valuesMatch } from "./verify.ts";
-export { clickContinue, pageKind } from "./advance.ts";
-export { clickSubmit, type SubmitApproval } from "./submit-gate.ts";
+export { clickContinue, pageKind, type PageKind } from "./advance.ts";
+export { clickSubmit, type SubmitGate } from "./submit-gate.ts";
+export { detectChallenge, sessionKitSolveCaptcha, type ChallengeKind } from "./challenge.ts";
 export { walkUntilPreflight, type WalkHooks, type WalkResult, type WalkHistoryItem } from "./walk.ts";
 export { discoverWithRecipe, advanceWithRecipe } from "./recipe-runtime.ts";
 export {

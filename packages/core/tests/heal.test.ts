@@ -21,6 +21,7 @@ describe("selector promotion", () => {
       labelHints: {},
       widgetHandlers: {},
       stats: { runs: 1, successes: 1, failures: 0 },
+      autopilot: false,
       steps: [
         {
           id: "fn",

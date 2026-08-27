@@ -259,6 +259,7 @@ const RecipeListResponse = zod.object({
             failures: zod.number(),
             lastSuccessAt: zod.string().optional(),
           }),
+          autopilot: zod.boolean().optional(),
           steps: zod.array(zod.unknown()),
           stepFailureRates: zod
             .array(
@@ -304,6 +305,68 @@ export async function patchRecipeSteps(recipeId: string, versionId: string, step
   if (!response.ok) {
     throw new Error("save failed");
   }
+}
+
+export async function patchRecipeAutopilot(recipeId: string, versionId: string, autopilot: boolean) {
+  const response = await fetch(`/api/recipes/${recipeId}/versions/${versionId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ autopilot }),
+  });
+  if (!response.ok) {
+    throw new Error("save failed");
+  }
+}
+
+const SettingsResponse = zod.object({
+  sites: zod.record(zod.string(), zod.boolean()),
+  dailyCap: zod.number(),
+  captchaPolicy: zod.string(),
+  twoFaPolicy: zod.string(),
+  tos: zod.string(),
+});
+
+export async function fetchSettings() {
+  const response = await fetch("/api/settings");
+  return parseJson(response, SettingsResponse);
+}
+
+export async function saveSettings(body: { sites?: Record<string, boolean>; dailyCap?: number }) {
+  const response = await fetch("/api/settings", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  return parseJson(response, SettingsResponse);
+}
+
+export async function postBatch(jobIds: string[]) {
+  const response = await fetch("/api/batch", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ jobIds }),
+  });
+  return parseJson(response, zod.object({ queued: zod.number(), jobIds: zod.array(zod.string()) }));
+}
+
+const ApplicationsResponse = zod.object({
+  applications: zod.array(
+    zod.object({
+      id: zod.string(),
+      jobId: zod.string(),
+      runId: zod.string().nullable(),
+      submittedAt: zod.string().nullable(),
+      proofScreenshot: zod.string().nullable(),
+      status: zod.string(),
+      url: zod.string().nullable(),
+      title: zod.string().nullable(),
+    }),
+  ),
+});
+
+export async function fetchApplications() {
+  const response = await fetch("/api/applications");
+  return parseJson(response, ApplicationsResponse);
 }
 
 export type { Preflight, RunEvent };

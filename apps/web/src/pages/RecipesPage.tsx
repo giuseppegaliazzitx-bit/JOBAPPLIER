@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { fetchRecipes, patchRecipeSteps, postRecipeAction } from "../api.ts";
+import { fetchRecipes, patchRecipeAutopilot, patchRecipeSteps, postRecipeAction } from "../api.ts";
 
 export function RecipesPage() {
   const queryClient = useQueryClient();
@@ -81,7 +81,11 @@ export function RecipesPage() {
             {recipe.versions.map((version) => (
               <li key={version.id} className="rounded-md border border-rule bg-panel p-3 text-sm">
                 <p>
-                  v{version.version} · {version.status} · {version.createdBy} · {version.stats.successes}/{version.stats.runs} ok
+                  v{version.version} · {version.status} · {version.createdBy} · {version.stats.successes}/
+                  {version.stats.runs} ok
+                  {version.status === "active"
+                    ? ` · autopilot ${version.autopilot === true ? "on" : "off"}`
+                    : ""}
                 </p>
                 <table className="mt-2 w-full text-left text-xs">
                   <thead>
@@ -142,6 +146,17 @@ export function RecipesPage() {
                   >
                     Run against fixture
                   </button>
+                  {version.status === "active" ? (
+                    <button
+                      type="button"
+                      className="underline"
+                      onClick={() =>
+                        void patchRecipeAutopilot(recipe.id, version.id, version.autopilot !== true).then(() => refresh())
+                      }
+                    >
+                      {version.autopilot === true ? "Disable autopilot" : "Enable autopilot"}
+                    </button>
+                  ) : null}
                 </div>
               </li>
             ))}

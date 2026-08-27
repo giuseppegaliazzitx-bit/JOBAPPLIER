@@ -26,9 +26,10 @@ describe("Recipes page", () => {
                     {
                       id: "v1",
                       version: 1,
-                      status: "proposed",
+                      status: "active",
                       createdBy: "manual",
                       stats: { runs: 0, successes: 0, failures: 0 },
+                      autopilot: false,
                       steps: [],
                       stepFailureRates: [{ stepId: "gh-email", name: "Email", runs: 4, failures: 1 }],
                     },
@@ -51,12 +52,13 @@ describe("Recipes page", () => {
 
     expect(screen.getByRole("heading", { name: "Recipes" })).toBeTruthy();
     expect(await screen.findByText("greenhouse")).toBeTruthy();
-    expect(screen.getAllByText("proposed").length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/active/).length).toBeGreaterThan(0);
     expect(screen.getByText("Email")).toBeTruthy();
     expect(screen.getByRole("button", { name: "Promote" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "Rollback" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "Edit" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "Run against fixture" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Enable autopilot" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "Start recording" })).toBeTruthy();
   });
 });

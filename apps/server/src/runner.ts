@@ -3,20 +3,26 @@ import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import {
   RunCheckpointSchema,
+  evaluateSubmitGate,
+  hostFromUrl,
+  humanDelayMs,
   inventoryToDistilled,
   resolveInventory,
+  submitGateFromHistory,
   type EmbedFn,
   type HealReport,
   type Preflight,
   type ProfileValues,
   type RunCheckpoint,
   type RunEvent,
+  type SubmitGate,
   type WalkHistoryItem,
 } from "@autoapply/core";
 import { enqueue, type SqliteDatabase } from "@autoapply/db";
 import type { AiHandle } from "@autoapply/ai";
 import { BudgetExceededError } from "@autoapply/ai";
 import { clickSubmit, healField, pageKind, walkUntilPreflight, writeIncomingFixture } from "@autoapply/engine";
+import { countTodaySubmits, recordApplication } from "./applications.ts";
 import {
   incrementStats,
   matchLiveRecipe,
@@ -24,6 +30,7 @@ import {
   quarantineIfNeeded,
   type RecipeVersionRecord,
 } from "./recipes.ts";
+import { dailyCap, isAutopilotOn } from "./settings.ts";
 import { chromium, type Browser, type BrowserContext, type BrowserContextOptions, type Page } from "playwright";
 import { loadBank, loadOptionAliases } from "./bank.ts";
 import { loadProfile } from "./routes/questions.ts";
@@ -32,6 +39,8 @@ type FrameHandler = (payload: unknown) => void;
 
 export type ActiveRun = {
   id: string;
+  jobId: string;
+  dataDir: string;
   page: Page;
   browser: Browser;
   paused: boolean;
@@ -41,6 +50,9 @@ export type ActiveRun = {
   listeners: Set<FrameHandler>;
   recipe?: RecipeVersionRecord;
   pendingRepairs: HealReport[];
+  history: WalkHistoryItem[];
+  finished: Promise<void>;
+  recipePlatform?: string;
 };
 
 const active = new Map<string, ActiveRun>();
@@ -166,6 +178,7 @@ export async function startRun(options: {
   resumeRunId?: string;
   createAi?: (runId: string) => AiHandle | undefined;
   daySpendUsd?: () => number;
+  skipDelay?: boolean;
 }): Promise<string> {
   const now = new Date().toISOString();
   const resumeId = options.resumeRunId;
@@ -192,8 +205,14 @@ export async function startRun(options: {
     storageState: checkpoint?.storageState as BrowserContextOptions["storageState"],
   });
   const page = await context.newPage();
+  let settle = (): void => undefined;
+  const finished = new Promise<void>((resolve) => {
+    settle = resolve;
+  });
   const run: ActiveRun = {
     id: runId,
+    jobId: options.jobId,
+    dataDir: options.dataDir,
     page,
     browser,
     paused: false,
@@ -202,6 +221,8 @@ export async function startRun(options: {
     preflight: null,
     listeners: new Set(),
     pendingRepairs: [],
+    history: checkpoint?.history ?? [],
+    finished,
   };
   active.set(runId, run);
 
@@ -209,6 +230,7 @@ export async function startRun(options: {
   mkdirSync(shots, { recursive: true });
 
   void (async () => {
+    try {
     await attachScreencast(run, page);
     const startUrl = checkpoint?.url ?? options.url;
     await page.goto(startUrl, { waitUntil: "domcontentloaded" });
@@ -217,6 +239,11 @@ export async function startRun(options: {
     const recipe = matchLiveRecipe(options.sqlite, page.url(), html);
     if (recipe) {
       run.recipe = recipe;
+      const rec = options.sqlite.prepare(`SELECT platform FROM recipes WHERE id = ?`).get(recipe.recipeId);
+      run.recipePlatform =
+        rec && typeof rec === "object" && "platform" in rec && typeof rec.platform === "string"
+          ? rec.platform
+          : "unknown";
       options.sqlite.prepare(`UPDATE runs SET recipe_version_id = ? WHERE id = ?`).run(recipe.id, runId);
     }
     const ai = options.createAi?.(runId);
@@ -236,6 +263,11 @@ export async function startRun(options: {
         run.pendingRepairs.push(report);
       },
       tier2WaitMs: 1500,
+      delay: options.skipDelay
+        ? undefined
+        : async () => {
+            await new Promise((resolve) => setTimeout(resolve, humanDelayMs()));
+          },
       resolve: (inventory) =>
         resolveInventory(inventory, loadBank(options.sqlite), {
           embed: options.embed,
@@ -271,6 +303,7 @@ export async function startRun(options: {
           emit(run, { type: "status", status: "paused" });
         }
         const storageState = await page.context().storageState();
+        run.history = history;
         saveCheckpoint(options.sqlite, runId, {
           url,
           kind: "form",
@@ -291,6 +324,7 @@ export async function startRun(options: {
       result.kind === "review" && result.history.every((item) => item.fill.ok),
     );
     run.preflight = preflight;
+    run.history = result.history;
     const storageState = await page.context().storageState();
     saveCheckpoint(options.sqlite, runId, {
       url: result.url,
@@ -323,6 +357,29 @@ export async function startRun(options: {
         enqueue(options.sqlite, "retry", { runId, reason, url: result.url });
       }
     }
+    if (result.blockedReason === "captcha" || result.blockedReason === "two_factor") {
+      const message =
+        result.blockedReason === "two_factor"
+          ? "Two-factor authentication required. Take control, then resume."
+          : "CAPTCHA unsolved after SessionKit. Paused.";
+      enqueue(options.sqlite, "blocked", { runId, reason: result.blockedReason, url: result.url });
+      enqueue(options.sqlite, "notify", { message, runId });
+      run.paused = true;
+      options.sqlite.prepare(`UPDATE runs SET status = 'paused' WHERE id = ?`).run(runId);
+      emit(run, { type: "preflight", preflight });
+      emit(run, { type: "status", status: "paused", reason: result.blockedReason });
+      return;
+    }
+    if (recipe && result.kind !== "review" && result.blockedReason !== "rate_limited") {
+      incrementStats(options.sqlite, recipe.id, false);
+      quarantineIfNeeded(options.sqlite, recipe.id);
+    }
+    if (result.kind === "review" && preflight.ready) {
+      const submitted = await tryAutopilotSubmit(options.sqlite, run, result.url);
+      if (submitted) {
+        return;
+      }
+    }
     const status =
       result.blockedReason === "heal_exhausted" || result.blockedReason === "unknown_widget"
         ? "blocked"
@@ -332,12 +389,8 @@ export async function startRun(options: {
             ? "failed"
             : result.kind;
     options.sqlite.prepare(`UPDATE runs SET status = ? WHERE id = ?`).run(status, runId);
-    if (recipe && result.kind !== "review") {
-      incrementStats(options.sqlite, recipe.id, false);
-      quarantineIfNeeded(options.sqlite, recipe.id);
-    }
     emit(run, { type: "preflight", preflight });
-  })().catch((error: unknown) => {
+    } catch (error: unknown) {
     if (error instanceof BudgetExceededError) {
       run.paused = true;
       options.sqlite.prepare(`UPDATE runs SET status = 'paused', error = ? WHERE id = ?`).run(error.message, runId);
@@ -347,23 +400,44 @@ export async function startRun(options: {
     const message = error instanceof Error ? error.message : "run failed";
     options.sqlite.prepare(`UPDATE runs SET status = 'failed', error = ? WHERE id = ?`).run(message, runId);
     emit(run, { type: "error", message });
-  });
+    } finally {
+      settle();
+    }
+  })();
 
   return runId;
 }
 
-export async function approveRun(sqlite: SqliteDatabase, runId: string): Promise<void> {
-  const run = active.get(runId);
-  if (!run || !run.preflight?.ready) {
-    throw new Error("run is not waiting for approval");
-  }
-  await clickSubmit(run.page, { userApproved: true });
+async function tryAutopilotSubmit(sqlite: SqliteDatabase, run: ActiveRun, url: string): Promise<boolean> {
   const kind = await pageKind(run.page);
-  const recipeId = sqlite.prepare(`SELECT recipe_version_id FROM runs WHERE id = ?`).get(runId);
-  const recipeVersionId =
-    recipeId && typeof recipeId === "object" && "recipe_version_id" in recipeId && typeof recipeId.recipe_version_id === "string"
-      ? recipeId.recipe_version_id
-      : null;
+  const gate = submitGateFromHistory(run.history, kind, {
+    recipeActive: run.recipe?.status === "active",
+    recipeAutopilot: run.recipe?.autopilot === true,
+    siteAutopilot: isAutopilotOn(sqlite, run.recipePlatform ?? "unknown", url),
+  });
+  const verdict = evaluateSubmitGate(gate);
+  if (!verdict.ok) {
+    return false;
+  }
+  const host = hostFromUrl(url);
+  const cap = dailyCap(sqlite, host);
+  if (countTodaySubmits(sqlite, host) >= cap) {
+    enqueue(sqlite, "blocked", { runId: run.id, reason: "rate_limited", url });
+    enqueue(sqlite, "notify", { message: `Daily cap of ${cap} reached for ${host}`, runId: run.id });
+    return false;
+  }
+  await finishSuccessfulSubmit(sqlite, run, gate);
+  return true;
+}
+
+async function finishSuccessfulSubmit(sqlite: SqliteDatabase, run: ActiveRun, gate: SubmitGate): Promise<void> {
+  await clickSubmit(run.page, gate);
+  const kind = await pageKind(run.page);
+  mkdirSync(join(run.dataDir, "runs", run.id), { recursive: true });
+  const proofPath = join(run.dataDir, "runs", run.id, "proof.png");
+  await run.page.screenshot({ type: "png", fullPage: true, path: proofPath });
+  recordApplication(sqlite, { jobId: run.jobId, runId: run.id, proofPath });
+  const recipeVersionId = run.recipe?.id ?? null;
   if (recipeVersionId) {
     incrementStats(sqlite, recipeVersionId, true);
     quarantineIfNeeded(sqlite, recipeVersionId);
@@ -373,10 +447,20 @@ export async function approveRun(sqlite: SqliteDatabase, runId: string): Promise
   }
   sqlite
     .prepare(`UPDATE runs SET status = 'succeeded', finished_at = ? WHERE id = ?`)
-    .run(new Date().toISOString(), runId);
-  emit(run, { type: "status", status: "succeeded", kind });
+    .run(new Date().toISOString(), run.id);
+  emit(run, { type: "status", status: "succeeded", kind, proofPath });
   await run.browser.close();
-  active.delete(runId);
+  active.delete(run.id);
+}
+
+export async function approveRun(sqlite: SqliteDatabase, runId: string): Promise<void> {
+  const run = active.get(runId);
+  if (!run || !run.preflight?.ready) {
+    throw new Error("run is not waiting for approval");
+  }
+  const kind = await pageKind(run.page);
+  const gate = submitGateFromHistory(run.history, kind, { userApproved: true });
+  await finishSuccessfulSubmit(sqlite, run, gate);
 }
 
 export function abortRun(sqlite: SqliteDatabase, runId: string): void {

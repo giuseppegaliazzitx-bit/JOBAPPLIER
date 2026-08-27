@@ -98,6 +98,7 @@ export const RecipeVersionSchema = z.object({
     lastSuccessAt: z.string().optional(),
   }),
   fixturePath: z.string().optional(),
+  autopilot: z.boolean().default(false),
 });
 
 export type RecipeVersion = z.infer<typeof RecipeVersionSchema>;

@@ -1,7 +1,7 @@
 import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { normalizeQuestion, type Resolution } from "@autoapply/core";
+import { normalizeQuestion, submitGateFromHistory, type Resolution } from "@autoapply/core";
 import { buildMockAts } from "@autoapply/mock-ats";
 import { chromium, type Browser } from "playwright";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
@@ -84,7 +84,7 @@ describe("fill mock ATS wizard", () => {
       const country = result.fills.find((fill) => fill.labelRaw.toLowerCase().includes("country"));
       expect(country?.readBack).toMatch(/United States/);
 
-      await clickSubmit(page, { userApproved: true });
+      await clickSubmit(page, submitGateFromHistory(result.history, "review", { userApproved: true }));
       await page.waitForURL(/\/apply\/done/);
       expect(await page.locator("h1").innerText()).toMatch(/received/i);
     } finally {

@@ -6,6 +6,8 @@ import type { SqliteDatabase } from "@autoapply/db";
 import Fastify from "fastify";
 import { SERVER_PHASE } from "./config.ts";
 import { createFetchPage, type FetchPage } from "./fetch-page.ts";
+import { registerApplicationRoutes } from "./routes/applications.ts";
+import { registerBatchRoutes } from "./routes/batch.ts";
 import { registerDashboardRoutes } from "./routes/dashboard.ts";
 import { registerDocumentRoutes } from "./routes/documents.ts";
 import { registerJobRoutes } from "./routes/jobs.ts";
@@ -14,6 +16,7 @@ import { registerQuestionRoutes } from "./routes/questions.ts";
 import { registerResolveRoutes } from "./routes/resolve.ts";
 import { registerRecipeRoutes } from "./routes/recipes.ts";
 import { registerRunRoutes } from "./routes/runs.ts";
+import { registerSettingsRoutes } from "./routes/settings.ts";
 import { seedBundledRecipes } from "./recipes.ts";
 
 export type BuildAppOptions = {
@@ -64,6 +67,9 @@ export async function buildApp(options: BuildAppOptions) {
   registerRunRoutes(app, options.sqlite, options.config, options.embed);
   seedBundledRecipes(options.sqlite);
   registerRecipeRoutes(app, options.sqlite, options.embed);
+  registerSettingsRoutes(app, options.sqlite);
+  registerApplicationRoutes(app, options.sqlite);
+  registerBatchRoutes(app, options.sqlite, options.config, options.embed);
 
   return app;
 }

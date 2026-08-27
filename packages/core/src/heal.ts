@@ -39,6 +39,9 @@ export const FailureReasonSchema = z.enum([
   "heal_exhausted",
   "unanswered",
   "network",
+  "captcha",
+  "two_factor",
+  "rate_limited",
 ]);
 export type FailureReason = z.infer<typeof FailureReasonSchema>;
 

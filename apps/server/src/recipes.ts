@@ -49,6 +49,7 @@ function parseVersion(row: z.infer<typeof VersionRow>): RecipeVersionRecord {
       labelHints: z.record(z.string(), z.string()).default({}),
       widgetHandlers: RecipeVersionSchema.shape.widgetHandlers.default({}),
       fixturePath: z.string().optional(),
+      autopilot: z.boolean().optional(),
     })
     .parse(JSON.parse(row.hints_json));
   const parsed = RecipeVersionSchema.parse({
@@ -66,6 +67,7 @@ function parseVersion(row: z.infer<typeof VersionRow>): RecipeVersionRecord {
       lastSuccessAt: row.last_success_at ?? undefined,
     },
     fixturePath: hints.fixturePath,
+    autopilot: hints.autopilot ?? false,
   });
   return { ...parsed, id: row.id };
 }
@@ -75,6 +77,7 @@ function hintsJson(version: RecipeVersion): string {
     labelHints: version.labelHints,
     widgetHandlers: version.widgetHandlers,
     fixturePath: version.fixturePath,
+    autopilot: version.autopilot,
   });
 }
 
@@ -309,6 +312,23 @@ export function quarantineIfNeeded(sqlite: SqliteDatabase, versionId: string): v
     }
     applyRecipeLifecycle(sqlite, versionId, true);
   }
+}
+
+export function setVersionAutopilot(
+  sqlite: SqliteDatabase,
+  versionId: string,
+  autopilot: boolean,
+): RecipeVersionRecord {
+  const version = getVersion(sqlite, versionId);
+  if (!version) {
+    throw new Error("version not found");
+  }
+  sqlite.prepare(`UPDATE recipe_versions SET hints_json = ? WHERE id = ?`).run(hintsJson({ ...version, autopilot }), versionId);
+  const next = getVersion(sqlite, versionId);
+  if (!next) {
+    throw new Error("version not found");
+  }
+  return next;
 }
 
 export function incrementStats(sqlite: SqliteDatabase, versionId: string, success: boolean): void {

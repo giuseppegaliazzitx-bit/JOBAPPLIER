@@ -17,6 +17,7 @@ import {
   liveVersionFor,
   saveBundle,
   seedBundledRecipes,
+  setVersionAutopilot,
   setVersionStatus,
   stepFailureRates,
   updateVersionSteps,
@@ -59,15 +60,26 @@ export function registerRecipeRoutes(app: FastifyInstance, sqlite: SqliteDatabas
 
   app.patch("/api/recipes/:recipeId/versions/:versionId", async (request, reply) => {
     const params = z.object({ recipeId: z.string(), versionId: z.string() }).parse(request.params);
-    const body = z.object({ steps: z.array(StepSchema) }).safeParse(request.body);
-    if (!body.success) {
-      return reply.code(400).send({ error: "steps required" });
+    const body = z
+      .object({
+        steps: z.array(StepSchema).optional(),
+        autopilot: z.boolean().optional(),
+      })
+      .safeParse(request.body);
+    if (!body.success || (body.data.steps === undefined && body.data.autopilot === undefined)) {
+      return reply.code(400).send({ error: "steps or autopilot required" });
     }
     const version = getVersion(sqlite, params.versionId);
     if (!version || version.recipeId !== params.recipeId) {
       return reply.code(404).send({ error: "not found" });
     }
-    return { version: updateVersionSteps(sqlite, params.versionId, body.data.steps) };
+    if (body.data.steps) {
+      updateVersionSteps(sqlite, params.versionId, body.data.steps);
+    }
+    if (body.data.autopilot !== undefined) {
+      setVersionAutopilot(sqlite, params.versionId, body.data.autopilot);
+    }
+    return { version: getVersion(sqlite, params.versionId) };
   });
 
   app.post("/api/recipes/:recipeId/versions/:versionId/fixture", async (request, reply) => {

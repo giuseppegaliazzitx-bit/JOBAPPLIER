@@ -1,12 +1,12 @@
 import type { RecipeVersion, Step } from "@autoapply/core";
 import type { Page } from "playwright";
-import { clickContinue, pageKind } from "./advance.ts";
+import { clickContinue, pageKind, type PageKind } from "./advance.ts";
 import { locate } from "./locate.ts";
 
 export async function discoverWithRecipe(
   page: Page,
   recipe: RecipeVersion | undefined,
-): Promise<"form" | "review" | "confirmation" | "timeout" | "error"> {
+): Promise<PageKind> {
   if (recipe) {
     for (const step of recipe.steps) {
       if (step.type !== "wait") {

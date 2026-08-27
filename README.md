@@ -2,7 +2,7 @@
 
 Local-first job application automation. Architecture is in [`design.md`](./design.md).
 
-Current phase: **7 — Self-healing**. Failed selectors escalate through tiers 0–4. A successful submit after a tier 1–3 repair writes a proposed recipe. Unrepairable runs pause on the Blocked queue.
+Current phase: **8 — Autopilot**. The submit gate is the only click on Submit. Autopilot is per recipe version and per site (both default off). SessionKit solves captchas; 2FA still pauses for a human. Proof screenshots land on the application record.
 
 ## Requirements
 
@@ -60,11 +60,13 @@ e2e/                 Playwright Test for the UI shell
 
 ## Browser driver
 
-Live employer applications use **SessionKit** in `enhanced_browser/` (patchright + real Chrome). Playwright is used for fixture inventory and the local mock ATS. There is no automated submit: `clickSubmit` requires `{ userApproved: true }`, which the Runs page sends only from Approve.
+Live employer applications use **SessionKit** in `enhanced_browser/` (patchright + real Chrome). Playwright is used for fixture inventory and the local mock ATS. The only submit path is `clickSubmit` in `packages/engine/src/submit-gate.ts`, after `evaluateSubmitGate`. That allows either an explicit Approve click or (active recipe + recipe autopilot + site autopilot).
 
 `@playwright/test` is only for Autoapply's own UI e2e tests.
 
-Captchas are solved by SessionKit (checkbox/audio reCAPTCHA, Cloudflare, 2captcha fallback). 2FA is never bypassed: pause, notify, wait for a human.
+Captchas are solved by SessionKit (`solve_challenges`: Cloudflare click, checkbox/audio reCAPTCHA, then 2captcha if `TWOCAPTCHA_API_KEY` is set). Unsolved captchas pause the run. 2FA is never bypassed: detect, pause, notify, take control, resume.
+
+Per-site automation and the daily cap live on Settings. Enable autopilot on an **active** recipe version from the Recipes page. Batch enqueue shuffles job order and respects the per-host daily cap.
 
 ## Tests
 

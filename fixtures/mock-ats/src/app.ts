@@ -10,7 +10,13 @@ export type SessionData = {
   id: string;
   step: number;
   expired: boolean;
+  captchaOk: boolean;
+  twoFactorOk: boolean;
   fields: Record<string, string>;
+};
+
+export type MockAtsOptions = {
+  challenge?: "captcha" | "captcha-hard" | "2fa" | null;
 };
 
 const sessions = new Map<string, SessionData>();
@@ -24,12 +30,20 @@ function sessionOf(id: string | undefined): SessionData | undefined {
 }
 
 function createSession(): SessionData {
-  const session: SessionData = { id: randomUUID(), step: 1, expired: false, fields: {} };
+  const session: SessionData = {
+    id: randomUUID(),
+    step: 1,
+    expired: false,
+    captchaOk: false,
+    twoFactorOk: false,
+    fields: {},
+  };
   sessions.set(session.id, session);
   return session;
 }
 
-export async function buildMockAts() {
+export async function buildMockAts(options: MockAtsOptions = {}) {
+  const challenge = options.challenge ?? null;
   const app = Fastify({ logger: false });
   await app.register(cookie);
   await app.register(formbody);
@@ -40,9 +54,69 @@ export async function buildMockAts() {
   app.get("/apply", async (request, reply) => {
     const existing = sessionOf(request.cookies[COOKIE]);
     const session = existing && !existing.expired ? existing : createSession();
-    return reply
-      .setCookie(COOKIE, session.id, { path: "/", httpOnly: false })
-      .redirect(`/apply/step/${session.step}`);
+    const cookie = reply.setCookie(COOKIE, session.id, { path: "/", httpOnly: false });
+    if ((challenge === "captcha" || challenge === "captcha-hard") && !session.captchaOk) {
+      return cookie.redirect("/apply/captcha");
+    }
+    if (challenge === "2fa" && !session.twoFactorOk) {
+      return cookie.redirect("/apply/2fa");
+    }
+    return cookie.redirect(`/apply/step/${session.step}`);
+  });
+
+  app.get("/apply/captcha", async (_request, reply) => {
+    const hard = challenge === "captcha-hard";
+    return reply.type("text/html").send(
+      layout(
+        "Verify you are human",
+        `<div data-page="captcha">
+          <h1>Verify you are human</h1>
+          <p>I'm not a robot</p>
+          ${
+            hard
+              ? `<p>Unsolvable challenge (no SessionKit control).</p>`
+              : `<form method="post" action="/apply/captcha">
+                   <label><input type="checkbox" id="captcha-pass" name="captcha" value="ok" data-sessionkit-solve /> I'm not a robot</label>
+                   <button type="submit">Continue</button>
+                 </form>`
+          }
+        </div>`,
+      ),
+    );
+  });
+
+  app.post("/apply/captcha", async (request, reply) => {
+    const session = sessionOf(request.cookies[COOKIE]) ?? createSession();
+    const body = asFields(request.body);
+    if (body.captcha === "ok") {
+      session.captchaOk = true;
+    }
+    return reply.setCookie(COOKIE, session.id, { path: "/" }).redirect("/apply");
+  });
+
+  app.get("/apply/2fa", async (_request, reply) => {
+    return reply.type("text/html").send(
+      layout(
+        "Two-factor authentication",
+        `<div data-page="two-factor">
+          <h1>Two-factor authentication</h1>
+          <p>Enter the code from your authenticator app.</p>
+          <form method="post" action="/apply/2fa">
+            <label>Code <input name="otp" /></label>
+            <button type="submit">Verify</button>
+          </form>
+        </div>`,
+      ),
+    );
+  });
+
+  app.post("/apply/2fa", async (request, reply) => {
+    const session = sessionOf(request.cookies[COOKIE]) ?? createSession();
+    const body = asFields(request.body);
+    if (body.otp && body.otp.trim().length > 0) {
+      session.twoFactorOk = true;
+    }
+    return reply.setCookie(COOKIE, session.id, { path: "/" }).redirect("/apply");
   });
 
   app.get("/apply/timeout", async (_request, reply) => {
