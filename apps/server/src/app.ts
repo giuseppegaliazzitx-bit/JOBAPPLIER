@@ -59,7 +59,7 @@ export async function buildApp(options: BuildAppOptions) {
   registerJobRoutes(app, options.sqlite, fetchPage);
   registerQuestionRoutes(app, options.sqlite, options.embed);
   registerResolveRoutes(app, options.sqlite, options.embed);
-  registerRunRoutes(app, options.sqlite, options.config.dataDir, options.embed);
+  registerRunRoutes(app, options.sqlite, options.config, options.embed);
   seedBundledRecipes(options.sqlite);
   registerRecipeRoutes(app, options.sqlite, options.embed);
 

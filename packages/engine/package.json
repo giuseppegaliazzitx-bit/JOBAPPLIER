@@ -12,6 +12,7 @@
     "capture": "tsx src/capture.ts"
   },
   "dependencies": {
+    "@autoapply/ai": "workspace:*",
     "@autoapply/core": "workspace:*",
     "@autoapply/mock-ats": "workspace:*",
     "playwright": "^1.55.0"

@@ -371,7 +371,7 @@ export function scrapeDom(): RawControl[] {
   }
 
   const extras = Array.from(
-    document.querySelectorAll('[contenteditable="true"], [role="combobox"]'),
+    document.querySelectorAll('[contenteditable="true"], [role="combobox"], [data-custom-field]'),
   );
   for (const el of extras) {
     if (seen.has(el)) {

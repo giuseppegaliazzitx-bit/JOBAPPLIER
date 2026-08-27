@@ -2,7 +2,7 @@
 
 Local-first job application automation. Architecture is in [`design.md`](./design.md).
 
-Current phase: **5 — Recipes**. Platform recipes are overlays on the generic walker. Recorded values are parameterized against the profile; submit is still Approve-only.
+Current phase: **6 — AI fallback**. Models are used only to repair unknown widgets and unlabeled fields. The happy path never calls a model. Raw HTML never reaches a prompt.
 
 ## Requirements
 
@@ -48,7 +48,7 @@ apps/server/         Fastify API, WebSocket echo, SQLite-backed queue
 packages/core/       Zod schemas, types, URL/dedup/platform logic — zero I/O
 packages/engine/     Inventory, fill, verify, wizard walk, recipes, recorder
 packages/db/         Drizzle schema + migrations
-packages/ai/         DistilledPage boundary; model calls come later
+packages/ai/         DistilledPage-only model calls (six purposes), cache, budget
 fixtures/pages/      Saved HTML snapshots, one dir per platform
 fixtures/mock-ats/   Local fake ATS for integration tests
 enhanced_browser/    SessionKit: patchright Chrome, humanize, session identity

@@ -27,3 +27,5 @@ export {
 } from "./record.ts";
 export { loadBundledRecipes, BUNDLED_RECIPE_DIR } from "./bundled-recipes.ts";
 export { runRecipeContract, fixtureHtmlFor } from "./contract.ts";
+export { healField, type HealContext } from "./heal.ts";
+export { cropFieldScreenshot } from "./screenshot.ts";

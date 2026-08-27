@@ -232,6 +232,16 @@ function stepPage(session: SessionData, errors: Record<string, string>): string 
           <input type="hidden" name="country" value="${escapeHtml(f.country ?? "")}" />
           ${errorSpan("country", errors)}
         </div>
+        <div id="preferred-orbit" data-widget="orbit-picker" data-custom-field data-selected="${escapeHtml(f.preferred_orbit ?? "")}" aria-label="Preferred orbit">
+          <p>Preferred orbit</p>
+          <div class="orbit-token">${escapeHtml(f.preferred_orbit || "Select orbit")}</div>
+          <ul class="orbit-choices">
+            <li data-orbit="LEO">LEO</li>
+            <li data-orbit="GEO">GEO</li>
+            <li data-orbit="HEO">HEO</li>
+          </ul>
+          <input type="hidden" name="preferred_orbit" value="${escapeHtml(f.preferred_orbit ?? "")}" />
+        </div>
         <div id="visa-wrap" class="${visaHidden}">
           <label>Visa type
             <select name="visa_type" id="visa_type">

@@ -2,6 +2,7 @@ import {
   MAX_WIZARD_STEPS,
   applyInventoryOverrides,
   applyResolveOverrides,
+  type FieldDescriptor,
   type FieldInventory,
   type FillResult,
   type ProfileValues,
@@ -25,6 +26,12 @@ export type WalkHooks = {
   recipe?: RecipeVersion;
   profile?: ProfileValues;
   documents?: Record<string, string>;
+  heal?: (info: {
+    field: FieldDescriptor;
+    inventory: FieldInventory;
+    attempted: string;
+    error: string;
+  }) => Promise<FillResult | null>;
 };
 
 export type { WalkHistoryItem };
@@ -84,7 +91,7 @@ async function fillResolved(
       outcome = await fillField(page, field, resolution.value);
     } catch (error) {
       const message = error instanceof Error ? error.message : "fill failed";
-      const result: FillResult = {
+      let result: FillResult = {
         fingerprint: field.fingerprint,
         labelRaw: field.labelRaw,
         attempted: resolution.value,
@@ -92,6 +99,17 @@ async function fillResolved(
         ok: false,
         error: message,
       };
+      if (hooks.heal) {
+        const healed = await hooks.heal({
+          field,
+          inventory,
+          attempted: resolution.value,
+          error: message,
+        });
+        if (healed) {
+          result = healed;
+        }
+      }
       fills.push(result);
       upsertHistory(history, {
         labelRaw: field.labelRaw,
@@ -106,7 +124,7 @@ async function fillResolved(
     const actual = (await readBack(page, field)) ?? outcome.readBack;
     const error = await nearbyError(page, field);
     const ok = valuesMatch(resolution.value, actual) && !error;
-    const result: FillResult = {
+    let result: FillResult = {
       fingerprint: field.fingerprint,
       labelRaw: field.labelRaw,
       attempted: resolution.value,
@@ -115,6 +133,17 @@ async function fillResolved(
       error,
       chipVerified: outcome.chipVerified,
     };
+    if (!result.ok && hooks.heal) {
+      const healed = await hooks.heal({
+        field,
+        inventory,
+        attempted: resolution.value,
+        error: error ?? "read-back failed",
+      });
+      if (healed) {
+        result = healed;
+      }
+    }
     fills.push(result);
     upsertHistory(history, {
       labelRaw: field.labelRaw,

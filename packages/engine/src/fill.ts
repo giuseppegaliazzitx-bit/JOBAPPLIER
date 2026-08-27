@@ -8,6 +8,9 @@ export type FillOutcome = {
 };
 
 export async function fillField(page: Page, field: FieldDescriptor, value: string): Promise<FillOutcome> {
+  if (field.widget === "unknown") {
+    throw new Error(`unknown widget for ${field.labelRaw}`);
+  }
   if (field.type === "radio") {
     const match = field.options?.find((option) => option.value === value || option.label === value);
     const name = match?.label ?? value;

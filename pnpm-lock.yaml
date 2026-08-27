@@ -227,6 +227,9 @@ importers:
 
   packages/engine:
     dependencies:
+      '@autoapply/ai':
+        specifier: workspace:*
+        version: link:../ai
       '@autoapply/core':
         specifier: workspace:*
         version: link:../core

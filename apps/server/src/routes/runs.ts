@@ -1,18 +1,28 @@
 import { randomUUID } from "node:crypto";
 import { createReadStream, existsSync } from "node:fs";
 import { extname, join, normalize, relative, sep } from "node:path";
-import { PreflightSchema, RunCheckpointSchema, RunEventSchema, type EmbedFn, type Preflight } from "@autoapply/core";
+import {
+  PreflightSchema,
+  RunCheckpointSchema,
+  RunEventSchema,
+  type AppConfig,
+  type EmbedFn,
+  type Preflight,
+} from "@autoapply/core";
+import { createAiHandle, createXaiCaller, TokenBudget } from "@autoapply/ai";
 import type { SqliteDatabase } from "@autoapply/db";
 import type { FastifyInstance } from "fastify";
 import { z } from "zod";
+import { daySpendUsd, logAiCall } from "../ai-log.ts";
 import { abortRun, approveRun, getActive, requestStep, resumePersistedRun, setPaused, startRun } from "../runner.ts";
 
 export function registerRunRoutes(
   app: FastifyInstance,
   sqlite: SqliteDatabase,
-  dataDir: string,
+  config: AppConfig,
   embed?: EmbedFn,
 ): void {
+  const dataDir = config.dataDir;
   app.post("/api/runs", async (request, reply) => {
     const body = z.object({ url: z.string().url(), jobId: z.string().optional() }).safeParse(request.body);
     if (!body.success) {
@@ -25,6 +35,21 @@ export function registerRunRoutes(
       jobId,
       url: body.data.url,
       embed,
+      createAi: config.xaiApiKey
+        ? (id) => {
+            const key = config.xaiApiKey;
+            if (!key) {
+              return undefined;
+            }
+            return createAiHandle({
+              caller: createXaiCaller(key),
+              budget: new TokenBudget(config.aiRunTokenCeiling, config.aiDaySpendUsd),
+              runId: id,
+              onCall: (log) => logAiCall(sqlite, log),
+            });
+          }
+        : undefined,
+      daySpendUsd: () => daySpendUsd(sqlite),
     });
     return { id: runId, jobId };
   });

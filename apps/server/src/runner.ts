@@ -12,7 +12,9 @@ import {
   type WalkHistoryItem,
 } from "@autoapply/core";
 import type { SqliteDatabase } from "@autoapply/db";
-import { clickSubmit, pageKind, walkUntilPreflight } from "@autoapply/engine";
+import type { AiHandle } from "@autoapply/ai";
+import { BudgetExceededError } from "@autoapply/ai";
+import { clickSubmit, healField, pageKind, walkUntilPreflight } from "@autoapply/engine";
 import { applyRecipeLifecycle, incrementStats, matchLiveRecipe } from "./recipes.ts";
 import { chromium, type Browser, type BrowserContext, type BrowserContextOptions, type Page } from "playwright";
 import { loadBank, loadOptionAliases } from "./bank.ts";
@@ -152,6 +154,8 @@ export async function startRun(options: {
   url: string;
   embed?: EmbedFn;
   resumeRunId?: string;
+  createAi?: (runId: string) => AiHandle | undefined;
+  daySpendUsd?: () => number;
 }): Promise<string> {
   const now = new Date().toISOString();
   const resumeId = options.resumeRunId;
@@ -203,12 +207,19 @@ export async function startRun(options: {
     if (recipe) {
       options.sqlite.prepare(`UPDATE runs SET recipe_version_id = ? WHERE id = ?`).run(recipe.id, runId);
     }
+    const ai = options.createAi?.(runId);
+    if (ai && options.daySpendUsd) {
+      ai.budget.dayUsd = options.daySpendUsd();
+    }
     const result = await walkUntilPreflight(page, {
       initialHistory: checkpoint?.history,
       isPaused: () => run.paused,
       isAborted: () => run.aborted,
       recipe,
       profile,
+      heal: ai
+        ? (info) => healField({ ...info, page, ai })
+        : undefined,
       resolve: (inventory) =>
         resolveInventory(inventory, loadBank(options.sqlite), {
           embed: options.embed,
@@ -280,6 +291,12 @@ export async function startRun(options: {
     }
     emit(run, { type: "preflight", preflight });
   })().catch((error: unknown) => {
+    if (error instanceof BudgetExceededError) {
+      run.paused = true;
+      options.sqlite.prepare(`UPDATE runs SET status = 'paused', error = ? WHERE id = ?`).run(error.message, runId);
+      emit(run, { type: "status", status: "paused", reason: error.kind });
+      return;
+    }
     const message = error instanceof Error ? error.message : "run failed";
     options.sqlite.prepare(`UPDATE runs SET status = 'failed', error = ? WHERE id = ?`).run(message, runId);
     emit(run, { type: "error", message });

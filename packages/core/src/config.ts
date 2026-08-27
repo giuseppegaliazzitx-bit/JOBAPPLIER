@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const CURRENT_PHASE = 5;
+export const CURRENT_PHASE = 6;
 
 export const EnvSchema = z.object({
   AUTOAPPLY_HOME: z.string().min(1).optional(),
@@ -15,6 +15,9 @@ export const EnvSchema = z.object({
     .default(
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
     ),
+  XAI_API_KEY: z.string().min(1).optional(),
+  AI_RUN_TOKEN_CEILING: z.coerce.number().int().positive().default(50_000),
+  AI_DAY_SPEND_USD: z.coerce.number().positive().default(2),
 });
 
 export type EnvConfig = z.infer<typeof EnvSchema>;
@@ -27,6 +30,9 @@ export const AppConfigSchema = z.object({
   webOrigin: z.string().min(1),
   fetchTimeoutMs: z.number().int().positive(),
   fetchUserAgent: z.string().min(1),
+  xaiApiKey: z.string().min(1).optional(),
+  aiRunTokenCeiling: z.number().int().positive(),
+  aiDaySpendUsd: z.number().positive(),
 });
 
 export type AppConfig = z.infer<typeof AppConfigSchema>;

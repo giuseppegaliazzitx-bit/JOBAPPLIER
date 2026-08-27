@@ -7,6 +7,17 @@ function fileNameOf(pathOrValue: string): string {
 }
 
 export async function readBack(page: Page, field: FieldDescriptor): Promise<string | null> {
+  if (field.widget === "unknown") {
+    try {
+      const loc = await locate(page, field.selector);
+      const selected = await loc.getAttribute("data-selected");
+      if (selected && selected.trim().length > 0) {
+        return selected.trim();
+      }
+    } catch {
+      return null;
+    }
+  }
   if (field.widget === "typeahead") {
     const chip = page.locator("[data-chip]").filter({ hasText: /./ });
     if ((await chip.count()) > 0) {

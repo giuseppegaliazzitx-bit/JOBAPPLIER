@@ -12,6 +12,9 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     WEB_ORIGIN: env.WEB_ORIGIN,
     FETCH_TIMEOUT_MS: env.FETCH_TIMEOUT_MS,
     FETCH_USER_AGENT: env.FETCH_USER_AGENT,
+    XAI_API_KEY: env.XAI_API_KEY,
+    AI_RUN_TOKEN_CEILING: env.AI_RUN_TOKEN_CEILING,
+    AI_DAY_SPEND_USD: env.AI_DAY_SPEND_USD,
   });
   if (parsed.AUTOAPPLY_HOME) {
     env.AUTOAPPLY_HOME = parsed.AUTOAPPLY_HOME;
@@ -27,6 +30,9 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     webOrigin: parsed.WEB_ORIGIN,
     fetchTimeoutMs: parsed.FETCH_TIMEOUT_MS,
     fetchUserAgent: parsed.FETCH_USER_AGENT,
+    xaiApiKey: parsed.XAI_API_KEY,
+    aiRunTokenCeiling: parsed.AI_RUN_TOKEN_CEILING,
+    aiDaySpendUsd: parsed.AI_DAY_SPEND_USD,
   });
 }
 

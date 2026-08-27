@@ -17,6 +17,8 @@ export function tempSqlite(): { sqlite: SqliteDatabase; config: AppConfig; dir: 
     webOrigin: "http://127.0.0.1:5173",
     fetchTimeoutMs: 5000,
     fetchUserAgent: "autoapply-test",
+    aiRunTokenCeiling: 50_000,
+    aiDaySpendUsd: 2,
   });
   return { sqlite, config, dir };
 }

@@ -95,6 +95,23 @@ ${body}
     }
   }
 
+  var orbit = document.querySelector("[data-widget=orbit-picker]");
+  if (orbit) {
+    var token = orbit.querySelector(".orbit-token");
+    var choices = orbit.querySelector(".orbit-choices");
+    var hiddenOrbit = orbit.querySelector("input[type=hidden]");
+    if (token && choices && hiddenOrbit) {
+      choices.querySelectorAll("[data-orbit]").forEach(function (item) {
+        item.addEventListener("click", function () {
+          var value = item.getAttribute("data-orbit") || "";
+          hiddenOrbit.value = value;
+          token.textContent = value;
+          orbit.setAttribute("data-selected", value);
+        });
+      });
+    }
+  }
+
   var radios = document.querySelectorAll('input[name="work_authorized"]');
   var extra = document.getElementById("visa-wrap");
   radios.forEach(function (r) {
