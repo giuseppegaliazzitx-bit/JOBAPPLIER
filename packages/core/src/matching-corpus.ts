@@ -49,6 +49,9 @@ function cross(left: string, right: string, limit: number): CorpusPair[] {
   return pairs;
 }
 
+/** Hand-added should-not-match regressions. Survives generated-pair reshuffles. */
+export const EXTRA_SHOULD_NOT_MATCH: CorpusPair[] = [];
+
 export function buildMatchingCorpus(): { shouldMatch: CorpusPair[]; shouldNotMatch: CorpusPair[] } {
   const shouldMatch = [
     ...combinations("work_auth", 28),
@@ -80,7 +83,8 @@ export function buildMatchingCorpus(): { shouldMatch: CorpusPair[]; shouldNotMat
     ...cross("linkedin", "github", 9),
     ...cross("company_prior", "currently_employed", 9),
     ...cross("first_name", "email", 9),
-  ].slice(0, 150);
+    ...EXTRA_SHOULD_NOT_MATCH,
+  ].slice(0, 150 + EXTRA_SHOULD_NOT_MATCH.length);
 
   return { shouldMatch, shouldNotMatch };
 }

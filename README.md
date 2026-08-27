@@ -81,3 +81,16 @@ Never pointed at real employer application forms. Inventory golden tests load HT
 Golden inventories live next to each fixture as `*.inventory.json`. The matching corpus is `fixtures/matching.json` — a false positive there is a wrong answer on a real application.
 
 Hand-written recipes live in `packages/engine/recipes/` (Greenhouse and Lever). A version cannot reach `shadow` until it passes its HTML fixture. Recipe JSON never stores profile literals.
+
+## Recurring tasks
+
+Phases 0–10 are on `main`. Day-to-day work uses these playbooks (project skills under `.grok/skills/`):
+
+| Task | Skill | Notes |
+|---|---|---|
+| Add a platform recipe | `/add-platform-recipe` | Capture 3 fixtures, detect, recipe only for walker gaps |
+| Diagnose a failing recipe | `/diagnose-recipe` | Read-only until you say go |
+| Investigate a bad answer | `/investigate-bad-answer` | Most serious bug class; add `EXTRA_SHOULD_NOT_MATCH` |
+| Reduce AI spend | `/reduce-ai-spend` | Diagnose only; do not implement until asked |
+
+Pass a real platform, recipe id, fingerprint, or `$X → $Y` spend target. Placeholders are not enough to start.

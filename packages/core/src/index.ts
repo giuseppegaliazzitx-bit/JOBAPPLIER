@@ -161,7 +161,12 @@ export {
   questionCanBeAnsweredByProfile,
   type Resolution,
 } from "./resolution.ts";
-export { buildMatchingCorpus, type CorpusPair, type CorpusItem } from "./matching-corpus.ts";
+export {
+  EXTRA_SHOULD_NOT_MATCH,
+  buildMatchingCorpus,
+  type CorpusPair,
+  type CorpusItem,
+} from "./matching-corpus.ts";
 export {
   BlockedJobSchema,
   QuestionCardSchema,
