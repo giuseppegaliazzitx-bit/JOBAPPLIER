@@ -9,3 +9,9 @@ export {
 export { extractFieldInventory, inventoryFromRaw } from "./inventory.ts";
 export { scrapeDom } from "./scrape-dom.ts";
 export type { RawControl, RawOption } from "./raw-control.ts";
+export { locate, locatorFromSelector } from "./locate.ts";
+export { fillField } from "./fill.ts";
+export { nearbyError, readBack, valuesMatch } from "./verify.ts";
+export { clickContinue, pageKind } from "./advance.ts";
+export { clickSubmit, type SubmitApproval } from "./submit-gate.ts";
+export { walkUntilPreflight, type WalkHooks, type WalkResult, type WalkHistoryItem } from "./walk.ts";

@@ -100,6 +100,7 @@ export const runs = sqliteTable("runs", {
   tokenCostUsd: real("token_cost_usd").notNull().default(0),
   wallMs: integer("wall_ms"),
   error: text("error"),
+  checkpointJson: text("checkpoint_json"),
 });
 
 export const runEvents = sqliteTable(

@@ -160,6 +160,23 @@ export {
   type RecipeVersion,
 } from "./recipe.ts";
 export {
+  MAX_WIZARD_STEPS,
+  FillResultSchema,
+  PreflightRowSchema,
+  PreflightSchema,
+  RunEventSchema,
+  RunPublicSchema,
+  WalkHistoryItemSchema,
+  RunCheckpointSchema,
+  type FillResult,
+  type PreflightRow,
+  type Preflight,
+  type RunEvent,
+  type RunPublic,
+  type WalkHistoryItem,
+  type RunCheckpoint,
+} from "./run.ts";
+export {
   DISTILLED_PAGE_FIELD_CAP,
   DISTILLED_PAGE_BYTE_CAP,
   DistilledFieldSchema,

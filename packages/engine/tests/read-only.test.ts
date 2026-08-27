@@ -6,15 +6,18 @@ import { describe, expect, it } from "vitest";
 const here = dirname(fileURLToPath(import.meta.url));
 const srcDir = join(here, "../src");
 
+const INVENTORY_FILES = new Set(["scrape-dom.ts", "inventory.ts", "raw-control.ts", "locate.ts"]);
+
 function sourceFiles(): string[] {
   return readdirSync(srcDir)
-    .filter((name) => name.endsWith(".ts") && name !== "capture.ts")
+    .filter((name) => INVENTORY_FILES.has(name))
     .map((name) => readFileSync(join(srcDir, name), "utf8"));
 }
 
 describe("inventory extractor is read-only", () => {
   it("does not click, fill, type, or submit", () => {
     const blob = sourceFiles().join("\n");
+    expect(blob.length).toBeGreaterThan(0);
     expect(blob).not.toMatch(/\.click\s*\(/);
     expect(blob).not.toMatch(/\.fill\s*\(/);
     expect(blob).not.toMatch(/\.type\s*\(/);

@@ -2,7 +2,7 @@
 
 Local-first job application automation. Architecture is in [`design.md`](./design.md).
 
-Current phase: **3 — Answer bank**. Questions are matched, never guessed. Resolution is dry-run only.
+Current phase: **4 — Fill and preflight**. Forms are filled and verified. Submit happens only after you click Approve.
 
 ## Requirements
 
@@ -20,7 +20,8 @@ pnpm dev
 ```
 
 UI: `http://127.0.0.1:5173`  
-API: `http://127.0.0.1:8787`
+API: `http://127.0.0.1:8787`  
+Mock ATS: `http://127.0.0.1:8790/apply` (`pnpm mock-ats`)
 
 Database file: `$AUTOAPPLY_HOME/autoapply.db` (defaults to `~/.autoapply/autoapply.db`). Override with `AUTOAPPLY_HOME` or `AUTOAPPLY_DB`. See `.env.example`.
 
@@ -37,6 +38,7 @@ Database file: `$AUTOAPPLY_HOME/autoapply.db` (defaults to `~/.autoapply/autoapp
 | `pnpm dev` | API on `http://127.0.0.1:8787` and UI on `http://127.0.0.1:5173` |
 | `pnpm dev:server` | API only |
 | `pnpm dev:web` | UI only |
+| `pnpm mock-ats` | Fake 4-step ATS on `http://127.0.0.1:8790` |
 
 ## Layout
 
@@ -44,7 +46,7 @@ Database file: `$AUTOAPPLY_HOME/autoapply.db` (defaults to `~/.autoapply/autoapp
 apps/web/            React + Vite + Tailwind UI
 apps/server/         Fastify API, WebSocket echo, SQLite-backed queue
 packages/core/       Zod schemas, types, URL/dedup/platform logic — zero I/O
-packages/engine/     Will drive SessionKit (inventory, fill, recipes, healing)
+packages/engine/     Inventory, fill, verify, wizard walk, submit gate
 packages/db/         Drizzle schema + migrations
 packages/ai/         DistilledPage boundary; model calls come later
 fixtures/pages/      Saved HTML snapshots, one dir per platform
@@ -57,7 +59,7 @@ e2e/                 Playwright Test for the UI shell
 
 ## Browser driver
 
-Application filling (later phases) uses **SessionKit** in `enhanced_browser/` (patchright + real Chrome), not vanilla Playwright.
+Live employer applications use **SessionKit** in `enhanced_browser/` (patchright + real Chrome). Playwright is used for fixture inventory and the local mock ATS. There is no automated submit: `clickSubmit` requires `{ userApproved: true }`, which the Runs page sends only from Approve.
 
 `@playwright/test` is only for Autoapply's own UI e2e tests.
 

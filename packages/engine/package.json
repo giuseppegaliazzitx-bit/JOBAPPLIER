@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@autoapply/core": "workspace:*",
+    "@autoapply/mock-ats": "workspace:*",
     "playwright": "^1.55.0"
   },
   "devDependencies": {

@@ -14,7 +14,7 @@ import { importInventory, listQuestionCards, loadBank, loadOptionAliases, saveAn
 
 const ProfileRow = z.object({ key: z.string(), value: z.string() });
 
-function loadProfile(sqlite: SqliteDatabase): ProfileValues {
+export function loadProfile(sqlite: SqliteDatabase): ProfileValues {
   const rows = sqlite.prepare(`SELECT key, value FROM profile`).all().map((row) => ProfileRow.parse(row));
   return profileValuesFromStore(rows);
 }
@@ -129,5 +129,3 @@ export function registerQuestionRoutes(
     return { gaps, totalQuestions: cards.length };
   });
 }
-
-export { loadProfile };

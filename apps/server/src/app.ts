@@ -11,6 +11,7 @@ import { registerJobRoutes } from "./routes/jobs.ts";
 import { registerProfileRoutes } from "./routes/profile.ts";
 import { registerQuestionRoutes } from "./routes/questions.ts";
 import { registerResolveRoutes } from "./routes/resolve.ts";
+import { registerRunRoutes } from "./routes/runs.ts";
 
 export type BuildAppOptions = {
   sqlite: SqliteDatabase;
@@ -30,6 +31,8 @@ export async function buildApp(options: BuildAppOptions) {
       "http://localhost:5173",
       "http://127.0.0.1:5174",
       "http://localhost:5174",
+      "http://127.0.0.1:5176",
+      "http://localhost:5176",
     ],
   });
   await app.register(multipart, { limits: { fileSize: 10 * 1024 * 1024 } });
@@ -54,6 +57,7 @@ export async function buildApp(options: BuildAppOptions) {
   registerJobRoutes(app, options.sqlite, fetchPage);
   registerQuestionRoutes(app, options.sqlite, options.embed);
   registerResolveRoutes(app, options.sqlite, options.embed);
+  registerRunRoutes(app, options.sqlite, options.config.dataDir, options.embed);
 
   return app;
 }

@@ -2,13 +2,17 @@ import {
   IngestResultSchema,
   JobPublicSchema,
   PROFILE_FIELDS,
+  PreflightSchema,
   ProfileValuesSchema,
   QuestionCardSchema,
   ResolutionSchema,
+  RunEventSchema,
   type AnswerScope,
   type JobPublic,
+  type Preflight,
   type ProfileValues,
   type QuestionCard,
+  type RunEvent,
 } from "@autoapply/core";
 import { z as zod } from "zod";
 
@@ -159,5 +163,52 @@ export async function resolveInventory(payload: unknown) {
   });
   return parseJson(response, ResolveResponse);
 }
+
+const StartRunResponse = zod.object({ id: zod.string(), jobId: zod.string() });
+
+const RunListRow = zod.object({
+  id: zod.string(),
+  job_id: zod.string(),
+  status: zod.string(),
+  started_at: zod.string(),
+}).passthrough();
+
+export async function startRun(url: string) {
+  const response = await fetch("/api/runs", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ url }),
+  });
+  return parseJson(response, StartRunResponse);
+}
+
+export async function fetchRuns() {
+  const response = await fetch("/api/runs");
+  return parseJson(response, zod.object({ runs: zod.array(RunListRow) }));
+}
+
+export async function fetchRun(id: string) {
+  const response = await fetch(`/api/runs/${id}`);
+  return parseJson(
+    response,
+    zod.object({
+      run: zod.object({
+        id: zod.string(),
+        status: zod.string(),
+      }).passthrough(),
+      events: zod.array(RunEventSchema),
+      preflight: PreflightSchema.optional(),
+    }),
+  );
+}
+
+export async function postRunAction(id: string, action: "approve" | "abort" | "pause" | "resume" | "step") {
+  const response = await fetch(`/api/runs/${id}/${action}`, { method: "POST" });
+  if (!response.ok) {
+    throw new Error(`run ${action} failed`);
+  }
+}
+
+export type { Preflight, RunEvent };
 
 export { PROFILE_FIELDS };

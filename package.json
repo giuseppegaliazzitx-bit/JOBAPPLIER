@@ -16,7 +16,8 @@
     "dev:server": "pnpm --filter @autoapply/server dev",
     "dev:web": "pnpm --filter @autoapply/web dev",
     "test:e2e": "playwright test",
-    "capture": "pnpm --filter @autoapply/engine capture"
+    "capture": "pnpm --filter @autoapply/engine capture",
+    "mock-ats": "pnpm --filter @autoapply/mock-ats dev"
   },
   "devDependencies": {
     "@eslint/js": "^9.34.0",
