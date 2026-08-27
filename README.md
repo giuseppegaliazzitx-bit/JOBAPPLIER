@@ -2,7 +2,7 @@
 
 Local-first job application automation. Architecture is in [`design.md`](./design.md).
 
-Current phase: **4 — Fill and preflight**. Forms are filled and verified. Submit happens only after you click Approve.
+Current phase: **5 — Recipes**. Platform recipes are overlays on the generic walker. Recorded values are parameterized against the profile; submit is still Approve-only.
 
 ## Requirements
 
@@ -46,7 +46,7 @@ Database file: `$AUTOAPPLY_HOME/autoapply.db` (defaults to `~/.autoapply/autoapp
 apps/web/            React + Vite + Tailwind UI
 apps/server/         Fastify API, WebSocket echo, SQLite-backed queue
 packages/core/       Zod schemas, types, URL/dedup/platform logic — zero I/O
-packages/engine/     Inventory, fill, verify, wizard walk, submit gate
+packages/engine/     Inventory, fill, verify, wizard walk, recipes, recorder
 packages/db/         Drizzle schema + migrations
 packages/ai/         DistilledPage boundary; model calls come later
 fixtures/pages/      Saved HTML snapshots, one dir per platform
@@ -70,3 +70,5 @@ Captchas are solved by SessionKit (checkbox/audio reCAPTCHA, Cloudflare, 2captch
 Never pointed at real employer application forms. Inventory golden tests load HTML snapshots with Playwright `setContent`. Capture (`pnpm capture <url>`) is a manual tool, not part of CI.
 
 Golden inventories live next to each fixture as `*.inventory.json`. The matching corpus is `fixtures/matching.json` — a false positive there is a wrong answer on a real application.
+
+Hand-written recipes live in `packages/engine/recipes/` (Greenhouse and Lever). A version cannot reach `shadow` until it passes its HTML fixture. Recipe JSON never stores profile literals.

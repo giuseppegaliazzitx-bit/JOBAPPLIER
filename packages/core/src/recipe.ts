@@ -97,6 +97,26 @@ export const RecipeVersionSchema = z.object({
     failures: z.number().int().nonnegative(),
     lastSuccessAt: z.string().optional(),
   }),
+  fixturePath: z.string().optional(),
 });
 
 export type RecipeVersion = z.infer<typeof RecipeVersionSchema>;
+
+export const RecipeBundleSchema = z.object({
+  recipe: RecipeSchema,
+  version: RecipeVersionSchema,
+});
+
+export type RecipeBundle = z.infer<typeof RecipeBundleSchema>;
+
+export const SHADOW_STREAK = 3;
+export const ACTIVE_WINDOW = 10;
+export const ACTIVE_FAIL_RATE = 0.3;
+
+export function canonicalizeValueSource(raw: string): string {
+  const mustache = raw.trim().match(/^\{\{\s*(profile\.[A-Za-z0-9_.]+|document\.[A-Za-z0-9_.]+)\s*\}\}$/);
+  if (mustache?.[1]) {
+    return mustache[1];
+  }
+  return raw.trim();
+}

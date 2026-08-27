@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const CURRENT_PHASE = 4;
+export const CURRENT_PHASE = 5;
 
 export const EnvSchema = z.object({
   AUTOAPPLY_HOME: z.string().min(1).optional(),

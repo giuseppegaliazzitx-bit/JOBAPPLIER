@@ -13,6 +13,7 @@ import {
 } from "@autoapply/core";
 import type { SqliteDatabase } from "@autoapply/db";
 import { clickSubmit, pageKind, walkUntilPreflight } from "@autoapply/engine";
+import { applyRecipeLifecycle, incrementStats, matchLiveRecipe } from "./recipes.ts";
 import { chromium, type Browser, type BrowserContext, type BrowserContextOptions, type Page } from "playwright";
 import { loadBank, loadOptionAliases } from "./bank.ts";
 import { loadProfile } from "./routes/questions.ts";
@@ -197,10 +198,17 @@ export async function startRun(options: {
     const startUrl = checkpoint?.url ?? options.url;
     await page.goto(startUrl, { waitUntil: "domcontentloaded" });
     const profile: ProfileValues = loadProfile(options.sqlite);
+    const html = await page.content();
+    const recipe = matchLiveRecipe(options.sqlite, page.url(), html);
+    if (recipe) {
+      options.sqlite.prepare(`UPDATE runs SET recipe_version_id = ? WHERE id = ?`).run(recipe.id, runId);
+    }
     const result = await walkUntilPreflight(page, {
       initialHistory: checkpoint?.history,
       isPaused: () => run.paused,
       isAborted: () => run.aborted,
+      recipe,
+      profile,
       resolve: (inventory) =>
         resolveInventory(inventory, loadBank(options.sqlite), {
           embed: options.embed,
@@ -266,6 +274,10 @@ export async function startRun(options: {
     });
     const status = result.kind === "review" ? "blocked" : result.kind === "timeout" ? "failed" : result.kind;
     options.sqlite.prepare(`UPDATE runs SET status = ? WHERE id = ?`).run(status, runId);
+    if (recipe && result.kind !== "review") {
+      incrementStats(options.sqlite, recipe.id, false);
+      applyRecipeLifecycle(options.sqlite, recipe.id, true);
+    }
     emit(run, { type: "preflight", preflight });
   })().catch((error: unknown) => {
     const message = error instanceof Error ? error.message : "run failed";
@@ -283,6 +295,15 @@ export async function approveRun(sqlite: SqliteDatabase, runId: string): Promise
   }
   await clickSubmit(run.page, { userApproved: true });
   const kind = await pageKind(run.page);
+  const recipeId = sqlite.prepare(`SELECT recipe_version_id FROM runs WHERE id = ?`).get(runId);
+  const recipeVersionId =
+    recipeId && typeof recipeId === "object" && "recipe_version_id" in recipeId && typeof recipeId.recipe_version_id === "string"
+      ? recipeId.recipe_version_id
+      : null;
+  if (recipeVersionId) {
+    incrementStats(sqlite, recipeVersionId, true);
+    applyRecipeLifecycle(sqlite, recipeVersionId, true);
+  }
   sqlite
     .prepare(`UPDATE runs SET status = 'succeeded', finished_at = ? WHERE id = ?`)
     .run(new Date().toISOString(), runId);

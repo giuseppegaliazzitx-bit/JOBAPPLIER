@@ -1,14 +1,18 @@
 import {
   MAX_WIZARD_STEPS,
+  applyInventoryOverrides,
+  applyResolveOverrides,
   type FieldInventory,
   type FillResult,
+  type ProfileValues,
+  type RecipeVersion,
   type Resolution,
   type WalkHistoryItem,
 } from "@autoapply/core";
 import type { Page } from "playwright";
-import { clickContinue, pageKind } from "./advance.ts";
 import { fillField, type FillOutcome } from "./fill.ts";
 import { extractFieldInventory } from "./inventory.ts";
+import { advanceWithRecipe, discoverWithRecipe } from "./recipe-runtime.ts";
 import { nearbyError, readBack, valuesMatch } from "./verify.ts";
 
 export type WalkHooks = {
@@ -18,6 +22,9 @@ export type WalkHooks = {
   isAborted?: () => boolean;
   onStepComplete?: (info: { step: number; url: string; history: WalkHistoryItem[] }) => Promise<void> | void;
   initialHistory?: WalkHistoryItem[];
+  recipe?: RecipeVersion;
+  profile?: ProfileValues;
+  documents?: Record<string, string>;
 };
 
 export type { WalkHistoryItem };
@@ -145,8 +152,8 @@ export async function walkUntilPreflight(page: Page, hooks: WalkHooks): Promise<
       throw new Error("aborted");
     }
     await waitIfPaused(hooks);
-    const kind = await pageKind(page);
-    await hooks.onEvent?.("discover", { kind, url: page.url(), step });
+    const kind = await discoverWithRecipe(page, hooks.recipe);
+    await hooks.onEvent?.("discover", { kind, url: page.url(), step, recipeId: hooks.recipe?.recipeId });
     if (kind === "timeout" || kind === "confirmation") {
       return {
         kind,
@@ -158,14 +165,26 @@ export async function walkUntilPreflight(page: Page, hooks: WalkHooks): Promise<
         title: await page.title(),
       };
     }
-    let inventory = await extractFieldInventory(page);
+    let inventory = applyInventoryOverrides(await extractFieldInventory(page), hooks.recipe);
     await hooks.onEvent?.("inventory", { count: inventory.fields.length, title: inventory.title });
     let resolutions = await hooks.resolve(inventory);
+    if (hooks.profile) {
+      resolutions = applyResolveOverrides(inventory, resolutions, hooks.recipe, hooks.profile, hooks.documents);
+    }
     await hooks.onEvent?.("resolve", { resolutions });
     let fills = await fillResolved(page, inventory, resolutions, history, hooks);
     for (let extra = 0; extra < 2; extra += 1) {
-      const nextInventory = await extractFieldInventory(page);
-      const nextResolutions = await hooks.resolve(nextInventory);
+      const nextInventory = applyInventoryOverrides(await extractFieldInventory(page), hooks.recipe);
+      let nextResolutions = await hooks.resolve(nextInventory);
+      if (hooks.profile) {
+        nextResolutions = applyResolveOverrides(
+          nextInventory,
+          nextResolutions,
+          hooks.recipe,
+          hooks.profile,
+          hooks.documents,
+        );
+      }
       const before = history.filter((item) => item.fill.ok).length;
       const extraFills = await fillResolved(page, nextInventory, nextResolutions, history, hooks);
       inventory = nextInventory;
@@ -208,7 +227,7 @@ export async function walkUntilPreflight(page: Page, hooks: WalkHooks): Promise<
     if (failed.length > 0) {
       return { ...last, kind: "blocked" };
     }
-    await clickContinue(page);
+    await advanceWithRecipe(page, hooks.recipe);
     await hooks.onEvent?.("advance", { url: page.url() });
   }
   throw new Error(`wizard loop guard: exceeded ${MAX_WIZARD_STEPS} steps`);

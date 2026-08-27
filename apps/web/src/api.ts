@@ -209,6 +209,76 @@ export async function postRunAction(id: string, action: "approve" | "abort" | "p
   }
 }
 
+const RecipeListResponse = zod.object({
+  recipes: zod.array(
+    zod.object({
+      id: zod.string(),
+      scope: zod.string(),
+      platform: zod.string(),
+      health: zod.object({
+        status: zod.string(),
+        successRate: zod.number(),
+        lastSuccessAt: zod.string().optional(),
+      }),
+      versions: zod.array(
+        zod.object({
+          id: zod.string(),
+          version: zod.number(),
+          status: zod.string(),
+          createdBy: zod.string(),
+          stats: zod.object({
+            runs: zod.number(),
+            successes: zod.number(),
+            failures: zod.number(),
+            lastSuccessAt: zod.string().optional(),
+          }),
+          steps: zod.array(zod.unknown()),
+          stepFailureRates: zod
+            .array(
+              zod.object({
+                stepId: zod.string(),
+                name: zod.string(),
+                runs: zod.number(),
+                failures: zod.number(),
+              }),
+            )
+            .optional(),
+        }).passthrough(),
+      ),
+    }).passthrough(),
+  ),
+});
+
+export async function fetchRecipes() {
+  const response = await fetch("/api/recipes");
+  return parseJson(response, RecipeListResponse);
+}
+
+export async function postRecipeAction(path: string, body?: unknown) {
+  const response = await fetch(path, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: body === undefined ? undefined : JSON.stringify(body),
+  });
+  const json: unknown = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    const err = json && typeof json === "object" && "error" in json ? String(json.error) : `request failed ${response.status}`;
+    throw new Error(err);
+  }
+  return json;
+}
+
+export async function patchRecipeSteps(recipeId: string, versionId: string, steps: unknown) {
+  const response = await fetch(`/api/recipes/${recipeId}/versions/${versionId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ steps }),
+  });
+  if (!response.ok) {
+    throw new Error("save failed");
+  }
+}
+
 export type { Preflight, RunEvent };
 
 export { PROFILE_FIELDS };

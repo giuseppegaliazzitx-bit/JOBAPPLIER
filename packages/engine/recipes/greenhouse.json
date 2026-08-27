@@ -1,0 +1,120 @@
+{
+  "recipe": {
+    "id": "greenhouse-platform",
+    "scope": "platform",
+    "platform": "greenhouse",
+    "match": {
+      "urlPatterns": [
+        "*://boards.greenhouse.io/*/jobs/*",
+        "*://*.greenhouse.io/*"
+      ],
+      "domFingerprints": [
+        { "kind": "meta_generator", "value": "Greenhouse" },
+        { "kind": "attr_prefix", "value": "job_application[" },
+        { "kind": "css", "value": "id=\"application_form\"" }
+      ]
+    }
+  },
+  "version": {
+    "recipeId": "greenhouse-platform",
+    "version": 1,
+    "status": "proposed",
+    "createdBy": "manual",
+    "fixturePath": "fixtures/pages/greenhouse/application.html",
+    "labelHints": {
+      "job_application[first_name]": "First Name",
+      "job_application[last_name]": "Last Name",
+      "job_application[email]": "Email",
+      "job_application[phone]": "Phone",
+      "job_application[linkedin]": "LinkedIn Profile"
+    },
+    "widgetHandlers": {},
+    "stats": { "runs": 0, "successes": 0, "failures": 0 },
+    "steps": [
+      {
+        "id": "gh-first-name",
+        "name": "First name",
+        "type": "fill",
+        "selector": {
+          "primary": { "strategy": "name", "value": "job_application[first_name]" },
+          "fallbacks": [{ "strategy": "label", "value": "First Name" }]
+        },
+        "valueSource": "profile.firstName",
+        "optional": false,
+        "onFail": "heal"
+      },
+      {
+        "id": "gh-last-name",
+        "name": "Last name",
+        "type": "fill",
+        "selector": {
+          "primary": { "strategy": "name", "value": "job_application[last_name]" },
+          "fallbacks": [{ "strategy": "label", "value": "Last Name" }]
+        },
+        "valueSource": "profile.lastName",
+        "optional": false,
+        "onFail": "heal"
+      },
+      {
+        "id": "gh-email",
+        "name": "Email",
+        "type": "fill",
+        "selector": {
+          "primary": { "strategy": "name", "value": "job_application[email]" },
+          "fallbacks": [{ "strategy": "label", "value": "Email" }]
+        },
+        "valueSource": "profile.email",
+        "optional": false,
+        "onFail": "heal"
+      },
+      {
+        "id": "gh-phone",
+        "name": "Phone",
+        "type": "fill",
+        "selector": {
+          "primary": { "strategy": "name", "value": "job_application[phone]" },
+          "fallbacks": [{ "strategy": "label", "value": "Phone" }]
+        },
+        "valueSource": "profile.phone",
+        "optional": true,
+        "onFail": "skip"
+      },
+      {
+        "id": "gh-resume",
+        "name": "Resume",
+        "type": "upload",
+        "selector": {
+          "primary": { "strategy": "name", "value": "job_application[resume]" },
+          "fallbacks": [{ "strategy": "label", "value": "Resume" }]
+        },
+        "valueSource": "document.resume",
+        "optional": false,
+        "onFail": "heal"
+      },
+      {
+        "id": "gh-linkedin",
+        "name": "LinkedIn",
+        "type": "fill",
+        "selector": {
+          "primary": { "strategy": "name", "value": "job_application[linkedin]" },
+          "fallbacks": [{ "strategy": "label", "value": "LinkedIn Profile" }]
+        },
+        "valueSource": "profile.linkedin",
+        "optional": true,
+        "onFail": "skip"
+      },
+      {
+        "id": "gh-work-auth",
+        "name": "Work authorization",
+        "type": "fill",
+        "selector": {
+          "primary": { "strategy": "name", "value": "job_application[work_authorized]" },
+          "fallbacks": [{ "strategy": "label", "value": "Work authorization" }]
+        },
+        "valueSource": "profile.authorizedToWork",
+        "optional": false,
+        "onFail": "heal"
+      }
+    ]
+  }
+}

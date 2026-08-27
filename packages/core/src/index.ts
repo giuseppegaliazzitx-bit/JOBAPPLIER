@@ -147,6 +147,11 @@ export {
   StepSchema,
   RecipeCreatedBySchema,
   RecipeVersionSchema,
+  RecipeBundleSchema,
+  SHADOW_STREAK,
+  ACTIVE_WINDOW,
+  ACTIVE_FAIL_RATE,
+  canonicalizeValueSource,
   type RecipeScope,
   type DomFingerprint,
   type RecipeMatch,
@@ -158,7 +163,36 @@ export {
   type Step,
   type RecipeCreatedBy,
   type RecipeVersion,
+  type RecipeBundle,
 } from "./recipe.ts";
+export {
+  urlPatternMatches,
+  recipeMatchesUrl,
+  recipeMatchesDom,
+  matchRecipe,
+} from "./recipe-match.ts";
+export {
+  profileLiterals,
+  parameterizeValue,
+  profileValuesInText,
+  resolveValueSource,
+  type ProfileLiteral,
+  type DocumentLiteral,
+  type ParameterizeHit,
+} from "./recipe-parameterize.ts";
+export {
+  consecutiveSuccesses,
+  failRate,
+  evaluateLifecycle,
+  type LifecycleOutcome,
+  type LifecycleDecision,
+} from "./recipe-lifecycle.ts";
+export {
+  fieldKeys,
+  applyInventoryOverrides,
+  applyResolveOverrides,
+  stepMatchesField,
+} from "./recipe-apply.ts";
 export {
   MAX_WIZARD_STEPS,
   FillResultSchema,

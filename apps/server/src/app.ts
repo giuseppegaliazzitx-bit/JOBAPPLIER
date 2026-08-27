@@ -11,7 +11,9 @@ import { registerJobRoutes } from "./routes/jobs.ts";
 import { registerProfileRoutes } from "./routes/profile.ts";
 import { registerQuestionRoutes } from "./routes/questions.ts";
 import { registerResolveRoutes } from "./routes/resolve.ts";
+import { registerRecipeRoutes } from "./routes/recipes.ts";
 import { registerRunRoutes } from "./routes/runs.ts";
+import { seedBundledRecipes } from "./recipes.ts";
 
 export type BuildAppOptions = {
   sqlite: SqliteDatabase;
@@ -58,6 +60,8 @@ export async function buildApp(options: BuildAppOptions) {
   registerQuestionRoutes(app, options.sqlite, options.embed);
   registerResolveRoutes(app, options.sqlite, options.embed);
   registerRunRoutes(app, options.sqlite, options.config.dataDir, options.embed);
+  seedBundledRecipes(options.sqlite);
+  registerRecipeRoutes(app, options.sqlite, options.embed);
 
   return app;
 }

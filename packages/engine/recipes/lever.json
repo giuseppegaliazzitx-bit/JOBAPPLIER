@@ -1,0 +1,95 @@
+{
+  "recipe": {
+    "id": "lever-platform",
+    "scope": "platform",
+    "platform": "lever",
+    "match": {
+      "urlPatterns": [
+        "*://jobs.lever.co/*/*",
+        "*://*.lever.co/*"
+      ],
+      "domFingerprints": [
+        { "kind": "script_host", "value": "jobs.lever.co" },
+        { "kind": "form_action_host", "value": "jobs.lever.co" },
+        { "kind": "css", "value": "posting-headline" }
+      ]
+    }
+  },
+  "version": {
+    "recipeId": "lever-platform",
+    "version": 1,
+    "status": "proposed",
+    "createdBy": "manual",
+    "fixturePath": "fixtures/pages/lever/application.html",
+    "labelHints": {
+      "name": "Full name",
+      "email": "Email",
+      "phone": "Phone",
+      "urls[LinkedIn]": "LinkedIn URL"
+    },
+    "widgetHandlers": {},
+    "stats": { "runs": 0, "successes": 0, "failures": 0 },
+    "steps": [
+      {
+        "id": "lv-name",
+        "name": "Full name",
+        "type": "fill",
+        "selector": {
+          "primary": { "strategy": "name", "value": "name" },
+          "fallbacks": [{ "strategy": "label", "value": "Full name" }]
+        },
+        "valueSource": "profile.firstName",
+        "optional": false,
+        "onFail": "heal"
+      },
+      {
+        "id": "lv-email",
+        "name": "Email",
+        "type": "fill",
+        "selector": {
+          "primary": { "strategy": "name", "value": "email" },
+          "fallbacks": [{ "strategy": "label", "value": "Email" }]
+        },
+        "valueSource": "profile.email",
+        "optional": false,
+        "onFail": "heal"
+      },
+      {
+        "id": "lv-phone",
+        "name": "Phone",
+        "type": "fill",
+        "selector": {
+          "primary": { "strategy": "name", "value": "phone" },
+          "fallbacks": [{ "strategy": "label", "value": "Phone" }]
+        },
+        "valueSource": "profile.phone",
+        "optional": true,
+        "onFail": "skip"
+      },
+      {
+        "id": "lv-linkedin",
+        "name": "LinkedIn",
+        "type": "fill",
+        "selector": {
+          "primary": { "strategy": "name", "value": "urls[LinkedIn]" },
+          "fallbacks": [{ "strategy": "label", "value": "LinkedIn URL" }]
+        },
+        "valueSource": "profile.linkedin",
+        "optional": true,
+        "onFail": "skip"
+      },
+      {
+        "id": "lv-resume",
+        "name": "Resume",
+        "type": "upload",
+        "selector": {
+          "primary": { "strategy": "name", "value": "resume" },
+          "fallbacks": [{ "strategy": "label", "value": "Resume" }]
+        },
+        "valueSource": "document.resume",
+        "optional": false,
+        "onFail": "heal"
+      }
+    ]
+  }
+}
