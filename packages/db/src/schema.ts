@@ -43,9 +43,22 @@ export const jobs = sqliteTable(
     fitScore: real("fit_score"),
     status: text("status").notNull(),
     createdAt: text("created_at").notNull(),
+    description: text("description"),
+    applyKind: text("apply_kind").notNull().default("unknown"),
   },
   (table) => [uniqueIndex("jobs_dedup_key_idx").on(table.dedupKey)],
 );
+
+export const queue = sqliteTable("queue", {
+  id: text("id").primaryKey(),
+  type: text("type").notNull(),
+  payloadJson: text("payload_json").notNull(),
+  status: text("status").notNull(),
+  availableAt: text("available_at").notNull(),
+  attempts: integer("attempts").notNull().default(0),
+  lastError: text("last_error"),
+  createdAt: text("created_at").notNull(),
+});
 
 export const recipes = sqliteTable("recipes", {
   id: text("id").primaryKey(),

@@ -1,18 +1,33 @@
-import { CURRENT_PHASE, type AppConfig } from "@autoapply/core";
+import { AppConfigSchema, CURRENT_PHASE, EnvSchema, type AppConfig } from "@autoapply/core";
 import { resolveDataDir, resolveDbPath } from "@autoapply/db";
+import { loadEnvFile } from "./load-env.ts";
 
-export function loadConfig(): AppConfig {
-  const portRaw = process.env.PORT ?? "8787";
-  const port = Number(portRaw);
-  if (!Number.isInteger(port) || port <= 0) {
-    throw new Error(`PORT must be a positive integer, got ${portRaw}`);
+export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
+  loadEnvFile();
+  const parsed = EnvSchema.parse({
+    AUTOAPPLY_HOME: env.AUTOAPPLY_HOME,
+    AUTOAPPLY_DB: env.AUTOAPPLY_DB,
+    HOST: env.HOST,
+    PORT: env.PORT,
+    WEB_ORIGIN: env.WEB_ORIGIN,
+    FETCH_TIMEOUT_MS: env.FETCH_TIMEOUT_MS,
+    FETCH_USER_AGENT: env.FETCH_USER_AGENT,
+  });
+  if (parsed.AUTOAPPLY_HOME) {
+    env.AUTOAPPLY_HOME = parsed.AUTOAPPLY_HOME;
   }
-  return {
+  if (parsed.AUTOAPPLY_DB) {
+    env.AUTOAPPLY_DB = parsed.AUTOAPPLY_DB;
+  }
+  return AppConfigSchema.parse({
     dataDir: resolveDataDir(),
     databasePath: resolveDbPath(),
-    serverHost: process.env.HOST ?? "127.0.0.1",
-    serverPort: port,
-  };
+    serverHost: parsed.HOST,
+    serverPort: parsed.PORT,
+    webOrigin: parsed.WEB_ORIGIN,
+    fetchTimeoutMs: parsed.FETCH_TIMEOUT_MS,
+    fetchUserAgent: parsed.FETCH_USER_AGENT,
+  });
 }
 
 export const SERVER_PHASE = CURRENT_PHASE;

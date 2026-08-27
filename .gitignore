@@ -28,6 +28,9 @@ Thumbs.db
 *.log
 user-data/
 fixtures/pages/_incoming/
+test-results/
+playwright-report/
+blob-report/
 
 .idea/
 .vscode/

@@ -1,8 +1,12 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { App } from "./App.tsx";
 import { NAV_ITEMS } from "./nav.ts";
+
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
 
 describe("App shell", () => {
   it("renders every primary nav destination", () => {
@@ -16,6 +20,25 @@ describe("App shell", () => {
     for (const item of NAV_ITEMS) {
       expect(screen.getByRole("link", { name: item.label })).toBeTruthy();
     }
+  });
+
+  it("renders the jobs paste box", () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        new Response(JSON.stringify({ jobs: [] }), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }),
+      ),
+    );
+    render(
+      <MemoryRouter initialEntries={["/jobs"]}>
+        <App />
+      </MemoryRouter>,
+    );
+    expect(screen.getByRole("heading", { name: "Jobs" })).toBeTruthy();
+    expect(screen.getByLabelText("Job URLs")).toBeTruthy();
   });
 
   it("renders the questions empty state", () => {

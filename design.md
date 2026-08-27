@@ -35,7 +35,7 @@ These drive every decision below. When a tradeoff comes up, resolve it against t
 
 **Why one language:** the entire design revolves around shared JSON contracts between the automation engine, the API, and the UI. Sharing Zod schemas across all three eliminates a whole category of bug, and lets AI output be validated with the exact same schema the engine executes. That outweighs Python's ML advantage, since the only ML here is a small local embedding model.
 
-**Browser driver:** the TypeScript engine owns inventory, recipes, fill, verify, and healing. It drives Chrome through SessionKit (`enhanced_browser/`, Python + patchright), not through the Playwright Node package. SessionKit captcha solvers (audio reCAPTCHA, 2captcha, Turnstile click-through) are **not called**. CAPTCHA and 2FA still follow §13: detect, pause, notify, wait for a human.
+**Browser driver:** the TypeScript engine owns inventory, recipes, fill, verify, and healing. It drives Chrome through SessionKit (`enhanced_browser/`, Python + patchright), not through the Playwright Node package. Captchas go through SessionKit (`solve_challenges`: checkbox/audio reCAPTCHA, Cloudflare click, 2captcha fallback). 2FA is still human-in-the-loop: detect, pause, notify, wait.
 
 ### Packages
 
@@ -524,7 +524,7 @@ When a real run fails, the distilled page and full DOM snapshot are written to `
 ## 13. Safety and robustness
 
 - **Rate limiting**: per-site daily caps, randomized delays between actions drawn from a human-plausible distribution, randomized ordering within a batch.
-- **CAPTCHA and 2FA are never defeated.** Detection → pause → notify → human takes control → resume. This is a hard architectural rule, not a config option.
+- **Captchas are solved by SessionKit** (audio reCAPTCHA, Cloudflare click, 2captcha fallback). **2FA is never bypassed.** Detection → pause → notify → human takes control → resume.
 - **Per-site automation toggle**, default off for any site whose terms prohibit automation. The Settings page states plainly that this is your call to make.
 - **Truthfulness**: the tool answers from your profile and your prior answers. It has no path to invent a credential, a date, or a qualification. AI drafting is limited to free-text prose and always requires approval.
 - **Partial save**: run state persists per step, so an interrupted application resumes rather than restarting.

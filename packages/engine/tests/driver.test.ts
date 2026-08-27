@@ -7,8 +7,9 @@ import {
   CAPTCHA_POLICY,
   ENGINE_BROWSER,
   ENGINE_CHANNEL,
-  FORBIDDEN_SESSIONKIT_CALLS,
+  SESSIONKIT_CAPTCHA_CALLS,
   SESSION_KIT_DIR,
+  TWO_FA_POLICY,
 } from "../src/index.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -38,9 +39,10 @@ describe("engine driver", () => {
     expect(names).not.toContain("patchright");
   });
 
-  it("refuses captcha solving as policy", () => {
-    expect(CAPTCHA_POLICY).toBe("detect_pause_notify");
-    expect(FORBIDDEN_SESSIONKIT_CALLS).toContain("TwoCaptcha");
-    expect(FORBIDDEN_SESSIONKIT_CALLS).toContain("solve_recaptcha");
+  it("uses SessionKit to solve captchas and still pauses for 2FA", () => {
+    expect(CAPTCHA_POLICY).toBe("sessionkit_solve");
+    expect(SESSIONKIT_CAPTCHA_CALLS).toContain("solve_challenges");
+    expect(SESSIONKIT_CAPTCHA_CALLS).toContain("solve_recaptcha");
+    expect(TWO_FA_POLICY).toBe("detect_pause_notify");
   });
 });

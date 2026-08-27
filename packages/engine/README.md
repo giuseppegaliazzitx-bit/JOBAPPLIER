@@ -6,6 +6,8 @@ Phase 0 only records that choice. Inventory, fill, recipes, and healing come in 
 
 ## Captcha policy
 
-SessionKit ships audio reCAPTCHA, Cloudflare click-through, and 2captcha helpers. Autoapply does **not** call them.
+SessionKit handles captchas. `goto(..., solve=True)` already runs Cloudflare click-through, checkbox/audio reCAPTCHA, then 2captcha if `TWOCAPTCHA_API_KEY` is set. Autoapply uses that path.
 
-Detection → pause the run → notify → a human takes control → resume. That is architectural (`design.md` §13).
+## 2FA
+
+2FA is never bypassed. Detection → pause the run → notify → a human takes control → resume.
