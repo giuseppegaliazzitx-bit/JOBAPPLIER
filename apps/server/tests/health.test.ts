@@ -15,7 +15,7 @@ describe("server", () => {
       expect(meta.statusCode).toBe(200);
       expect(meta.json()).toEqual({
         name: "autoapply",
-        phase: 2,
+        phase: 3,
         browser: "sessionkit",
       });
     } finally {

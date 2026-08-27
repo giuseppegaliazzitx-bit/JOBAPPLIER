@@ -1,0 +1,3006 @@
+{
+  "shouldMatch": [
+    {
+      "a": {
+        "label": "Are you authorized to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Do you have US work authorization?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you authorized to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Are you legally authorized to work in the United States?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you authorized to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Are you eligible to work in the United States?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you authorized to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Do you have the right to work in the US?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you authorized to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Are you legally authorized to work in the U.S.?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you authorized to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Work authorization (US)",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you authorized to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Authorized to work in the United States?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you have US work authorization?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Are you legally authorized to work in the United States?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you have US work authorization?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Are you eligible to work in the United States?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you have US work authorization?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Do you have the right to work in the US?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you have US work authorization?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Are you legally authorized to work in the U.S.?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you have US work authorization?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Work authorization (US)",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you have US work authorization?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Authorized to work in the United States?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you legally authorized to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Are you eligible to work in the United States?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you legally authorized to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Do you have the right to work in the US?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you legally authorized to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Are you legally authorized to work in the U.S.?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you legally authorized to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Work authorization (US)",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you legally authorized to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Authorized to work in the United States?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you eligible to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Do you have the right to work in the US?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you eligible to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Are you legally authorized to work in the U.S.?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you eligible to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Work authorization (US)",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you eligible to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Authorized to work in the United States?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you have the right to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Are you legally authorized to work in the U.S.?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you have the right to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Work authorization (US)",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you have the right to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Authorized to work in the United States?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you legally authorized to work in the U.S.?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Work authorization (US)",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you legally authorized to work in the U.S.?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Authorized to work in the United States?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Work authorization (US)",
+        "type": "select"
+      },
+      "b": {
+        "label": "Authorized to work in the United States?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Will you now or in the future require sponsorship?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Will you require visa sponsorship?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Will you now or in the future require sponsorship?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Do you need sponsorship to work in the US?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Will you now or in the future require sponsorship?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Will you now or in the future require sponsorship to work in the United States?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Will you now or in the future require sponsorship?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Do you require employer-sponsored work authorization?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Will you now or in the future require sponsorship?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Need sponsorship now or in the future?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Will you require visa sponsorship?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Do you need sponsorship to work in the US?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Will you require visa sponsorship?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Will you now or in the future require sponsorship to work in the United States?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Will you require visa sponsorship?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Do you require employer-sponsored work authorization?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Will you require visa sponsorship?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Need sponsorship now or in the future?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you need sponsorship to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Will you now or in the future require sponsorship to work in the United States?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you need sponsorship to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Do you require employer-sponsored work authorization?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you need sponsorship to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Need sponsorship now or in the future?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Will you now or in the future require sponsorship to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Do you require employer-sponsored work authorization?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Will you now or in the future require sponsorship to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Need sponsorship now or in the future?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you require employer-sponsored work authorization?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Need sponsorship now or in the future?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "First Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Legal First Name",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "First Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Given name",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "First Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "First name (legal)",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "First Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "What's your first name?",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "First Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Please enter your first name",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Legal First Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Given name",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Legal First Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "First name (legal)",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Legal First Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "What's your first name?",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Legal First Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Please enter your first name",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Given name",
+        "type": "text"
+      },
+      "b": {
+        "label": "First name (legal)",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Given name",
+        "type": "text"
+      },
+      "b": {
+        "label": "What's your first name?",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Given name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Please enter your first name",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "First name (legal)",
+        "type": "text"
+      },
+      "b": {
+        "label": "What's your first name?",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "First name (legal)",
+        "type": "text"
+      },
+      "b": {
+        "label": "Please enter your first name",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "What's your first name?",
+        "type": "text"
+      },
+      "b": {
+        "label": "Please enter your first name",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Last Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Legal Last Name",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Last Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Family name",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Last Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Surname",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Last Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Last name (legal)",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Last Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "What's your last name?",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Legal Last Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Family name",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Legal Last Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Surname",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Legal Last Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Last name (legal)",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Legal Last Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "What's your last name?",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Family name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Surname",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Family name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Last name (legal)",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Family name",
+        "type": "text"
+      },
+      "b": {
+        "label": "What's your last name?",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Surname",
+        "type": "text"
+      },
+      "b": {
+        "label": "Last name (legal)",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Surname",
+        "type": "text"
+      },
+      "b": {
+        "label": "What's your last name?",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Last name (legal)",
+        "type": "text"
+      },
+      "b": {
+        "label": "What's your last name?",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Email",
+        "type": "email"
+      },
+      "b": {
+        "label": "Email Address",
+        "type": "email"
+      }
+    },
+    {
+      "a": {
+        "label": "Email",
+        "type": "email"
+      },
+      "b": {
+        "label": "E-mail",
+        "type": "email"
+      }
+    },
+    {
+      "a": {
+        "label": "Email",
+        "type": "email"
+      },
+      "b": {
+        "label": "Work email",
+        "type": "email"
+      }
+    },
+    {
+      "a": {
+        "label": "Email",
+        "type": "email"
+      },
+      "b": {
+        "label": "What's your email?",
+        "type": "email"
+      }
+    },
+    {
+      "a": {
+        "label": "Email",
+        "type": "email"
+      },
+      "b": {
+        "label": "Email address (required)",
+        "type": "email"
+      }
+    },
+    {
+      "a": {
+        "label": "Email Address",
+        "type": "email"
+      },
+      "b": {
+        "label": "E-mail",
+        "type": "email"
+      }
+    },
+    {
+      "a": {
+        "label": "Email Address",
+        "type": "email"
+      },
+      "b": {
+        "label": "Work email",
+        "type": "email"
+      }
+    },
+    {
+      "a": {
+        "label": "Email Address",
+        "type": "email"
+      },
+      "b": {
+        "label": "What's your email?",
+        "type": "email"
+      }
+    },
+    {
+      "a": {
+        "label": "Email Address",
+        "type": "email"
+      },
+      "b": {
+        "label": "Email address (required)",
+        "type": "email"
+      }
+    },
+    {
+      "a": {
+        "label": "E-mail",
+        "type": "email"
+      },
+      "b": {
+        "label": "Work email",
+        "type": "email"
+      }
+    },
+    {
+      "a": {
+        "label": "E-mail",
+        "type": "email"
+      },
+      "b": {
+        "label": "What's your email?",
+        "type": "email"
+      }
+    },
+    {
+      "a": {
+        "label": "E-mail",
+        "type": "email"
+      },
+      "b": {
+        "label": "Email address (required)",
+        "type": "email"
+      }
+    },
+    {
+      "a": {
+        "label": "Work email",
+        "type": "email"
+      },
+      "b": {
+        "label": "What's your email?",
+        "type": "email"
+      }
+    },
+    {
+      "a": {
+        "label": "Work email",
+        "type": "email"
+      },
+      "b": {
+        "label": "Email address (required)",
+        "type": "email"
+      }
+    },
+    {
+      "a": {
+        "label": "What's your email?",
+        "type": "email"
+      },
+      "b": {
+        "label": "Email address (required)",
+        "type": "email"
+      }
+    },
+    {
+      "a": {
+        "label": "Phone",
+        "type": "tel"
+      },
+      "b": {
+        "label": "Phone Number",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "Phone",
+        "type": "tel"
+      },
+      "b": {
+        "label": "Mobile Phone",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "Phone",
+        "type": "tel"
+      },
+      "b": {
+        "label": "Cell phone",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "Phone",
+        "type": "tel"
+      },
+      "b": {
+        "label": "Telephone",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "Phone",
+        "type": "tel"
+      },
+      "b": {
+        "label": "Primary phone number",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "Phone Number",
+        "type": "tel"
+      },
+      "b": {
+        "label": "Mobile Phone",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "Phone Number",
+        "type": "tel"
+      },
+      "b": {
+        "label": "Cell phone",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "Phone Number",
+        "type": "tel"
+      },
+      "b": {
+        "label": "Telephone",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "Phone Number",
+        "type": "tel"
+      },
+      "b": {
+        "label": "Primary phone number",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "Mobile Phone",
+        "type": "tel"
+      },
+      "b": {
+        "label": "Cell phone",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "Mobile Phone",
+        "type": "tel"
+      },
+      "b": {
+        "label": "Telephone",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "Mobile Phone",
+        "type": "tel"
+      },
+      "b": {
+        "label": "Primary phone number",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "Cell phone",
+        "type": "tel"
+      },
+      "b": {
+        "label": "Telephone",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "Cell phone",
+        "type": "tel"
+      },
+      "b": {
+        "label": "Primary phone number",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "Telephone",
+        "type": "tel"
+      },
+      "b": {
+        "label": "Primary phone number",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "Resume",
+        "type": "file"
+      },
+      "b": {
+        "label": "Resume/CV",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Resume",
+        "type": "file"
+      },
+      "b": {
+        "label": "Attach Resume",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Resume",
+        "type": "file"
+      },
+      "b": {
+        "label": "Upload your CV",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Resume",
+        "type": "file"
+      },
+      "b": {
+        "label": "Curriculum Vitae",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Resume",
+        "type": "file"
+      },
+      "b": {
+        "label": "Please attach your resume",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Resume/CV",
+        "type": "file"
+      },
+      "b": {
+        "label": "Attach Resume",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Resume/CV",
+        "type": "file"
+      },
+      "b": {
+        "label": "Upload your CV",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Resume/CV",
+        "type": "file"
+      },
+      "b": {
+        "label": "Curriculum Vitae",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Resume/CV",
+        "type": "file"
+      },
+      "b": {
+        "label": "Please attach your resume",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Attach Resume",
+        "type": "file"
+      },
+      "b": {
+        "label": "Upload your CV",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Attach Resume",
+        "type": "file"
+      },
+      "b": {
+        "label": "Curriculum Vitae",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Attach Resume",
+        "type": "file"
+      },
+      "b": {
+        "label": "Please attach your resume",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Upload your CV",
+        "type": "file"
+      },
+      "b": {
+        "label": "Curriculum Vitae",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Upload your CV",
+        "type": "file"
+      },
+      "b": {
+        "label": "Please attach your resume",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Curriculum Vitae",
+        "type": "file"
+      },
+      "b": {
+        "label": "Please attach your resume",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "LinkedIn",
+        "type": "url"
+      },
+      "b": {
+        "label": "LinkedIn Profile",
+        "type": "url"
+      }
+    },
+    {
+      "a": {
+        "label": "LinkedIn",
+        "type": "url"
+      },
+      "b": {
+        "label": "LinkedIn URL",
+        "type": "url"
+      }
+    },
+    {
+      "a": {
+        "label": "LinkedIn",
+        "type": "url"
+      },
+      "b": {
+        "label": "Your LinkedIn profile",
+        "type": "url"
+      }
+    },
+    {
+      "a": {
+        "label": "LinkedIn",
+        "type": "url"
+      },
+      "b": {
+        "label": "Link to LinkedIn",
+        "type": "url"
+      }
+    },
+    {
+      "a": {
+        "label": "LinkedIn Profile",
+        "type": "url"
+      },
+      "b": {
+        "label": "LinkedIn URL",
+        "type": "url"
+      }
+    },
+    {
+      "a": {
+        "label": "LinkedIn Profile",
+        "type": "url"
+      },
+      "b": {
+        "label": "Your LinkedIn profile",
+        "type": "url"
+      }
+    },
+    {
+      "a": {
+        "label": "LinkedIn Profile",
+        "type": "url"
+      },
+      "b": {
+        "label": "Link to LinkedIn",
+        "type": "url"
+      }
+    },
+    {
+      "a": {
+        "label": "LinkedIn URL",
+        "type": "url"
+      },
+      "b": {
+        "label": "Your LinkedIn profile",
+        "type": "url"
+      }
+    },
+    {
+      "a": {
+        "label": "LinkedIn URL",
+        "type": "url"
+      },
+      "b": {
+        "label": "Link to LinkedIn",
+        "type": "url"
+      }
+    },
+    {
+      "a": {
+        "label": "Your LinkedIn profile",
+        "type": "url"
+      },
+      "b": {
+        "label": "Link to LinkedIn",
+        "type": "url"
+      }
+    },
+    {
+      "a": {
+        "label": "Desired salary",
+        "type": "text"
+      },
+      "b": {
+        "label": "Salary expectation",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Desired salary",
+        "type": "text"
+      },
+      "b": {
+        "label": "Expected compensation",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Desired salary",
+        "type": "text"
+      },
+      "b": {
+        "label": "What are your pay expectations?",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Desired salary",
+        "type": "text"
+      },
+      "b": {
+        "label": "Compensation expectations",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Salary expectation",
+        "type": "text"
+      },
+      "b": {
+        "label": "Expected compensation",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Salary expectation",
+        "type": "text"
+      },
+      "b": {
+        "label": "What are your pay expectations?",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Salary expectation",
+        "type": "text"
+      },
+      "b": {
+        "label": "Compensation expectations",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Expected compensation",
+        "type": "text"
+      },
+      "b": {
+        "label": "What are your pay expectations?",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Expected compensation",
+        "type": "text"
+      },
+      "b": {
+        "label": "Compensation expectations",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "What are your pay expectations?",
+        "type": "text"
+      },
+      "b": {
+        "label": "Compensation expectations",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Start date",
+        "type": "text"
+      },
+      "b": {
+        "label": "When can you start?",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Start date",
+        "type": "text"
+      },
+      "b": {
+        "label": "Earliest start date",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Start date",
+        "type": "text"
+      },
+      "b": {
+        "label": "Available to start",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Start date",
+        "type": "text"
+      },
+      "b": {
+        "label": "What is your notice period?",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "When can you start?",
+        "type": "text"
+      },
+      "b": {
+        "label": "Earliest start date",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "When can you start?",
+        "type": "text"
+      },
+      "b": {
+        "label": "Available to start",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "When can you start?",
+        "type": "text"
+      },
+      "b": {
+        "label": "What is your notice period?",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Earliest start date",
+        "type": "text"
+      },
+      "b": {
+        "label": "Available to start",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Earliest start date",
+        "type": "text"
+      },
+      "b": {
+        "label": "What is your notice period?",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Available to start",
+        "type": "text"
+      },
+      "b": {
+        "label": "What is your notice period?",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "City",
+        "type": "text"
+      },
+      "b": {
+        "label": "City of residence",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "City",
+        "type": "text"
+      },
+      "b": {
+        "label": "What city do you live in?",
+        "type": "text"
+      }
+    }
+  ],
+  "shouldNotMatch": [
+    {
+      "a": {
+        "label": "Are you authorized to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Will you now or in the future require sponsorship?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you authorized to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Will you require visa sponsorship?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you authorized to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Do you need sponsorship to work in the US?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you authorized to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Will you now or in the future require sponsorship to work in the United States?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you authorized to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Do you require employer-sponsored work authorization?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you authorized to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Need sponsorship now or in the future?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you have US work authorization?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Will you now or in the future require sponsorship?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you have US work authorization?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Will you require visa sponsorship?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you have US work authorization?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Do you need sponsorship to work in the US?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you have US work authorization?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Will you now or in the future require sponsorship to work in the United States?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you have US work authorization?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Do you require employer-sponsored work authorization?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you have US work authorization?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Need sponsorship now or in the future?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you legally authorized to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Will you now or in the future require sponsorship?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you legally authorized to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Will you require visa sponsorship?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you legally authorized to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Do you need sponsorship to work in the US?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you legally authorized to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Will you now or in the future require sponsorship to work in the United States?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you legally authorized to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Do you require employer-sponsored work authorization?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you legally authorized to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Need sponsorship now or in the future?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you eligible to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Will you now or in the future require sponsorship?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you eligible to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Will you require visa sponsorship?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you eligible to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Do you need sponsorship to work in the US?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you eligible to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Will you now or in the future require sponsorship to work in the United States?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you eligible to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Do you require employer-sponsored work authorization?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you eligible to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Need sponsorship now or in the future?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you have the right to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Will you now or in the future require sponsorship?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you have the right to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Will you require visa sponsorship?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you have the right to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Do you need sponsorship to work in the US?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you have the right to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Will you now or in the future require sponsorship to work in the United States?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you have the right to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Do you require employer-sponsored work authorization?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you have the right to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Need sponsorship now or in the future?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you legally authorized to work in the U.S.?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Will you now or in the future require sponsorship?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you legally authorized to work in the U.S.?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Will you require visa sponsorship?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you legally authorized to work in the U.S.?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Do you need sponsorship to work in the US?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you legally authorized to work in the U.S.?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Will you now or in the future require sponsorship to work in the United States?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you legally authorized to work in the U.S.?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Do you require employer-sponsored work authorization?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you legally authorized to work in the U.S.?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Need sponsorship now or in the future?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "First Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Last Name",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "First Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Legal Last Name",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "First Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Family name",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "First Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Surname",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "First Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Last name (legal)",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "First Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "What's your last name?",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Legal First Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Last Name",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Legal First Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Legal Last Name",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Legal First Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Family name",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Legal First Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Surname",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Legal First Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Last name (legal)",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Legal First Name",
+        "type": "text"
+      },
+      "b": {
+        "label": "What's your last name?",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Given name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Last Name",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Given name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Legal Last Name",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Given name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Family name",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Given name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Surname",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Given name",
+        "type": "text"
+      },
+      "b": {
+        "label": "Last name (legal)",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Given name",
+        "type": "text"
+      },
+      "b": {
+        "label": "What's your last name?",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "First name (legal)",
+        "type": "text"
+      },
+      "b": {
+        "label": "Last Name",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "First name (legal)",
+        "type": "text"
+      },
+      "b": {
+        "label": "Legal Last Name",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "First name (legal)",
+        "type": "text"
+      },
+      "b": {
+        "label": "Family name",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "First name (legal)",
+        "type": "text"
+      },
+      "b": {
+        "label": "Surname",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "First name (legal)",
+        "type": "text"
+      },
+      "b": {
+        "label": "Last name (legal)",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "First name (legal)",
+        "type": "text"
+      },
+      "b": {
+        "label": "What's your last name?",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "What's your first name?",
+        "type": "text"
+      },
+      "b": {
+        "label": "Last Name",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Email",
+        "type": "email"
+      },
+      "b": {
+        "label": "Phone",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "Email",
+        "type": "email"
+      },
+      "b": {
+        "label": "Phone Number",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "Email",
+        "type": "email"
+      },
+      "b": {
+        "label": "Mobile Phone",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "Email",
+        "type": "email"
+      },
+      "b": {
+        "label": "Cell phone",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "Email",
+        "type": "email"
+      },
+      "b": {
+        "label": "Telephone",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "Email",
+        "type": "email"
+      },
+      "b": {
+        "label": "Primary phone number",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "Email Address",
+        "type": "email"
+      },
+      "b": {
+        "label": "Phone",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "Email Address",
+        "type": "email"
+      },
+      "b": {
+        "label": "Phone Number",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "Email Address",
+        "type": "email"
+      },
+      "b": {
+        "label": "Mobile Phone",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "Email Address",
+        "type": "email"
+      },
+      "b": {
+        "label": "Cell phone",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "Email Address",
+        "type": "email"
+      },
+      "b": {
+        "label": "Telephone",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "Email Address",
+        "type": "email"
+      },
+      "b": {
+        "label": "Primary phone number",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "E-mail",
+        "type": "email"
+      },
+      "b": {
+        "label": "Phone",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "E-mail",
+        "type": "email"
+      },
+      "b": {
+        "label": "Phone Number",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "E-mail",
+        "type": "email"
+      },
+      "b": {
+        "label": "Mobile Phone",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "E-mail",
+        "type": "email"
+      },
+      "b": {
+        "label": "Cell phone",
+        "type": "tel"
+      }
+    },
+    {
+      "a": {
+        "label": "Resume",
+        "type": "file"
+      },
+      "b": {
+        "label": "Cover Letter",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Resume",
+        "type": "file"
+      },
+      "b": {
+        "label": "Cover letter (optional)",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Resume",
+        "type": "file"
+      },
+      "b": {
+        "label": "Please attach a cover letter",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Resume",
+        "type": "file"
+      },
+      "b": {
+        "label": "Upload cover letter",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Resume/CV",
+        "type": "file"
+      },
+      "b": {
+        "label": "Cover Letter",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Resume/CV",
+        "type": "file"
+      },
+      "b": {
+        "label": "Cover letter (optional)",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Resume/CV",
+        "type": "file"
+      },
+      "b": {
+        "label": "Please attach a cover letter",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Resume/CV",
+        "type": "file"
+      },
+      "b": {
+        "label": "Upload cover letter",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Attach Resume",
+        "type": "file"
+      },
+      "b": {
+        "label": "Cover Letter",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Attach Resume",
+        "type": "file"
+      },
+      "b": {
+        "label": "Cover letter (optional)",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Attach Resume",
+        "type": "file"
+      },
+      "b": {
+        "label": "Please attach a cover letter",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Attach Resume",
+        "type": "file"
+      },
+      "b": {
+        "label": "Upload cover letter",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Upload your CV",
+        "type": "file"
+      },
+      "b": {
+        "label": "Cover Letter",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Upload your CV",
+        "type": "file"
+      },
+      "b": {
+        "label": "Cover letter (optional)",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Upload your CV",
+        "type": "file"
+      },
+      "b": {
+        "label": "Please attach a cover letter",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Upload your CV",
+        "type": "file"
+      },
+      "b": {
+        "label": "Upload cover letter",
+        "type": "file"
+      }
+    },
+    {
+      "a": {
+        "label": "Veteran status",
+        "type": "select"
+      },
+      "b": {
+        "label": "Disability status",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Veteran status",
+        "type": "select"
+      },
+      "b": {
+        "label": "Do you have a disability?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Veteran status",
+        "type": "select"
+      },
+      "b": {
+        "label": "Disability self-identification",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Veteran status",
+        "type": "select"
+      },
+      "b": {
+        "label": "Voluntary disability identification",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you a veteran?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Disability status",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you a veteran?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Do you have a disability?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you a veteran?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Disability self-identification",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you a veteran?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Voluntary disability identification",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Protected veteran status",
+        "type": "select"
+      },
+      "b": {
+        "label": "Disability status",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Gender",
+        "type": "select"
+      },
+      "b": {
+        "label": "Race",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Gender",
+        "type": "select"
+      },
+      "b": {
+        "label": "Ethnicity",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Gender",
+        "type": "select"
+      },
+      "b": {
+        "label": "Race / ethnicity",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Gender",
+        "type": "select"
+      },
+      "b": {
+        "label": "Racial or ethnic identity",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Gender identity",
+        "type": "select"
+      },
+      "b": {
+        "label": "Race",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Gender identity",
+        "type": "select"
+      },
+      "b": {
+        "label": "Ethnicity",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Gender identity",
+        "type": "select"
+      },
+      "b": {
+        "label": "Race / ethnicity",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Gender identity",
+        "type": "select"
+      },
+      "b": {
+        "label": "Racial or ethnic identity",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "What is your gender?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Race",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Desired salary",
+        "type": "text"
+      },
+      "b": {
+        "label": "Start date",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Desired salary",
+        "type": "text"
+      },
+      "b": {
+        "label": "When can you start?",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Desired salary",
+        "type": "text"
+      },
+      "b": {
+        "label": "Earliest start date",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Desired salary",
+        "type": "text"
+      },
+      "b": {
+        "label": "Available to start",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Desired salary",
+        "type": "text"
+      },
+      "b": {
+        "label": "What is your notice period?",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Salary expectation",
+        "type": "text"
+      },
+      "b": {
+        "label": "Start date",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Salary expectation",
+        "type": "text"
+      },
+      "b": {
+        "label": "When can you start?",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Salary expectation",
+        "type": "text"
+      },
+      "b": {
+        "label": "Earliest start date",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Salary expectation",
+        "type": "text"
+      },
+      "b": {
+        "label": "Available to start",
+        "type": "text"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you willing to relocate?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Are you willing to travel?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you willing to relocate?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Willing to travel",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you willing to relocate?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Travel required — are you able to travel?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Willing to relocate",
+        "type": "select"
+      },
+      "b": {
+        "label": "Are you willing to travel?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Willing to relocate",
+        "type": "select"
+      },
+      "b": {
+        "label": "Willing to travel",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Willing to relocate",
+        "type": "select"
+      },
+      "b": {
+        "label": "Travel required — are you able to travel?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Would you relocate for this role?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Are you willing to travel?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Would you relocate for this role?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Willing to travel",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Would you relocate for this role?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Travel required — are you able to travel?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you authorized to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Are you at least 18 years of age?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you authorized to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Are you 18 years or older?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you authorized to work in the US?",
+        "type": "select"
+      },
+      "b": {
+        "label": "I certify I am over 18",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you have US work authorization?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Are you at least 18 years of age?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you have US work authorization?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Are you 18 years or older?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Do you have US work authorization?",
+        "type": "select"
+      },
+      "b": {
+        "label": "I certify I am over 18",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you legally authorized to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Are you at least 18 years of age?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you legally authorized to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Are you 18 years or older?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you legally authorized to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "I certify I am over 18",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you eligible to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Are you at least 18 years of age?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you eligible to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "Are you 18 years or older?",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "Are you eligible to work in the United States?",
+        "type": "select"
+      },
+      "b": {
+        "label": "I certify I am over 18",
+        "type": "select"
+      }
+    },
+    {
+      "a": {
+        "label": "LinkedIn",
+        "type": "url"
+      },
+      "b": {
+        "label": "GitHub",
+        "type": "url"
+      }
+    },
+    {
+      "a": {
+        "label": "LinkedIn",
+        "type": "url"
+      },
+      "b": {
+        "label": "GitHub URL",
+        "type": "url"
+      }
+    },
+    {
+      "a": {
+        "label": "LinkedIn",
+        "type": "url"
+      },
+      "b": {
+        "label": "GitHub profile",
+        "type": "url"
+      }
+    },
+    {
+      "a": {
+        "label": "LinkedIn",
+        "type": "url"
+      },
+      "b": {
+        "label": "Link to GitHub",
+        "type": "url"
+      }
+    },
+    {
+      "a": {
+        "label": "LinkedIn Profile",
+        "type": "url"
+      },
+      "b": {
+        "label": "GitHub",
+        "type": "url"
+      }
+    },
+    {
+      "a": {
+        "label": "LinkedIn Profile",
+        "type": "url"
+      },
+      "b": {
+        "label": "GitHub URL",
+        "type": "url"
+      }
+    },
+    {
+      "a": {
+        "label": "LinkedIn Profile",
+        "type": "url"
+      },
+      "b": {
+        "label": "GitHub profile",
+        "type": "url"
+      }
+    },
+    {
+      "a": {
+        "label": "LinkedIn Profile",
+        "type": "url"
+      },
+      "b": {
+        "label": "Link to GitHub",
+        "type": "url"
+      }
+    },
+    {
+      "a": {
+        "label": "LinkedIn URL",
+        "type": "url"
+      },
+      "b": {
+        "label": "GitHub",
+        "type": "url"
+      }
+    }
+  ]
+}

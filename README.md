@@ -2,7 +2,7 @@
 
 Local-first job application automation. Architecture is in [`design.md`](./design.md).
 
-Current phase: **2 — Field inventory**. Read-only extraction of labeled fields from application pages. Filling comes later.
+Current phase: **3 — Answer bank**. Questions are matched, never guessed. Resolution is dry-run only.
 
 ## Requirements
 
@@ -67,4 +67,4 @@ Captchas are solved by SessionKit (checkbox/audio reCAPTCHA, Cloudflare, 2captch
 
 Never pointed at real employer application forms. Inventory golden tests load HTML snapshots with Playwright `setContent`. Capture (`pnpm capture <url>`) is a manual tool, not part of CI.
 
-Golden inventories live next to each fixture as `*.inventory.json`. Refresh with `UPDATE_GOLDEN=1 pnpm --filter @autoapply/engine test`.
+Golden inventories live next to each fixture as `*.inventory.json`. The matching corpus is `fixtures/matching.json` — a false positive there is a wrong answer on a real application.

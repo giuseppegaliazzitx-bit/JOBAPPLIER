@@ -41,13 +41,32 @@ describe("App shell", () => {
     expect(screen.getByLabelText("Job URLs")).toBeTruthy();
   });
 
-  it("renders the questions empty state", () => {
+  it("renders the questions empty state", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (input: RequestInfo) => {
+        const url = String(input);
+        if (url.includes("/api/questions")) {
+          return new Response(JSON.stringify({ questions: [] }), {
+            status: 200,
+            headers: { "Content-Type": "application/json" },
+          });
+        }
+        if (url.includes("/completeness")) {
+          return new Response(JSON.stringify({ gaps: [], totalQuestions: 0 }), {
+            status: 200,
+            headers: { "Content-Type": "application/json" },
+          });
+        }
+        return new Response(JSON.stringify({}), { status: 200 });
+      }),
+    );
     render(
       <MemoryRouter initialEntries={["/questions"]}>
         <App />
       </MemoryRouter>,
     );
     expect(screen.getByRole("heading", { name: "Questions" })).toBeTruthy();
-    expect(screen.getByText(/Nothing is guessed/)).toBeTruthy();
+    expect(await screen.findByText(/The queue is empty/)).toBeTruthy();
   });
 });

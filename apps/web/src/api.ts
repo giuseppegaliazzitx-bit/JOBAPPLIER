@@ -3,8 +3,12 @@ import {
   JobPublicSchema,
   PROFILE_FIELDS,
   ProfileValuesSchema,
+  QuestionCardSchema,
+  ResolutionSchema,
+  type AnswerScope,
   type JobPublic,
   type ProfileValues,
+  type QuestionCard,
 } from "@autoapply/core";
 import { z as zod } from "zod";
 
@@ -103,6 +107,57 @@ export async function patchDocument(
     body: JSON.stringify(body),
   });
   return parseJson(response, DocumentsResponse);
+}
+
+const QuestionsResponse = zod.object({
+  questions: zod.array(QuestionCardSchema),
+});
+
+const CompletenessResponse = zod.object({
+  gaps: zod.array(
+    zod.object({
+      labelRaw: zod.string(),
+      type: zod.string(),
+      occurrences: zod.number(),
+    }),
+  ),
+  totalQuestions: zod.number(),
+});
+
+const ResolveResponse = zod.object({
+  resolutions: zod.array(ResolutionSchema),
+});
+
+export async function fetchQuestions(): Promise<QuestionCard[]> {
+  const response = await fetch("/api/questions");
+  const body = await parseJson(response, QuestionsResponse);
+  return body.questions;
+}
+
+export async function answerQuestion(
+  id: string,
+  body: { canonicalValue: string; scope: AnswerScope; chosenOption?: string },
+) {
+  const response = await fetch(`/api/questions/${id}/answer`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  return parseJson(response, QuestionsResponse);
+}
+
+export async function fetchCompleteness() {
+  const response = await fetch("/api/profile/completeness");
+  return parseJson(response, CompletenessResponse);
+}
+
+export async function resolveInventory(payload: unknown) {
+  const response = await fetch("/api/resolve", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  return parseJson(response, ResolveResponse);
 }
 
 export { PROFILE_FIELDS };
