@@ -64,6 +64,7 @@ describe("migrate", () => {
       "0003_runs",
       "0004_settings",
       "0005_tracker",
+      "0006_scale",
     ]);
 
     const names = tableNames(sqlite);
@@ -96,6 +97,9 @@ describe("migrate", () => {
         "settings",
         "mail_messages",
         "verification_codes",
+        "saved_searches",
+        "cover_letters",
+        "outbound_notifications",
       ]),
     );
 

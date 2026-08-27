@@ -43,6 +43,9 @@ export function ApplicationsPage() {
         <a className="rounded-md bg-ink px-3 py-2 text-sm text-paper" href="/api/applications.csv">
           Export CSV
         </a>
+        <a className="rounded-md border border-rule px-3 py-2 text-sm" href="/api/calendar.ics">
+          Interview calendar
+        </a>
         <button
           type="button"
           className="rounded-md border border-rule px-3 py-2 text-sm"

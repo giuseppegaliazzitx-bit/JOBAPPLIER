@@ -52,6 +52,7 @@ describe("Applications page", () => {
     expect(screen.getByRole("heading", { name: "Applications" })).toBeTruthy();
     expect(await screen.findByText("Engineer")).toBeTruthy();
     expect(screen.getByRole("link", { name: "Export CSV" })).toBeTruthy();
+    expect(screen.getByRole("link", { name: "Interview calendar" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "Connect Gmail (read-only)" })).toBeTruthy();
     expect(screen.getByLabelText("Status for Engineer")).toBeTruthy();
     expect(screen.getByText("general.pdf")).toBeTruthy();

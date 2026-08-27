@@ -64,6 +64,24 @@ export function SettingsPage() {
       </section>
 
       <section className="mt-8">
+        <h2 className="font-serif text-xl">Notifications</h2>
+        <p className="mt-1 text-sm text-mute">Desktop is on by default. Email and Telegram stay off until you opt in.</p>
+        {(["email", "desktop", "telegram"] as const).map((channel) => (
+          <label key={channel} className="mt-2 flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              aria-label={`${channel} notifications`}
+              checked={data?.notify?.[channel] ?? channel === "desktop"}
+              onChange={(event) =>
+                save.mutate({ notify: { ...data?.notify, [channel]: event.target.checked } })
+              }
+            />
+            {channel}
+          </label>
+        ))}
+      </section>
+
+      <section className="mt-8">
         <h2 className="font-serif text-xl">Gmail</h2>
         <p className="mt-1 text-sm text-mute">
           Read-only inbox access. Scope: {data?.gmailScope ?? "gmail.readonly"}. Connected:{" "}

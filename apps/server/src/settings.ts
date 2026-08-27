@@ -73,12 +73,25 @@ export function readSettings(sqlite: SqliteDatabase) {
     gmailConnected: getSetting(sqlite, "gmail:connected") === "on",
     gmailScope: GMAIL_READONLY_SCOPE,
     tos: TOS_AUTOMATION,
+    salaryFloor: Number(getSetting(sqlite, "salary_floor") ?? 0) || 0,
+    notify: {
+      email: getSetting(sqlite, "notify:email") === "on",
+      desktop: getSetting(sqlite, "notify:desktop") !== "off",
+      telegram: getSetting(sqlite, "notify:telegram") === "on",
+    },
   };
 }
 
 export function writeSettings(
   sqlite: SqliteDatabase,
-  patch: { sites?: Record<string, boolean>; dailyCap?: number },
+  patch: {
+    sites?: Record<string, boolean>;
+    dailyCap?: number;
+    salaryFloor?: number;
+    notify?: { email?: boolean; desktop?: boolean; telegram?: boolean };
+    telegramBotToken?: string;
+    telegramChatId?: string;
+  },
 ): ReturnType<typeof readSettings> {
   if (patch.sites) {
     for (const [platform, on] of Object.entries(patch.sites)) {
@@ -87,6 +100,26 @@ export function writeSettings(
   }
   if (patch.dailyCap !== undefined) {
     setSetting(sqlite, "daily_cap", String(Math.max(1, Math.floor(patch.dailyCap))));
+  }
+  if (patch.salaryFloor !== undefined) {
+    setSetting(sqlite, "salary_floor", String(Math.max(0, Math.floor(patch.salaryFloor))));
+  }
+  if (patch.notify) {
+    if (patch.notify.email !== undefined) {
+      setSetting(sqlite, "notify:email", patch.notify.email ? "on" : "off");
+    }
+    if (patch.notify.desktop !== undefined) {
+      setSetting(sqlite, "notify:desktop", patch.notify.desktop ? "on" : "off");
+    }
+    if (patch.notify.telegram !== undefined) {
+      setSetting(sqlite, "notify:telegram", patch.notify.telegram ? "on" : "off");
+    }
+  }
+  if (patch.telegramBotToken !== undefined) {
+    setSetting(sqlite, "telegram:bot_token", patch.telegramBotToken);
+  }
+  if (patch.telegramChatId !== undefined) {
+    setSetting(sqlite, "telegram:chat_id", patch.telegramChatId);
   }
   return readSettings(sqlite);
 }

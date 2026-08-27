@@ -45,6 +45,7 @@ export const jobs = sqliteTable(
     createdAt: text("created_at").notNull(),
     description: text("description"),
     applyKind: text("apply_kind").notNull().default("unknown"),
+    staffingAgency: integer("staffing_agency", { mode: "boolean" }).notNull().default(false),
   },
   (table) => [uniqueIndex("jobs_dedup_key_idx").on(table.dedupKey)],
 );
@@ -301,6 +302,31 @@ export const verificationCodes = sqliteTable("verification_codes", {
   fromAddress: text("from_address"),
   extractedAt: text("extracted_at").notNull(),
   usedAt: text("used_at"),
+});
+
+export const savedSearches = sqliteTable("saved_searches", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  queryJson: text("query_json").notNull(),
+  intervalMinutes: integer("interval_minutes").notNull().default(1440),
+  lastRunAt: text("last_run_at"),
+  createdAt: text("created_at").notNull(),
+});
+
+export const coverLetters = sqliteTable("cover_letters", {
+  id: text("id").primaryKey(),
+  jobFamily: text("job_family").notNull().unique(),
+  body: text("body").notNull(),
+  createdAt: text("created_at").notNull(),
+});
+
+export const outboundNotifications = sqliteTable("outbound_notifications", {
+  id: text("id").primaryKey(),
+  channel: text("channel").notNull(),
+  message: text("message").notNull(),
+  createdAt: text("created_at").notNull(),
+  sentAt: text("sent_at"),
+  lastError: text("last_error"),
 });
 
 export const schemaMigrations = sqliteTable("schema_migrations", {

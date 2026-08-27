@@ -18,6 +18,11 @@ export const JobPublicSchema = z.object({
   postedAt: z.string().nullable(),
   description: z.string().nullable(),
   createdAt: z.string(),
+  fitScore: z.number().nullable().optional(),
+  salaryMin: z.number().nullable().optional(),
+  salaryMax: z.number().nullable().optional(),
+  staffingAgency: z.boolean().optional(),
+  blacklisted: z.boolean().optional(),
 });
 
 export type JobPublic = z.infer<typeof JobPublicSchema>;

@@ -1,6 +1,7 @@
 import {
   IngestResultSchema,
   JobPublicSchema,
+  MetricsSnapshotSchema,
   PROFILE_FIELDS,
   PreflightSchema,
   ProfileValuesSchema,
@@ -97,11 +98,19 @@ export async function fetchJobs(filters: {
   platform?: string;
   status?: string;
   applyKind?: string;
+  staffingAgency?: string;
+  stale?: string;
+  blacklisted?: string;
+  hideReposts?: string;
 }): Promise<JobPublic[]> {
   const params = new URLSearchParams();
   if (filters.platform) params.set("platform", filters.platform);
   if (filters.status) params.set("status", filters.status);
   if (filters.applyKind) params.set("applyKind", filters.applyKind);
+  if (filters.staffingAgency) params.set("staffingAgency", filters.staffingAgency);
+  if (filters.stale) params.set("stale", filters.stale);
+  if (filters.blacklisted) params.set("blacklisted", filters.blacklisted);
+  if (filters.hideReposts) params.set("hideReposts", filters.hideReposts);
   const qs = params.toString();
   const response = await fetch(qs.length > 0 ? `/api/jobs?${qs}` : "/api/jobs");
   const body = await parseJson(response, JobsResponse);
@@ -326,6 +335,14 @@ const SettingsResponse = zod.object({
   gmailConnected: zod.boolean().optional(),
   gmailScope: zod.string().optional(),
   tos: zod.string(),
+  salaryFloor: zod.number().optional(),
+  notify: zod
+    .object({
+      email: zod.boolean(),
+      desktop: zod.boolean(),
+      telegram: zod.boolean(),
+    })
+    .optional(),
 });
 
 export async function fetchSettings() {
@@ -333,7 +350,62 @@ export async function fetchSettings() {
   return parseJson(response, SettingsResponse);
 }
 
-export async function saveSettings(body: { sites?: Record<string, boolean>; dailyCap?: number }) {
+export async function fetchMetrics() {
+  const response = await fetch("/api/metrics");
+  return parseJson(response, MetricsSnapshotSchema);
+}
+
+export async function fetchSearches() {
+  const response = await fetch("/api/searches");
+  return parseJson(
+    response,
+    zod.object({
+      searches: zod.array(
+        zod.object({
+          id: zod.string(),
+          name: zod.string(),
+          urlsText: zod.string(),
+          intervalMinutes: zod.number(),
+          lastRunAt: zod.string().nullable(),
+        }),
+      ),
+    }),
+  );
+}
+
+export async function createSearch(body: { name: string; text: string }) {
+  const response = await fetch("/api/searches", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  return parseJson(response, zod.object({ search: zod.unknown() }));
+}
+
+export async function runSearch(id: string) {
+  const response = await fetch(`/api/searches/${id}/run`, { method: "POST" });
+  if (!response.ok) {
+    throw new Error("search run failed");
+  }
+}
+
+export async function fetchJobGap(id: string) {
+  const response = await fetch(`/api/jobs/${id}/gap`);
+  return parseJson(
+    response,
+    zod.object({
+      resume: zod.object({ id: zod.string(), label: zod.string() }).nullable(),
+      gap: zod.object({ missing: zod.array(zod.string()), overlap: zod.array(zod.string()) }),
+    }),
+  );
+}
+
+export async function saveSettings(body: {
+  sites?: Record<string, boolean>;
+  dailyCap?: number;
+  salaryFloor?: number;
+  notify?: { email?: boolean; desktop?: boolean; telegram?: boolean };
+}) {
   const response = await fetch("/api/settings", {
     method: "PUT",
     headers: { "Content-Type": "application/json" },

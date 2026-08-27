@@ -3,6 +3,7 @@ import {
   ApplicationStatusSchema,
   hostFromUrl,
   isSilentSince,
+  selectResumeVariant,
   type ApplicationStatus,
 } from "@autoapply/core";
 import { enqueue, type SqliteDatabase } from "@autoapply/db";
@@ -75,14 +76,34 @@ export type ApplicationRecord = {
   }>;
 };
 
-function defaultResume(sqlite: SqliteDatabase): { id: string; label: string } | undefined {
-  const row = sqlite
-    .prepare(
-      `SELECT id, label FROM documents WHERE kind = 'resume' ORDER BY is_default DESC, label LIMIT 1`,
-    )
-    .get();
-  const parsed = z.object({ id: z.string(), label: z.string() }).safeParse(row);
-  return parsed.success ? parsed.data : undefined;
+function listResumes(sqlite: SqliteDatabase) {
+  return sqlite
+    .prepare(`SELECT id, label, keywords_json FROM documents WHERE kind = 'resume' ORDER BY is_default DESC, label`)
+    .all()
+    .flatMap((row) => {
+      const parsed = z.object({ id: z.string(), label: z.string(), keywords_json: z.string() }).safeParse(row);
+      if (!parsed.success) {
+        return [];
+      }
+      let keywords: string[] = [];
+      try {
+        keywords = z.array(z.string()).parse(JSON.parse(parsed.data.keywords_json));
+      } catch {
+        keywords = [];
+      }
+      return [{ id: parsed.data.id, label: parsed.data.label, keywords }];
+    });
+}
+
+function defaultResume(
+  sqlite: SqliteDatabase,
+  job?: { description: string | null; title: string | null },
+): { id: string; label: string } | undefined {
+  const resumes = listResumes(sqlite);
+  if (job) {
+    return selectResumeVariant(job.description ?? "", job.title ?? "", resumes);
+  }
+  return resumes[0];
 }
 
 function children(sqlite: SqliteDatabase, applicationId: string) {
@@ -163,7 +184,9 @@ export function recordApplication(
 ): ApplicationRecord {
   const now = new Date().toISOString();
   const id = randomUUID();
-  const resume = defaultResume(sqlite);
+  const job = sqlite.prepare(`SELECT title, description FROM jobs WHERE id = ?`).get(input.jobId);
+  const jobParsed = z.object({ title: z.string().nullable(), description: z.string().nullable() }).safeParse(job);
+  const resume = defaultResume(sqlite, jobParsed.success ? jobParsed.data : undefined);
   sqlite
     .prepare(
       `INSERT INTO applications (id, job_id, run_id, submitted_at, proof_screenshot, status, status_updated_at, source_of_status, resume_document_id)

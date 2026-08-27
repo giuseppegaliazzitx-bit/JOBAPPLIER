@@ -11,6 +11,16 @@ export function registerSettingsRoutes(app: FastifyInstance, sqlite: SqliteDatab
       .object({
         sites: z.record(z.string(), z.boolean()).optional(),
         dailyCap: z.number().int().positive().optional(),
+        salaryFloor: z.number().int().nonnegative().optional(),
+        notify: z
+          .object({
+            email: z.boolean().optional(),
+            desktop: z.boolean().optional(),
+            telegram: z.boolean().optional(),
+          })
+          .optional(),
+        telegramBotToken: z.string().optional(),
+        telegramChatId: z.string().optional(),
       })
       .safeParse(request.body);
     if (!parsed.success) {

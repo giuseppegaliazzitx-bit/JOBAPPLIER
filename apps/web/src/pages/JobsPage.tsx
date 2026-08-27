@@ -1,7 +1,7 @@
 import { ApplyKindSchema, JobStatusSchema, PlatformSchema } from "@autoapply/core";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
-import { fetchJobs, pasteJobs, postBatch } from "../api.ts";
+import { createSearch, fetchJobGap, fetchJobs, fetchSearches, pasteJobs, postBatch, runSearch } from "../api.ts";
 
 const PLATFORMS = PlatformSchema.options;
 const STATUSES = JobStatusSchema.options;
@@ -13,20 +13,31 @@ export function JobsPage() {
   const [platform, setPlatform] = useState("");
   const [status, setStatus] = useState("");
   const [applyKind, setApplyKind] = useState("");
+  const [hideAgencies, setHideAgencies] = useState(false);
+  const [hideStale, setHideStale] = useState(false);
+  const [hideBlacklisted, setHideBlacklisted] = useState(true);
+  const [hideReposts, setHideReposts] = useState(false);
+  const [searchName, setSearchName] = useState("Watchlist");
+  const [gap, setGap] = useState<string | null>(null);
 
   const filters = useMemo(
     () => ({
       platform: platform || undefined,
       status: status || undefined,
       applyKind: applyKind || undefined,
+      staffingAgency: hideAgencies ? "false" : undefined,
+      stale: hideStale ? "false" : undefined,
+      blacklisted: hideBlacklisted ? "false" : undefined,
+      hideReposts: hideReposts ? "true" : undefined,
     }),
-    [platform, status, applyKind],
+    [platform, status, applyKind, hideAgencies, hideStale, hideBlacklisted, hideReposts],
   );
 
   const jobs = useQuery({
     queryKey: ["jobs", filters],
     queryFn: () => fetchJobs(filters),
   });
+  const searches = useQuery({ queryKey: ["searches"], queryFn: fetchSearches });
 
   const ingest = useMutation({
     mutationFn: pasteJobs,
@@ -107,6 +118,26 @@ export function JobsPage() {
           onChange={setApplyKind}
           options={APPLY_KINDS}
         />
+        <label className="text-sm">
+          <input type="checkbox" checked={hideAgencies} onChange={(event) => setHideAgencies(event.target.checked)} />{" "}
+          Hide staffing agencies
+        </label>
+        <label className="text-sm">
+          <input type="checkbox" checked={hideStale} onChange={(event) => setHideStale(event.target.checked)} /> Hide
+          stale (60+ days)
+        </label>
+        <label className="text-sm">
+          <input
+            type="checkbox"
+            checked={hideBlacklisted}
+            onChange={(event) => setHideBlacklisted(event.target.checked)}
+          />{" "}
+          Hide blacklisted
+        </label>
+        <label className="text-sm">
+          <input type="checkbox" checked={hideReposts} onChange={(event) => setHideReposts(event.target.checked)} /> Hide
+          reposts
+        </label>
       </div>
 
       <div className="mt-6">
@@ -131,12 +162,13 @@ export function JobsPage() {
               <th className="px-3 py-2 font-medium">Apply</th>
               <th className="px-3 py-2 font-medium">Status</th>
               <th className="px-3 py-2 font-medium">Location</th>
+              <th className="px-3 py-2 font-medium">Fit</th>
             </tr>
           </thead>
           <tbody>
             {(jobs.data ?? []).length === 0 ? (
               <tr>
-                <td className="px-3 py-8 text-center text-mute" colSpan={6}>
+                <td className="px-3 py-8 text-center text-mute" colSpan={7}>
                   No jobs in the inbox.
                 </td>
               </tr>
@@ -155,12 +187,61 @@ export function JobsPage() {
                   <td className="px-3 py-2">{job.applyKind.replace("_", " ")}</td>
                   <td className="px-3 py-2">{job.status}</td>
                   <td className="px-3 py-2">{job.location ?? "—"}</td>
+                  <td className="px-3 py-2">
+                    {job.fitScore ?? "—"}{" "}
+                    <button
+                      type="button"
+                      className="underline"
+                      onClick={() =>
+                        void fetchJobGap(job.id).then((body) =>
+                          setGap(`${body.resume?.label ?? "no resume"}: missing ${body.gap.missing.join(", ") || "none"}`),
+                        )
+                      }
+                    >
+                      gap
+                    </button>
+                  </td>
                 </tr>
               ))
             )}
           </tbody>
         </table>
       </div>
+      {gap ? <p className="mt-3 text-sm">Keyword gap: {gap}</p> : null}
+
+      <section className="mt-10">
+        <h2 className="font-serif text-xl">Saved searches</h2>
+        <form
+          className="mt-3 flex gap-2"
+          onSubmit={(event) => {
+            event.preventDefault();
+            if (!text.trim()) {
+              return;
+            }
+            void createSearch({ name: searchName, text }).then(() => queryClient.invalidateQueries({ queryKey: ["searches"] }));
+          }}
+        >
+          <input
+            aria-label="Search name"
+            className="rounded-md border border-rule bg-panel px-2 py-1 text-sm"
+            value={searchName}
+            onChange={(event) => setSearchName(event.target.value)}
+          />
+          <button type="submit" className="underline">
+            Save URLs as search
+          </button>
+        </form>
+        <ul className="mt-3 space-y-2 text-sm">
+          {(searches.data?.searches ?? []).map((item) => (
+            <li key={item.id}>
+              {item.name}{" "}
+              <button type="button" className="underline" onClick={() => void runSearch(item.id).then(() => queryClient.invalidateQueries({ queryKey: ["jobs"] }))}>
+                Run now
+              </button>
+            </li>
+          ))}
+        </ul>
+      </section>
     </div>
   );
 }

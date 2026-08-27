@@ -3,11 +3,15 @@ import {
   JobPublicSchema,
   canonicalizeUrl,
   classifyApplyKind,
+  computeFitScore,
   deriveDedupKey,
   detectJobSource,
   detectPlatform,
   extractJobMetadata,
   extractJobUrls,
+  isStaffingAgency,
+  isStale,
+  locationMismatch,
   type IngestResult,
   type JobPublic,
 } from "@autoapply/core";
@@ -33,6 +37,11 @@ const JobJoinRow = z.object({
   posted_at: z.string().nullable(),
   description: z.string().nullable(),
   created_at: z.string(),
+  fit_score: z.number().nullable().optional(),
+  salary_min: z.number().nullable().optional(),
+  salary_max: z.number().nullable().optional(),
+  staffing_agency: z.union([z.number(), z.boolean()]).optional(),
+  blacklisted: z.union([z.number(), z.boolean()]).nullable().optional(),
 });
 
 function mapJob(row: unknown): JobRow {
@@ -53,23 +62,41 @@ function mapJob(row: unknown): JobRow {
     postedAt: parsed.posted_at,
     description: parsed.description,
     createdAt: parsed.created_at,
+    fitScore: parsed.fit_score ?? null,
+    salaryMin: parsed.salary_min ?? null,
+    salaryMax: parsed.salary_max ?? null,
+    staffingAgency: Boolean(parsed.staffing_agency),
+    blacklisted: Boolean(parsed.blacklisted),
   });
 }
 
 const JOB_SELECT = `
   SELECT jobs.id, jobs.url, jobs.canonical_url, jobs.dedup_key, jobs.source,
          jobs.company_id, companies.name AS company_name, jobs.title, jobs.location,
-         jobs.platform, jobs.apply_kind, jobs.status, jobs.posted_at, jobs.description, jobs.created_at
+         jobs.platform, jobs.apply_kind, jobs.status, jobs.posted_at, jobs.description, jobs.created_at,
+         jobs.fit_score, jobs.salary_min, jobs.salary_max, jobs.staffing_agency, companies.blacklisted
   FROM jobs
   LEFT JOIN companies ON companies.id = jobs.company_id
 `;
 
-export function listJobs(
-  sqlite: SqliteDatabase,
-  filters: { platform?: string; status?: string; applyKind?: string },
-): JobRow[] {
+export type JobListFilters = {
+  platform?: string;
+  status?: string;
+  applyKind?: string;
+  staffingAgency?: boolean;
+  stale?: boolean;
+  blacklisted?: boolean;
+  salaryFloor?: number;
+  locationMismatch?: boolean;
+  hideReposts?: boolean;
+  minFit?: number;
+  city?: string;
+  country?: string;
+};
+
+export function listJobs(sqlite: SqliteDatabase, filters: JobListFilters): JobRow[] {
   const clauses: string[] = [];
-  const params: string[] = [];
+  const params: Array<string | number> = [];
   if (filters.platform) {
     clauses.push("jobs.platform = ?");
     params.push(filters.platform);
@@ -82,9 +109,54 @@ export function listJobs(
     clauses.push("jobs.apply_kind = ?");
     params.push(filters.applyKind);
   }
+  if (filters.staffingAgency === true) {
+    clauses.push("jobs.staffing_agency = 1");
+  }
+  if (filters.staffingAgency === false) {
+    clauses.push("jobs.staffing_agency = 0");
+  }
+  if (filters.blacklisted === true) {
+    clauses.push("companies.blacklisted = 1");
+  }
+  if (filters.blacklisted === false) {
+    clauses.push("(companies.blacklisted = 0 OR companies.blacklisted IS NULL)");
+  }
+  if (filters.salaryFloor !== undefined) {
+    clauses.push("(jobs.salary_min IS NULL OR jobs.salary_min >= ?)");
+    params.push(filters.salaryFloor);
+  }
   const where = clauses.length > 0 ? `WHERE ${clauses.join(" AND ")}` : "";
-  const rows = sqlite.prepare(`${JOB_SELECT} ${where} ORDER BY jobs.created_at DESC`).all(...params);
-  return rows.map((row) => mapJob(row));
+  let rows = sqlite.prepare(`${JOB_SELECT} ${where} ORDER BY jobs.created_at DESC`).all(...params).map(mapJob);
+  if (filters.stale === true) {
+    rows = rows.filter((job) => isStale(job.postedAt, job.createdAt));
+  }
+  if (filters.stale === false) {
+    rows = rows.filter((job) => !isStale(job.postedAt, job.createdAt));
+  }
+  if (filters.locationMismatch === true) {
+    rows = rows.filter((job) => locationMismatch(job.location, { city: filters.city, country: filters.country }));
+  }
+  if (filters.minFit !== undefined) {
+    const minFit = filters.minFit;
+    rows = rows.filter((job) => (job.fitScore ?? 0) >= minFit);
+  }
+  if (filters.hideReposts) {
+    const seen = new Set<string>();
+    rows = rows.filter((job) => {
+      const key = `${(job.title ?? "").toLowerCase()}|${(job.companyName ?? "").toLowerCase()}`;
+      if (seen.has(key)) {
+        return false;
+      }
+      seen.add(key);
+      return true;
+    });
+  }
+  return rows;
+}
+
+export function getJob(sqlite: SqliteDatabase, id: string): JobRow | undefined {
+  const row = sqlite.prepare(`${JOB_SELECT} WHERE jobs.id = ?`).get(id);
+  return row === undefined ? undefined : mapJob(row);
 }
 
 function findCompanyId(sqlite: SqliteDatabase, name: string): string {
@@ -159,13 +231,33 @@ export async function ingestUrl(
   const id = randomUUID();
   const createdAt = new Date().toISOString();
   const companyId = metadata.company ? findCompanyId(sqlite, metadata.company) : null;
+  const staffing = isStaffingAgency(metadata.company ?? "", metadata.description ?? "") ? 1 : 0;
+  const resumes = sqlite
+    .prepare(`SELECT keywords_json FROM documents WHERE kind = 'resume'`)
+    .all()
+    .flatMap((row) => {
+      const parsed = z.object({ keywords_json: z.string() }).safeParse(row);
+      if (!parsed.success) {
+        return [];
+      }
+      try {
+        return z.array(z.string()).parse(JSON.parse(parsed.data.keywords_json));
+      } catch {
+        return [];
+      }
+    });
+  const fit = computeFitScore({
+    description: metadata.description ?? "",
+    title: metadata.title ?? "",
+    resumeKeywords: resumes,
+  });
   sqlite
     .prepare(
       `INSERT INTO jobs (
          id, url, canonical_url, dedup_key, source, company_id, title, location,
          platform, salary_min, salary_max, posted_at, fit_score, status, created_at,
-         description, apply_kind
-       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL, ?, NULL, 'inbox', ?, ?, ?)`,
+         description, apply_kind, staffing_agency
+       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL, ?, ?, 'inbox', ?, ?, ?, ?)`,
     )
     .run(
       id,
@@ -178,9 +270,11 @@ export async function ingestUrl(
       metadata.location,
       platform,
       metadata.postedAt,
+      fit,
       createdAt,
       metadata.description,
       applyKind,
+      staffing,
     );
 
   const created = getJobByDedup(sqlite, dedupKey);

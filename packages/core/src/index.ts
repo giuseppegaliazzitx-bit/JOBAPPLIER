@@ -43,6 +43,39 @@ export { atsRefFromUrl, atsRefsFromHtml, platformFromUrl, type AtsRef } from "./
 export { detectPlatformFromUrl, detectPlatformFromDom, detectPlatform } from "./platform-detect.ts";
 export { deriveDedupKey, atsKey, metaKey, type DedupInput } from "./dedup.ts";
 export { extractJobMetadata, type JobMetadata } from "./job-metadata.ts";
+export {
+  STALE_DAYS,
+  tokenize,
+  uniqueTokens,
+  jaccard,
+  keywordOverlap,
+  titleSimilarity,
+  salaryFloorFit,
+  computeFitScore,
+  keywordGap,
+  selectResumeVariant,
+  jobFamily,
+  isStaffingAgency,
+  isStale,
+  locationMismatch,
+  coverLetterTemplate,
+  type ResumeDoc,
+} from "./fit.ts";
+export {
+  FunnelSchema,
+  SliceRateSchema,
+  MetricsSnapshotSchema,
+  computeFunnel,
+  funnelIsMonotonic,
+  computeMetrics,
+  type Funnel,
+  type SliceRate,
+  type MetricsSnapshot,
+  type MetricsApplication,
+  type MetricsAiCall,
+  type MetricsRun,
+  type MetricsInput,
+} from "./metrics.ts";
 export { classifyApplyKind } from "./apply-kind.ts";
 export {
   JobPublicSchema,

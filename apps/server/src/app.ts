@@ -17,6 +17,9 @@ import { registerResolveRoutes } from "./routes/resolve.ts";
 import { registerRecipeRoutes } from "./routes/recipes.ts";
 import { registerRunRoutes } from "./routes/runs.ts";
 import { registerGmailRoutes } from "./routes/gmail.ts";
+import { registerMetricsRoutes } from "./routes/metrics.ts";
+import { registerNotifyRoutes } from "./routes/notify.ts";
+import { registerSearchRoutes } from "./routes/searches.ts";
 import { registerSettingsRoutes } from "./routes/settings.ts";
 import { seedBundledRecipes } from "./recipes.ts";
 
@@ -31,16 +34,23 @@ export async function buildApp(options: BuildAppOptions) {
   const app = Fastify({ logger: false });
   const fetchPage = options.fetchPage ?? createFetchPage(options.config);
 
+  const allowed = new Set([
+    options.config.webOrigin,
+    "http://127.0.0.1:5173",
+    "http://localhost:5173",
+    "http://127.0.0.1:5174",
+    "http://localhost:5174",
+    "http://127.0.0.1:5176",
+    "http://localhost:5176",
+  ]);
   await app.register(cors, {
-    origin: [
-      options.config.webOrigin,
-      "http://127.0.0.1:5173",
-      "http://localhost:5173",
-      "http://127.0.0.1:5174",
-      "http://localhost:5174",
-      "http://127.0.0.1:5176",
-      "http://localhost:5176",
-    ],
+    origin: (origin, callback) => {
+      if (!origin || allowed.has(origin) || origin.startsWith("chrome-extension://")) {
+        callback(null, true);
+        return;
+      }
+      callback(new Error("origin not allowed"), false);
+    },
   });
   await app.register(multipart, { limits: { fileSize: 10 * 1024 * 1024 } });
   await app.register(websocket);
@@ -71,6 +81,9 @@ export async function buildApp(options: BuildAppOptions) {
   registerSettingsRoutes(app, options.sqlite);
   registerApplicationRoutes(app, options.sqlite, options.config);
   registerGmailRoutes(app, options.sqlite, options.config);
+  registerMetricsRoutes(app, options.sqlite);
+  registerSearchRoutes(app, options.sqlite, fetchPage);
+  registerNotifyRoutes(app, options.sqlite);
   registerBatchRoutes(app, options.sqlite, options.config, options.embed);
 
   return app;

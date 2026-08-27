@@ -2,7 +2,7 @@
 
 Local-first job application automation. Architecture is in [`design.md`](./design.md).
 
-Current phase: **9 — Tracker**. Gmail is read-only. Inbox mail is classified by rules first (verification, confirmation, viewed, screening, interview, rejection, offer); a model is used only when the message is ambiguous. Application status is auto-updated from mail and always manually overridable. Email verification codes fill Workday-style gates. 7 silent days produce a follow-up nudge.
+Current phase: **10 — Scale**. Metrics (funnel, cost per application, response rates, AI fallback) reconcile against raw tables. Saved searches re-ingest URL lists on a schedule. Fit score is keyword overlap + title similarity + salary floor. The Chrome extension posts a posting URL to the local API.
 
 ## Requirements
 
@@ -54,6 +54,7 @@ fixtures/pages/      Saved HTML snapshots, one dir per platform
 fixtures/mock-ats/   Local fake ATS for integration tests
 fixtures/inbox/      Seeded employer emails, one of each tracker class
 enhanced_browser/    SessionKit: patchright Chrome, humanize, session identity
+extension/           Chrome MV3: Apply with my profile
 e2e/                 Playwright Test for the UI shell
 ```
 
@@ -69,7 +70,9 @@ Captchas are solved by SessionKit (`solve_challenges`: Cloudflare click, checkbo
 
 Per-site automation and the daily cap live on Settings. Enable autopilot on an **active** recipe version from the Recipes page. Batch enqueue shuffles job order and respects the per-host daily cap.
 
-The Applications page is the tracker: pipeline, proof screenshot, resume variant, notes, contacts, interview dates, CSV export, and Gmail connect (scope `gmail.readonly` only). A status you set by hand is never overwritten by mail — including rejections.
+The Applications page is the tracker: pipeline, proof screenshot, resume variant, notes, contacts, interview dates, CSV export, interview calendar (ICS), and Gmail connect (scope `gmail.readonly` only). A status you set by hand is never overwritten by mail — including rejections.
+
+Metrics live on `/metrics`. Saved searches and staffing/stale/blacklist/repost filters live on Jobs. Notifications (desktop, email, Telegram) are in Settings. Load `extension/` unpacked in Chrome to send the current page URL into the jobs inbox.
 
 ## Tests
 

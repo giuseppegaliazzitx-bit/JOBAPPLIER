@@ -25,12 +25,19 @@ describe("App shell", () => {
   it("renders the jobs paste box", () => {
     vi.stubGlobal(
       "fetch",
-      vi.fn(async () =>
-        new Response(JSON.stringify({ jobs: [] }), {
+      vi.fn(async (input: RequestInfo) => {
+        const url = String(input);
+        if (url.includes("/api/searches")) {
+          return new Response(JSON.stringify({ searches: [] }), {
+            status: 200,
+            headers: { "Content-Type": "application/json" },
+          });
+        }
+        return new Response(JSON.stringify({ jobs: [] }), {
           status: 200,
           headers: { "Content-Type": "application/json" },
-        }),
-      ),
+        });
+      }),
     );
     render(
       <MemoryRouter initialEntries={["/jobs"]}>
