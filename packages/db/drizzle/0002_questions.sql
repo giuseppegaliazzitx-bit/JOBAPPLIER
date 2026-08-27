@@ -1,0 +1,6 @@
+ALTER TABLE questions ADD COLUMN widget TEXT NOT NULL DEFAULT 'native';
+ALTER TABLE questions ADD COLUMN required INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE questions ADD COLUMN options_json TEXT;
+ALTER TABLE questions ADD COLUMN section_heading TEXT;
+ALTER TABLE questions ADD COLUMN label_raw TEXT NOT NULL DEFAULT '';
+ALTER TABLE questions ADD COLUMN blocked_json TEXT NOT NULL DEFAULT '[]';

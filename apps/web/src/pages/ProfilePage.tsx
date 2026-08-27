@@ -9,6 +9,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import {
+  fetchCompleteness,
   fetchDocuments,
   fetchProfile,
   patchDocument,
@@ -22,6 +23,7 @@ export function ProfilePage() {
   const queryClient = useQueryClient();
   const profile = useQuery({ queryKey: ["profile"], queryFn: fetchProfile });
   const documents = useQuery({ queryKey: ["documents"], queryFn: fetchDocuments });
+  const completeness = useQuery({ queryKey: ["completeness"], queryFn: fetchCompleteness });
   const [draft, setDraft] = useState<ProfileValues>(EMPTY);
 
   useEffect(() => {
@@ -53,6 +55,15 @@ export function ProfilePage() {
       <p className="mt-2 text-sm">
         Required fields filled: {filled.length}/{required.length}
       </p>
+      {(completeness.data?.gaps.length ?? 0) > 0 ? (
+        <p className="mt-2 text-sm text-mute">
+          Most frequent unanswered questions:{" "}
+          {completeness.data?.gaps
+            .slice(0, 5)
+            .map((gap) => gap.labelRaw)
+            .join("; ")}
+        </p>
+      ) : null}
 
       <form
         className="mt-8 space-y-10"

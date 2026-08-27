@@ -1,7 +1,7 @@
 import cors from "@fastify/cors";
 import multipart from "@fastify/multipart";
 import websocket from "@fastify/websocket";
-import { type AppConfig } from "@autoapply/core";
+import { type AppConfig, type EmbedFn } from "@autoapply/core";
 import type { SqliteDatabase } from "@autoapply/db";
 import Fastify from "fastify";
 import { SERVER_PHASE } from "./config.ts";
@@ -9,11 +9,14 @@ import { createFetchPage, type FetchPage } from "./fetch-page.ts";
 import { registerDocumentRoutes } from "./routes/documents.ts";
 import { registerJobRoutes } from "./routes/jobs.ts";
 import { registerProfileRoutes } from "./routes/profile.ts";
+import { registerQuestionRoutes } from "./routes/questions.ts";
+import { registerResolveRoutes } from "./routes/resolve.ts";
 
 export type BuildAppOptions = {
   sqlite: SqliteDatabase;
   config: AppConfig;
   fetchPage?: FetchPage;
+  embed?: EmbedFn;
 };
 
 export async function buildApp(options: BuildAppOptions) {
@@ -49,6 +52,8 @@ export async function buildApp(options: BuildAppOptions) {
   registerProfileRoutes(app, options.sqlite);
   registerDocumentRoutes(app, options.sqlite, options.config);
   registerJobRoutes(app, options.sqlite, fetchPage);
+  registerQuestionRoutes(app, options.sqlite, options.embed);
+  registerResolveRoutes(app, options.sqlite, options.embed);
 
   return app;
 }

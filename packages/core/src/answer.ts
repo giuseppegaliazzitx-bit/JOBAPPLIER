@@ -13,3 +13,14 @@ export const MatchTierSchema = z.union([
 ]);
 
 export type MatchTier = z.infer<typeof MatchTierSchema>;
+
+export const AnswerRecordSchema = z.object({
+  questionId: z.string(),
+  scope: AnswerScopeSchema,
+  companyId: z.string().optional(),
+  jobId: z.string().optional(),
+  canonicalValue: z.string().min(1),
+  source: z.enum(["user", "profile", "import"]),
+});
+
+export type AnswerRecord = z.infer<typeof AnswerRecordSchema>;

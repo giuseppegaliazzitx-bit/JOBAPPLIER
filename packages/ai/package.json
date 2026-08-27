@@ -11,9 +11,12 @@
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {
-    "@autoapply/core": "workspace:*"
+    "@autoapply/core": "workspace:*",
+    "@xenova/transformers": "^2.17.2",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@types/node": "^22.17.0",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"
   }

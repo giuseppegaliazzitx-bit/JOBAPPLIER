@@ -98,9 +98,43 @@ export { classifyWidget, type WidgetFacts, type ClassifiedControl } from "./widg
 export {
   AnswerScopeSchema,
   MatchTierSchema,
+  AnswerRecordSchema,
   type AnswerScope,
   type MatchTier,
+  type AnswerRecord,
 } from "./answer.ts";
+export { normalizeQuestion } from "./question-normalize.ts";
+export { polarityTags, polaritiesConflict, type PolarityTag } from "./polarity.ts";
+export { typesCompatible } from "./type-compat.ts";
+export { cosine } from "./cosine.ts";
+export { mapOption, type OptionEmbedFn, type OptionMapResult } from "./option-map.ts";
+export {
+  QUESTION_CLUSTERS,
+  PROFILE_CLUSTERS,
+  clusterFor,
+  defaultTypeForCluster,
+} from "./aliases.ts";
+export {
+  matchField,
+  type EmbedFn,
+  type StoredAnswer,
+  type LiveField,
+  type MatchDecision,
+} from "./match.ts";
+export {
+  ResolutionSchema,
+  answersFromProfile,
+  resolveInventory,
+  questionCanBeAnsweredByProfile,
+  type Resolution,
+} from "./resolution.ts";
+export { buildMatchingCorpus, type CorpusPair, type CorpusItem } from "./matching-corpus.ts";
+export {
+  BlockedJobSchema,
+  QuestionCardSchema,
+  type BlockedJob,
+  type QuestionCard,
+} from "./question-card.ts";
 export {
   RecipeScopeSchema,
   DomFingerprintSchema,

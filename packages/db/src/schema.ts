@@ -145,6 +145,12 @@ export const questions = sqliteTable("questions", {
   occurrences: integer("occurrences").notNull().default(0),
   firstSeen: text("first_seen").notNull(),
   lastSeen: text("last_seen").notNull(),
+  widget: text("widget").notNull().default("native"),
+  required: integer("required", { mode: "boolean" }).notNull().default(false),
+  optionsJson: text("options_json"),
+  sectionHeading: text("section_heading"),
+  labelRaw: text("label_raw").notNull().default(""),
+  blockedJson: text("blocked_json").notNull().default("[]"),
 });
 
 export const questionAliases = sqliteTable("question_aliases", {

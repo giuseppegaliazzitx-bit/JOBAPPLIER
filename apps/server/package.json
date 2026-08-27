@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {
+    "@autoapply/ai": "workspace:*",
     "@autoapply/core": "workspace:*",
     "@autoapply/db": "workspace:*",
     "@fastify/cors": "^11.1.0",
