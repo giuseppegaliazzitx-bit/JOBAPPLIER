@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { SelectorSpecSchema } from "./field.ts";
 import { FieldResolveStatusSchema } from "./status.ts";
 import { ResolutionSchema } from "./resolution.ts";
 
@@ -12,6 +13,8 @@ export const FillResultSchema = z.object({
   ok: z.boolean(),
   error: z.string().nullable(),
   chipVerified: z.boolean().optional(),
+  healTier: z.number().int().optional(),
+  workingSelector: SelectorSpecSchema.optional(),
 });
 
 export type FillResult = z.infer<typeof FillResultSchema>;

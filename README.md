@@ -2,7 +2,7 @@
 
 Local-first job application automation. Architecture is in [`design.md`](./design.md).
 
-Current phase: **6 — AI fallback**. Models are used only to repair unknown widgets and unlabeled fields. The happy path never calls a model. Raw HTML never reaches a prompt.
+Current phase: **7 — Self-healing**. Failed selectors escalate through tiers 0–4. A successful submit after a tier 1–3 repair writes a proposed recipe. Unrepairable runs pause on the Blocked queue.
 
 ## Requirements
 
@@ -39,6 +39,7 @@ Database file: `$AUTOAPPLY_HOME/autoapply.db` (defaults to `~/.autoapply/autoapp
 | `pnpm dev:server` | API only |
 | `pnpm dev:web` | UI only |
 | `pnpm mock-ats` | Fake 4-step ATS on `http://127.0.0.1:8790` |
+| `pnpm fixture:promote <name>` | Move `fixtures/pages/_incoming/` snapshot into the golden suite |
 
 ## Layout
 

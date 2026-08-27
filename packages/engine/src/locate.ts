@@ -34,22 +34,37 @@ export function locatorFromSelector(page: Page, selector: Selector): Locator {
   return page.locator(selector.value);
 }
 
-export async function locate(page: Page, spec: SelectorSpec): Promise<Locator> {
+export type LocateHit = {
+  loc: Locator;
+  used: Selector;
+  index: number;
+};
+
+export async function locateDetailed(page: Page, spec: SelectorSpec): Promise<LocateHit> {
   const chain = [spec.primary, ...spec.fallbacks];
-  for (const selector of chain) {
+  for (let index = 0; index < chain.length; index += 1) {
+    const selector = chain[index];
+    if (!selector) {
+      continue;
+    }
     const loc = locatorFromSelector(page, selector);
     const count = await loc.count();
     if (count === 1) {
-      return loc.first();
+      return { loc: loc.first(), used: selector, index };
     }
     if (count > 1) {
       const visible = loc.locator("visible=true");
       if ((await visible.count()) === 1) {
-        return visible.first();
+        return { loc: visible.first(), used: selector, index };
       }
     }
   }
   throw new Error(`could not uniquely locate ${spec.primary.strategy}=${spec.primary.value}`);
+}
+
+export async function locate(page: Page, spec: SelectorSpec): Promise<Locator> {
+  const hit = await locateDetailed(page, spec);
+  return hit.loc;
 }
 
 function cssEscape(value: string): string {

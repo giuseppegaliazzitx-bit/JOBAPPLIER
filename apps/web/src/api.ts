@@ -50,6 +50,33 @@ async function parseJson<T>(response: Response, schema: zod.ZodType<T>): Promise
   return schema.parse(body);
 }
 
+const DashboardResponse = zod.object({
+  blockedRuns: zod.number(),
+  unansweredQuestions: zod.number(),
+  todaySpend: zod.number(),
+  degradedRecipes: zod.number(),
+  blocked: zod.array(
+    zod.object({
+      id: zod.string(),
+      createdAt: zod.string(),
+      reason: zod.string().optional(),
+      runId: zod.string().optional(),
+    }),
+  ),
+  notifications: zod.array(
+    zod.object({
+      id: zod.string(),
+      createdAt: zod.string(),
+      message: zod.string(),
+    }),
+  ),
+});
+
+export async function fetchDashboard() {
+  const response = await fetch("/api/dashboard");
+  return parseJson(response, DashboardResponse);
+}
+
 export async function fetchProfile(): Promise<ProfileValues> {
   const response = await fetch("/api/profile");
   const body = await parseJson(response, ProfileResponse);

@@ -17,6 +17,7 @@
     "dev:web": "pnpm --filter @autoapply/web dev",
     "test:e2e": "playwright test",
     "capture": "pnpm --filter @autoapply/engine capture",
+    "fixture:promote": "pnpm --filter @autoapply/engine fixture:promote",
     "mock-ats": "pnpm --filter @autoapply/mock-ats dev"
   },
   "devDependencies": {

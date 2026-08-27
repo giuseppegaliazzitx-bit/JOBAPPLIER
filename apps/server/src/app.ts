@@ -6,6 +6,7 @@ import type { SqliteDatabase } from "@autoapply/db";
 import Fastify from "fastify";
 import { SERVER_PHASE } from "./config.ts";
 import { createFetchPage, type FetchPage } from "./fetch-page.ts";
+import { registerDashboardRoutes } from "./routes/dashboard.ts";
 import { registerDocumentRoutes } from "./routes/documents.ts";
 import { registerJobRoutes } from "./routes/jobs.ts";
 import { registerProfileRoutes } from "./routes/profile.ts";
@@ -54,6 +55,7 @@ export async function buildApp(options: BuildAppOptions) {
     });
   });
 
+  registerDashboardRoutes(app, options.sqlite);
   registerProfileRoutes(app, options.sqlite);
   registerDocumentRoutes(app, options.sqlite, options.config);
   registerJobRoutes(app, options.sqlite, fetchPage);

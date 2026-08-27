@@ -7,6 +7,7 @@ export {
   claimNext,
   completeJob,
   failJob,
+  listQueue,
   QueueItemSchema,
   type QueueItem,
 } from "./queue.ts";

@@ -57,7 +57,7 @@ describe("migrate", () => {
     handles.push(sqlite);
 
     const first = migrate(sqlite);
-    expect(first).toEqual(["0000_init", "0001_intake", "0002_questions", "0003_runs"]);
+    expect(first).toEqual(["0000_init", "0001_intake", "0002_questions", "0003_runs", "0004_settings"]);
 
     const names = tableNames(sqlite);
     expect(names).toEqual(
@@ -86,6 +86,7 @@ describe("migrate", () => {
         "interviews",
         "notes",
         "queue",
+        "settings",
       ]),
     );
 

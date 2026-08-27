@@ -2,9 +2,12 @@ import {
   MAX_WIZARD_STEPS,
   applyInventoryOverrides,
   applyResolveOverrides,
+  applyStepSelectors,
+  type FailureReason,
   type FieldDescriptor,
   type FieldInventory,
   type FillResult,
+  type HealReport,
   type ProfileValues,
   type RecipeVersion,
   type Resolution,
@@ -12,6 +15,7 @@ import {
 } from "@autoapply/core";
 import type { Page } from "playwright";
 import { fillField, type FillOutcome } from "./fill.ts";
+import { escalateHeal } from "./heal-tiers.ts";
 import { extractFieldInventory } from "./inventory.ts";
 import { advanceWithRecipe, discoverWithRecipe } from "./recipe-runtime.ts";
 import { nearbyError, readBack, valuesMatch } from "./verify.ts";
@@ -32,6 +36,8 @@ export type WalkHooks = {
     attempted: string;
     error: string;
   }) => Promise<FillResult | null>;
+  onHeal?: (report: HealReport) => Promise<void> | void;
+  tier2WaitMs?: number;
 };
 
 export type { WalkHistoryItem };
@@ -44,6 +50,8 @@ export type WalkResult = {
   history: WalkHistoryItem[];
   url: string;
   title: string;
+  healReports: HealReport[];
+  blockedReason?: FailureReason;
 };
 
 async function waitIfPaused(hooks: WalkHooks): Promise<void> {
@@ -70,6 +78,7 @@ async function fillResolved(
   resolutions: Resolution[],
   history: WalkHistoryItem[],
   hooks: WalkHooks,
+  healReports: HealReport[],
 ): Promise<FillResult[]> {
   const fills: FillResult[] = [];
   for (const field of inventory.fields) {
@@ -91,33 +100,18 @@ async function fillResolved(
       outcome = await fillField(page, field, resolution.value);
     } catch (error) {
       const message = error instanceof Error ? error.message : "fill failed";
-      let result: FillResult = {
-        fingerprint: field.fingerprint,
-        labelRaw: field.labelRaw,
-        attempted: resolution.value,
-        readBack: null,
-        ok: false,
-        error: message,
-      };
-      if (hooks.heal) {
-        const healed = await hooks.heal({
-          field,
-          inventory,
-          attempted: resolution.value,
-          error: message,
-        });
-        if (healed) {
-          result = healed;
-        }
-      }
-      fills.push(result);
+      const recovered = await recoverFill(page, field, inventory, resolution.value, message, hooks, healReports);
+      fills.push(recovered);
       upsertHistory(history, {
         labelRaw: field.labelRaw,
         fingerprint: field.fingerprint,
         resolution,
-        fill: result,
+        fill: recovered,
       });
-      await hooks.onEvent?.("fill", { ...result, durationMs: Date.now() - started });
+      await hooks.onEvent?.("fill", { ...recovered, durationMs: Date.now() - started });
+      if (healReports[healReports.length - 1]?.paused) {
+        return fills;
+      }
       continue;
     }
     await new Promise((resolve) => setTimeout(resolve, 50));
@@ -133,16 +127,16 @@ async function fillResolved(
       error,
       chipVerified: outcome.chipVerified,
     };
-    if (!result.ok && hooks.heal) {
-      const healed = await hooks.heal({
+    if (!result.ok) {
+      result = await recoverFill(
+        page,
         field,
         inventory,
-        attempted: resolution.value,
-        error: error ?? "read-back failed",
-      });
-      if (healed) {
-        result = healed;
-      }
+        resolution.value,
+        error ?? "read-back failed",
+        hooks,
+        healReports,
+      );
     }
     fills.push(result);
     upsertHistory(history, {
@@ -152,8 +146,46 @@ async function fillResolved(
       fill: result,
     });
     await hooks.onEvent?.("fill", { ...result, durationMs: Date.now() - started });
+    if (healReports[healReports.length - 1]?.paused) {
+      return fills;
+    }
   }
   return fills;
+}
+
+async function recoverFill(
+  page: Page,
+  field: FieldDescriptor,
+  inventory: FieldInventory,
+  attempted: string,
+  error: string,
+  hooks: WalkHooks,
+  healReports: HealReport[],
+): Promise<FillResult> {
+  const { report, fill } = await escalateHeal({
+    page,
+    field,
+    inventory,
+    attempted,
+    error,
+    heal: hooks.heal,
+    tier2WaitMs: hooks.tier2WaitMs,
+  });
+  healReports.push(report);
+  await hooks.onHeal?.(report);
+  await hooks.onEvent?.("heal", report);
+  if (fill) {
+    return { ...fill, healTier: report.winningTier };
+  }
+  return {
+    fingerprint: field.fingerprint,
+    labelRaw: field.labelRaw,
+    attempted,
+    readBack: null,
+    ok: false,
+    error: "heal_exhausted",
+    healTier: 4,
+  };
 }
 
 function stepRows(inventory: FieldInventory, history: WalkHistoryItem[]) {
@@ -173,8 +205,23 @@ function stepRows(inventory: FieldInventory, history: WalkHistoryItem[]) {
     });
 }
 
+function emptyWalk(kind: WalkResult["kind"], history: WalkHistoryItem[], page: Page, extra?: Partial<WalkResult>): Promise<WalkResult> {
+  return Promise.all([page.title()]).then(([title]) => ({
+    kind,
+    inventory: { title, fields: [] },
+    resolutions: [],
+    fills: history.map((item) => item.fill),
+    history,
+    url: page.url(),
+    title,
+    healReports: extra?.healReports ?? [],
+    blockedReason: extra?.blockedReason,
+  }));
+}
+
 export async function walkUntilPreflight(page: Page, hooks: WalkHooks): Promise<WalkResult> {
   const history: WalkHistoryItem[] = [...(hooks.initialHistory ?? [])];
+  const healReports: HealReport[] = [];
   let last: WalkResult | undefined;
   for (let step = 0; step < MAX_WIZARD_STEPS; step += 1) {
     if (hooks.isAborted?.()) {
@@ -184,26 +231,41 @@ export async function walkUntilPreflight(page: Page, hooks: WalkHooks): Promise<
     const kind = await discoverWithRecipe(page, hooks.recipe);
     await hooks.onEvent?.("discover", { kind, url: page.url(), step, recipeId: hooks.recipe?.recipeId });
     if (kind === "timeout" || kind === "confirmation") {
-      return {
-        kind,
-        inventory: { title: await page.title(), fields: [] },
-        resolutions: [],
-        fills: history.map((item) => item.fill),
-        history,
-        url: page.url(),
-        title: await page.title(),
-      };
+      return emptyWalk(kind, history, page, { healReports });
     }
-    let inventory = applyInventoryOverrides(await extractFieldInventory(page), hooks.recipe);
+    let inventory = applyStepSelectors(
+      applyInventoryOverrides(await extractFieldInventory(page), hooks.recipe),
+      hooks.recipe,
+    );
     await hooks.onEvent?.("inventory", { count: inventory.fields.length, title: inventory.title });
     let resolutions = await hooks.resolve(inventory);
     if (hooks.profile) {
       resolutions = applyResolveOverrides(inventory, resolutions, hooks.recipe, hooks.profile, hooks.documents);
     }
     await hooks.onEvent?.("resolve", { resolutions });
-    let fills = await fillResolved(page, inventory, resolutions, history, hooks);
+    let fills = await fillResolved(page, inventory, resolutions, history, hooks, healReports);
+    if (healReports.some((item) => item.paused)) {
+      return {
+        kind: "blocked",
+        inventory,
+        resolutions,
+        fills: history.map((item) => item.fill),
+        history,
+        url: page.url(),
+        title: await page.title(),
+        healReports,
+        blockedReason: healReports.some((item) =>
+          item.attempts.some((attempt) => attempt.tried.includes("unknown widget")),
+        )
+          ? "unknown_widget"
+          : "heal_exhausted",
+      };
+    }
     for (let extra = 0; extra < 2; extra += 1) {
-      const nextInventory = applyInventoryOverrides(await extractFieldInventory(page), hooks.recipe);
+      const nextInventory = applyStepSelectors(
+        applyInventoryOverrides(await extractFieldInventory(page), hooks.recipe),
+        hooks.recipe,
+      );
       let nextResolutions = await hooks.resolve(nextInventory);
       if (hooks.profile) {
         nextResolutions = applyResolveOverrides(
@@ -215,10 +277,23 @@ export async function walkUntilPreflight(page: Page, hooks: WalkHooks): Promise<
         );
       }
       const before = history.filter((item) => item.fill.ok).length;
-      const extraFills = await fillResolved(page, nextInventory, nextResolutions, history, hooks);
+      const extraFills = await fillResolved(page, nextInventory, nextResolutions, history, hooks, healReports);
       inventory = nextInventory;
       resolutions = nextResolutions;
       fills = extraFills;
+      if (healReports.some((item) => item.paused)) {
+        return {
+          kind: "blocked",
+          inventory,
+          resolutions,
+          fills: history.map((item) => item.fill),
+          history,
+          url: page.url(),
+          title: await page.title(),
+          healReports,
+          blockedReason: "heal_exhausted",
+        };
+      }
       const after = history.filter((item) => item.fill.ok).length;
       if (after === before) {
         break;
@@ -232,6 +307,7 @@ export async function walkUntilPreflight(page: Page, hooks: WalkHooks): Promise<
       history,
       url: page.url(),
       title: await page.title(),
+      healReports,
     };
     await hooks.onEvent?.("step", {
       url: page.url(),
@@ -250,11 +326,11 @@ export async function walkUntilPreflight(page: Page, hooks: WalkHooks): Promise<
       return resolution?.status !== "resolved";
     });
     if (unansweredRequired.length > 0) {
-      return { ...last, kind: "blocked" };
+      return { ...last, kind: "blocked", blockedReason: "unanswered" };
     }
     const failed = fills.filter((item) => !item.ok);
     if (failed.length > 0) {
-      return { ...last, kind: "blocked" };
+      return { ...last, kind: "blocked", blockedReason: "validation" };
     }
     await advanceWithRecipe(page, hooks.recipe);
     await hooks.onEvent?.("advance", { url: page.url() });

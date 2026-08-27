@@ -5,6 +5,7 @@ import {
   RecipeSchema,
   RecipeVersionSchema,
   StepSchema,
+  applyRepairsToRecipe,
   evaluateLifecycle,
   matchRecipe,
   type LifecycleOutcome,
@@ -14,6 +15,7 @@ import {
   type RecipeVersionStatus,
   type Step,
 } from "@autoapply/core";
+import { disableAutopilot } from "./settings.ts";
 import type { SqliteDatabase } from "@autoapply/db";
 import { loadBundledRecipes } from "@autoapply/engine";
 import { z } from "zod";
@@ -201,7 +203,12 @@ export function applyRecipeLifecycle(sqlite: SqliteDatabase, versionId: string, 
     throw new Error("version not found");
   }
   const versions = listVersions(sqlite, version.recipeId);
-  const hasPriorActive = versions.some((item) => item.id !== versionId && item.status === "active");
+  const hasPriorActive = versions.some(
+    (item) =>
+      item.id !== versionId &&
+      item.version < version.version &&
+      (item.status === "active" || item.status === "retired" || item.stats.successes > 0),
+  );
   const decision = evaluateLifecycle({
     status: version.status,
     fixturePassed,
@@ -262,6 +269,46 @@ export function stepFailureRates(sqlite: SqliteDatabase, versionId: string): Ste
     const current = counts.get(step.id) ?? { runs: 0, failures: 0 };
     return { stepId: step.id, name: step.name, runs: current.runs, failures: current.failures };
   });
+}
+
+export function proposeHealedVersion(
+  sqlite: SqliteDatabase,
+  versionId: string,
+  reports: import("@autoapply/core").HealReport[],
+): RecipeVersionRecord | undefined {
+  const version = getVersion(sqlite, versionId);
+  const recipe = listRecipes(sqlite).find((item) => item.id === version?.recipeId);
+  if (!version || !recipe) {
+    return undefined;
+  }
+  const next = applyRepairsToRecipe(version, reports);
+  if (JSON.stringify(next.steps) === JSON.stringify(version.steps)) {
+    return undefined;
+  }
+  return saveBundle(sqlite, { recipe, version: next }, { status: "proposed" });
+}
+
+export function quarantineIfNeeded(sqlite: SqliteDatabase, versionId: string): void {
+  const version = getVersion(sqlite, versionId);
+  if (!version) {
+    return;
+  }
+  const recipe = listRecipes(sqlite).find((item) => item.id === version.recipeId);
+  const decision = evaluateLifecycle({
+    status: version.status,
+    fixturePassed: true,
+    outcomes: outcomesFor(sqlite, versionId),
+    hasPriorActive: listVersions(sqlite, version.recipeId).some(
+      (item) => item.id !== versionId && item.version < version.version,
+    ),
+  });
+  if (decision.action === "degrade") {
+    setVersionStatus(sqlite, versionId, "degraded");
+    if (recipe) {
+      disableAutopilot(sqlite, recipe.platform);
+    }
+    applyRecipeLifecycle(sqlite, versionId, true);
+  }
 }
 
 export function incrementStats(sqlite: SqliteDatabase, versionId: string, success: boolean): void {

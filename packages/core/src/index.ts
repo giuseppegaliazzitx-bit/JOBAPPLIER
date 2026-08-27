@@ -190,9 +190,23 @@ export {
 export {
   fieldKeys,
   applyInventoryOverrides,
+  applyStepSelectors,
   applyResolveOverrides,
   stepMatchesField,
 } from "./recipe-apply.ts";
+export {
+  HealTierSchema,
+  HealAttemptSchema,
+  HealReportSchema,
+  FailureReasonSchema,
+  selectorKey,
+  promoteSelector,
+  applyRepairsToRecipe,
+  type HealTier,
+  type HealAttempt,
+  type HealReport,
+  type FailureReason,
+} from "./heal.ts";
 export {
   MAX_WIZARD_STEPS,
   FillResultSchema,

@@ -105,3 +105,18 @@ export function completeJob(sqlite: SqliteDatabase, id: string): void {
 export function failJob(sqlite: SqliteDatabase, id: string, error: string): void {
   sqlite.prepare(`UPDATE queue SET status = 'failed', last_error = ? WHERE id = ?`).run(error, id);
 }
+
+export function listQueue(
+  sqlite: SqliteDatabase,
+  filters?: { type?: string; status?: string },
+): QueueItem[] {
+  const rows = sqlite
+    .prepare(
+      `SELECT * FROM queue
+       WHERE (? IS NULL OR type = ?)
+         AND (? IS NULL OR status = ?)
+       ORDER BY created_at DESC`,
+    )
+    .all(filters?.type ?? null, filters?.type ?? null, filters?.status ?? null, filters?.status ?? null);
+  return rows.map((row) => toItem(row));
+}

@@ -1,21 +1,29 @@
 import { randomUUID } from "node:crypto";
-import { mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import {
   RunCheckpointSchema,
+  inventoryToDistilled,
   resolveInventory,
   type EmbedFn,
+  type HealReport,
   type Preflight,
   type ProfileValues,
   type RunCheckpoint,
   type RunEvent,
   type WalkHistoryItem,
 } from "@autoapply/core";
-import type { SqliteDatabase } from "@autoapply/db";
+import { enqueue, type SqliteDatabase } from "@autoapply/db";
 import type { AiHandle } from "@autoapply/ai";
 import { BudgetExceededError } from "@autoapply/ai";
-import { clickSubmit, healField, pageKind, walkUntilPreflight } from "@autoapply/engine";
-import { applyRecipeLifecycle, incrementStats, matchLiveRecipe } from "./recipes.ts";
+import { clickSubmit, healField, pageKind, walkUntilPreflight, writeIncomingFixture } from "@autoapply/engine";
+import {
+  incrementStats,
+  matchLiveRecipe,
+  proposeHealedVersion,
+  quarantineIfNeeded,
+  type RecipeVersionRecord,
+} from "./recipes.ts";
 import { chromium, type Browser, type BrowserContext, type BrowserContextOptions, type Page } from "playwright";
 import { loadBank, loadOptionAliases } from "./bank.ts";
 import { loadProfile } from "./routes/questions.ts";
@@ -31,6 +39,8 @@ export type ActiveRun = {
   pauseAfterNext: boolean;
   preflight: Preflight | null;
   listeners: Set<FrameHandler>;
+  recipe?: RecipeVersionRecord;
+  pendingRepairs: HealReport[];
 };
 
 const active = new Map<string, ActiveRun>();
@@ -191,6 +201,7 @@ export async function startRun(options: {
     pauseAfterNext: false,
     preflight: null,
     listeners: new Set(),
+    pendingRepairs: [],
   };
   active.set(runId, run);
 
@@ -205,6 +216,7 @@ export async function startRun(options: {
     const html = await page.content();
     const recipe = matchLiveRecipe(options.sqlite, page.url(), html);
     if (recipe) {
+      run.recipe = recipe;
       options.sqlite.prepare(`UPDATE runs SET recipe_version_id = ? WHERE id = ?`).run(recipe.id, runId);
     }
     const ai = options.createAi?.(runId);
@@ -220,6 +232,10 @@ export async function startRun(options: {
       heal: ai
         ? (info) => healField({ ...info, page, ai })
         : undefined,
+      onHeal: (report) => {
+        run.pendingRepairs.push(report);
+      },
+      tier2WaitMs: 1500,
       resolve: (inventory) =>
         resolveInventory(inventory, loadBank(options.sqlite), {
           embed: options.embed,
@@ -283,11 +299,42 @@ export async function startRun(options: {
       history: result.history,
       storageState,
     });
-    const status = result.kind === "review" ? "blocked" : result.kind === "timeout" ? "failed" : result.kind;
+    const failed =
+      result.kind === "timeout" ||
+      result.blockedReason === "heal_exhausted" ||
+      result.blockedReason === "unknown_widget";
+    if (failed) {
+      const html = await page.content();
+      const distilled = inventoryToDistilled(result.inventory, result.title);
+      writeIncomingFixture(join(options.dataDir, "incoming"), html, distilled, result.title);
+      const repoIncoming = join(process.cwd(), "fixtures/pages/_incoming");
+      if (existsSync(join(process.cwd(), "fixtures/pages"))) {
+        writeIncomingFixture(repoIncoming, html, distilled, result.title);
+      }
+      const reason = result.blockedReason ?? "timeout";
+      if (reason === "heal_exhausted" || reason === "unknown_widget") {
+        enqueue(options.sqlite, "blocked", { runId, reason, url: result.url });
+        enqueue(options.sqlite, "notify", {
+          message: `Run paused to Blocked: ${reason}`,
+          runId,
+        });
+        run.paused = true;
+      } else {
+        enqueue(options.sqlite, "retry", { runId, reason, url: result.url });
+      }
+    }
+    const status =
+      result.blockedReason === "heal_exhausted" || result.blockedReason === "unknown_widget"
+        ? "blocked"
+        : result.kind === "review"
+          ? "blocked"
+          : result.kind === "timeout"
+            ? "failed"
+            : result.kind;
     options.sqlite.prepare(`UPDATE runs SET status = ? WHERE id = ?`).run(status, runId);
     if (recipe && result.kind !== "review") {
       incrementStats(options.sqlite, recipe.id, false);
-      applyRecipeLifecycle(options.sqlite, recipe.id, true);
+      quarantineIfNeeded(options.sqlite, recipe.id);
     }
     emit(run, { type: "preflight", preflight });
   })().catch((error: unknown) => {
@@ -319,7 +366,10 @@ export async function approveRun(sqlite: SqliteDatabase, runId: string): Promise
       : null;
   if (recipeVersionId) {
     incrementStats(sqlite, recipeVersionId, true);
-    applyRecipeLifecycle(sqlite, recipeVersionId, true);
+    quarantineIfNeeded(sqlite, recipeVersionId);
+    if (run.pendingRepairs.some((item) => item.winningTier && item.winningTier >= 1 && item.winningTier <= 3)) {
+      proposeHealedVersion(sqlite, recipeVersionId, run.pendingRepairs);
+    }
   }
   sqlite
     .prepare(`UPDATE runs SET status = 'succeeded', finished_at = ? WHERE id = ?`)

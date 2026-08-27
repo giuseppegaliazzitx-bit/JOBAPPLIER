@@ -14,6 +14,30 @@ export function fieldKeys(field: FieldDescriptor): string[] {
   return keys;
 }
 
+export function applyStepSelectors(inventory: FieldInventory, recipe: RecipeVersion | undefined): FieldInventory {
+  if (!recipe) {
+    return inventory;
+  }
+  return {
+    ...inventory,
+    fields: inventory.fields.map((field) => {
+      const step = recipe.steps.find((item) => {
+        if (item.type !== "fill" && item.type !== "select" && item.type !== "upload") {
+          return false;
+        }
+        if (normalizeLabel(item.name) === field.labelNorm) {
+          return true;
+        }
+        return stepMatchesField(item, field);
+      });
+      if (!step?.selector) {
+        return field;
+      }
+      return { ...field, selector: step.selector };
+    }),
+  };
+}
+
 export function applyInventoryOverrides(inventory: FieldInventory, recipe: RecipeVersion | undefined): FieldInventory {
   if (!recipe) {
     return inventory;

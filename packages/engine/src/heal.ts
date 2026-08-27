@@ -81,6 +81,7 @@ async function applyValidated(
     readBack: actual,
     ok: true,
     error: null,
+    workingSelector: patch.selector,
   };
 }
 

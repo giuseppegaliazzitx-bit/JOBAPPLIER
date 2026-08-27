@@ -9,7 +9,7 @@ export {
 export { extractFieldInventory, inventoryFromRaw } from "./inventory.ts";
 export { scrapeDom } from "./scrape-dom.ts";
 export type { RawControl, RawOption } from "./raw-control.ts";
-export { locate, locatorFromSelector } from "./locate.ts";
+export { locate, locateDetailed, locatorFromSelector } from "./locate.ts";
 export { fillField } from "./fill.ts";
 export { nearbyError, readBack, valuesMatch } from "./verify.ts";
 export { clickContinue, pageKind } from "./advance.ts";
@@ -28,4 +28,6 @@ export {
 export { loadBundledRecipes, BUNDLED_RECIPE_DIR } from "./bundled-recipes.ts";
 export { runRecipeContract, fixtureHtmlFor } from "./contract.ts";
 export { healField, type HealContext } from "./heal.ts";
+export { escalateHeal, TIER2_WAIT_MS } from "./heal-tiers.ts";
 export { cropFieldScreenshot } from "./screenshot.ts";
+export { writeIncomingFixture, slugTitle } from "./incoming.ts";

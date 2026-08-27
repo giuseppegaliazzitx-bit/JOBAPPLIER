@@ -9,7 +9,8 @@
   "scripts": {
     "test": "vitest run",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "capture": "tsx src/capture.ts"
+    "capture": "tsx src/capture.ts",
+    "fixture:promote": "tsx src/promote-fixture.ts"
   },
   "dependencies": {
     "@autoapply/ai": "workspace:*",
